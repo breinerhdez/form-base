@@ -1,10 +1,18 @@
 require("./config/config");
 const express = require("express");
+var hbs = require("hbs");
 // const mongoose = require("mongoose");
 
 const app = express();
 
-app.set('view engine', 'hbs');
+app.set("view engine", "hbs");
+
+hbs.registerHelper("dsp", function (object) {
+  return object.dsp();
+});
+
+app.use(express.static(__dirname + "/node_modules/bootstrap/dist"));
+app.use(express.static(__dirname + "/public"));
 
 const bodyParser = require("body-parser");
 // parse application/x-www-form-urlencoded

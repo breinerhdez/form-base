@@ -1,39 +1,31 @@
-
-let rolesValidos = {
-  values: ["ADMIN_ROLE", "USER_ROLE"],
-  message: "{VALUE} no es un rol válido",
-};
+// let rolesValidos = {
+//   values: ["ADMIN_ROLE", "USER_ROLE"],
+//   message: "{VALUE} no es un rol válido",
+// };
 
 module.exports = {
   nombre: {
-    type: String,
-    required: [true, "El nombre es obligatorio - Insecto!"],
+    name: "nombre",
+    label: "Nombre completo",
+    required: true,
+    classNameFullCon: "col-md-6"
   },
   email: {
-    type: String,
-    unique: true,
-    required: [true, "El correo electrónico es obligatorio - Insecto!"],
+    type: "email",
+    name: "email",
+    label: "Correo electrónico",
+    // classNameFullCon: "col-md -12"
   },
   password: {
-    type: String,
-    required: [true, "La contraseña es obligatoria - Insecto!"],
+    type: "password",
+    name: "contrasena",
+    label: "Contraseña",
+    // classNameFullCon: "col-md-6"
   },
-  img: {
-    type: String,
-    required: false,
+  photo: {
+    type: "text",
+    name: "foto",
+    label: "Foto",
+    // classNameFullCon: "col-md-6"
   },
-  role: {
-    type: String,
-    required: [true, "El rol es obligatorio"],
-    default: "USER_ROLE",
-    enum: rolesValidos,
-  },
-  estado: {
-    type: Boolean,
-    default: true,
-  },
-  google: {
-    type: Boolean,
-    default: false,
-  },
-}
+};
