@@ -1,10 +1,12 @@
-// let rolesValidos = {
-//   values: ["ADMIN_ROLE", "USER_ROLE"],
-//   message: "{VALUE} no es un rol válido",
-// };
-
 module.exports = {
   action: "processForm/",
+  config: {
+    btn_submit: {
+      show: true,
+      value: "Enviar",
+      // className: "btn-success"
+    },
+  },
 
   fieldsets: [
     {
@@ -21,6 +23,7 @@ module.exports = {
             type: "text",
             name: "apellido",
             label: "Apellido (s)",
+            classNameFullCon: "col-md-6",
           },
         ],
         [
@@ -39,13 +42,13 @@ module.exports = {
           {
             name: "ciudad",
             label: "Ciudad",
-            required: true,
+            // required: true,
             // classNameFullCon: "col-md-6",
           },
           {
             name: "pais",
             label: "País",
-            required: true,
+            // required: true,
             // classNameFullCon: "col-md-6",
           },
         ],
@@ -58,13 +61,13 @@ module.exports = {
           {
             name: "titulo",
             label: "Título obtenido",
-            required: true,
+            // required: true,
             // classNameFullCon: "col-md-6",
           },
           {
             name: "universidad",
             label: "Universidad",
-            required: true,
+            // required: true,
             // classNameFullCon: "col-md-6",
           },
         ],

@@ -1,17 +1,28 @@
 require("./config/config");
 const express = require("express");
-var hbs = require("hbs");
-// const mongoose = require("mongoose");
-
+// const hbs = require("express-hbs");
+const mongoose = require("mongoose");
 const app = express();
 
-app.set("view engine", "hbs");
+// configuración del motor de plantillas
+// app.engine(
+//   "hbs",
+//   hbs.express4({
+//     partialsDir: __dirname + "/views/partials",
+//     layoutsDir: __dirname + "/views/layouts",
+//     defaultLayout: __dirname + "/views/layouts/adminLayout",
+//   })
+// );
+app.set('views', './views')
+app.set("view engine", "pug");
 
-hbs.registerHelper("dsp", function (object) {
-  return object.dsp();
-});
+// hbs.registerHelper("dsp", function (object) {
+//   return object.dsp();
+// });
 
+// directorios públicos
 app.use(express.static(__dirname + "/node_modules/bootstrap/dist"));
+app.use(express.static(__dirname + "/node_modules/font-awesome"));
 app.use(express.static(__dirname + "/public"));
 
 const bodyParser = require("body-parser");
@@ -23,20 +34,20 @@ app.use(bodyParser.json());
 // configuración global de rutas / controladores
 app.use(require("./controller/index"));
 
-// mongoose.connect(
-//   process.env.URLDB,
-//   {
-//     useCreateIndex: true,
-//     useFindAndModify: false,
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   },
-//   (err, res) => {
-//     if (err) throw err;
-
-//     console.log("Base de datos: ONLINE");
-//   }
-// );
+// conexión a la base de datos
+mongoose.connect(
+  process.env.URLDB,
+  {
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  (err, res) => {
+    if (err) throw err;
+    console.log("Base de datos: ONLINE");
+  }
+);
 
 app.listen(process.env.PORT, () => {
   console.log("App run on PORT: " + process.env.PORT);

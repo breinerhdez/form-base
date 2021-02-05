@@ -1,0 +1,22 @@
+extends ../../layouts/adminLayout.pug
+block body-container
+
+  div
+    a(href=urlBtnCreate class="btn btn-success") Crear registro
+
+  if listObjects.length
+    table(class="table table-striped")
+      thead
+        each col in projection
+          th=col
+        th Acciones
+      tbody
+        each row in listObjects
+          tr
+            each col in projection
+              td #{row[col]}
+            td(class="col-acciones")
+              a(href=urlBase+"update/"+row._id class="btn btn-secondary") Modificar
+              a(href=urlBase+"delete/"+row._id class="btn btn-danger") Eliminar
+  else
+    div No hay registros

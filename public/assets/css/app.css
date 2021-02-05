@@ -1,0 +1,10 @@
+.admin-option-container {
+  margin: 10px 0px;
+}
+.admin-option-container span {
+  display: block;
+  text-align: center;
+}
+.col-acciones a{
+  margin-right: 3px;
+}

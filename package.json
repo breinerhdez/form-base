@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-dev": "nodemon server.js html,js,css,hbs",
+    "start-dev": "nodemon server.js html,js,pug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Breiner Hernández",
@@ -13,9 +13,11 @@
     "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
     "express": "^4.17.1",
-    "hbs": "^4.1.1",
+    "express-hbs": "^2.3.4",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "mongoose": "^5.11.13",
-    "popper": "^1.0.1"
+    "popper": "^1.0.1",
+    "pug": "^3.0.0"
   }
 }
