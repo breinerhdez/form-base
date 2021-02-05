@@ -11,6 +11,10 @@ let modelSchema = new Schema({
     type: "String",
     required: [true, "El nombre es obligatorio"],
   },
+  icon: {
+    type: "String",
+    required: [true, "El icono es obligatorio"],
+  },
 });
 
 module.exports = mongoose.model("CoreAdminOptions", modelSchema, "core_admin_options");

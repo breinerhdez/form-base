@@ -5,5 +5,5 @@ block body-container
     each option in listObjects
       div(class="col-md-2 admin-option-container")
         a(href=option.url)
-          span(class="fa fa-edit fa-3x")
+          span(class=`fa fa-3x fa-${option.icon}`)
           span #{option.name}
