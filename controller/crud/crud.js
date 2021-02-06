@@ -16,11 +16,17 @@ const Form = require("../../lib/form/Form");
  */
 let getObjectsAndModel = async (pathName) => {
   let objCrud = await CoreCollectionModel.findOne({ path_name: pathName });
-  if (!objCrud) return false;
+  if (!objCrud) {
+    console.log("ERROR-BH:", `No se evidencia un crud para el path "${pathName}".`);
+    return false;
+  }
 
   // consultar el formulario
   let objFormDb = await CoreFormsModel.findOne({ collection_id: objCrud._id });
-  if (!objFormDb) return false;
+  if (!objFormDb) {
+    // console.log("BH-ERROR:", `No se evidencia un formulario para la gestión "${objCrud.title}".`);
+    return false;
+  }
 
   /**
    * definición de variables
@@ -70,9 +76,30 @@ let getObjectsAndModel = async (pathName) => {
 };
 
 /**
+ * Almacenar formulario por defecto para el nuevo CRUD
+ */
+let storeDefaultForm = async (objCrud) => {
+  try {
+    let objForm = new CoreFormsModel({
+      collection_id: objCrud._id,
+      config: {
+        projection: ["collection_id", "action"],
+        // schema: mongoose.model("CoreForms").schema.tree,
+      },
+    });
+    return await objForm.save();
+  } catch (error) {
+    console.log("BH-ERROR:", `No se pudo guardar el formulario de una nueva gestión o CRUD`, error);
+    return false;
+  }
+};
+
+/**
  * Listar los registros de la colección
  */
 app.get("/admin/:pathName", async (req, res) => {
+  console.log(mongoose.model("CoreForms").schema.tree);
+
   try {
     // validar si existe el path
     let pathName = req.params.pathName;
@@ -82,14 +109,16 @@ app.get("/admin/:pathName", async (req, res) => {
     if (!objectsAndModel) return res.redirect("/admin");
 
     // obtener los objetos de la respuesta
-    let { objCrud, DynamicModel,projection } = objectsAndModel;
+    let { objCrud, DynamicModel, projection } = objectsAndModel;
 
     // consulta usando el objeto dinámico
-    let listObjects = await DynamicModel.find({},projection);
+    let listObjects = await DynamicModel.find({}, projection);
 
     // url botón crear
     const urlBtnCreate = `/admin/${pathName}/create`;
     const urlBase = `/admin/${pathName}/`;
+
+    console.log("Objetos:", listObjects.length);
 
     let data = {
       title: objCrud.title,
@@ -147,7 +176,7 @@ app.get("/admin/:pathName/create", async (req, res) => {
 app.post("/admin/:pathName", async (req, res) => {
   try {
     // obtener parámetros
-    const { id, pathName } = req.params;
+    const { pathName } = req.params;
 
     // obtener datos importantes
     let objectsAndModel = await getObjectsAndModel(pathName);
@@ -159,7 +188,12 @@ app.post("/admin/:pathName", async (req, res) => {
     // generar nuevo objeto con los datos del body o formulario
     let newObj = new DynamicModel(req.body);
     // almacenar datos
-    await newObj.save();
+    let objStored = await newObj.save();
+
+    // almacenar fomulario por defecto
+    let resultNewForm = await storeDefaultForm(objStored);
+    console.log("BH-INFO:", `Resultado de almacenar formulario para la gestión "${newObj.title}"`, resultNewForm);
+
     res.redirect(`/admin/${pathName}`);
   } catch (error) {
     console.log("Se ha presentado un error - POST - create");
