@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-dev": "nodemon server.js html,js,pug",
+    "start-dev": "nodemon server.js -e html,js,pug,json,css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Breiner Hernández",

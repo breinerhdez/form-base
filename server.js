@@ -5,24 +5,13 @@ const mongoose = require("mongoose");
 const app = express();
 
 // configuración del motor de plantillas
-// app.engine(
-//   "hbs",
-//   hbs.express4({
-//     partialsDir: __dirname + "/views/partials",
-//     layoutsDir: __dirname + "/views/layouts",
-//     defaultLayout: __dirname + "/views/layouts/adminLayout",
-//   })
-// );
 app.set('views', './views')
 app.set("view engine", "pug");
-
-// hbs.registerHelper("dsp", function (object) {
-//   return object.dsp();
-// });
 
 // directorios públicos
 app.use(express.static(__dirname + "/node_modules/bootstrap/dist"));
 app.use(express.static(__dirname + "/node_modules/font-awesome"));
+app.use(express.static(__dirname + "/node_modules/jquery/dist"));
 app.use(express.static(__dirname + "/public"));
 
 const bodyParser = require("body-parser");

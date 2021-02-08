@@ -1,0 +1,9 @@
+extends ../../layouts/adminLayout.pug
+block body-container
+
+  h2 Configurar formulario
+
+  div!= objForm.dsp()
+
+block js-container
+  script(src="/assets/js/formConfig.js") 
