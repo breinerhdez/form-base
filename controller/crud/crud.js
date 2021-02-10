@@ -1,79 +1,11 @@
 const express = require("express");
 const app = express();
 
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-
 const CoreCollectionModel = require("../../models/admin/crud/CoreCollectionsModel");
 const CoreFormsModel = require("../../models/admin/crud/CoreFormsModel");
 
 const Form = require("../../lib/form/Form");
-
-/**
- * Validar que el path del crud existe
- * Obtener el formulario con el Schema
- * Generar modelo a partir del Schema
- */
-let getObjectsAndModel = async (pathName) => {
-  let objCrud = await CoreCollectionModel.findOne({ path_name: pathName });
-  if (!objCrud) {
-    console.log("ERROR-BH:", `No se evidencia un crud para el path "${pathName}".`);
-    return false;
-  }
-
-  // consultar el formulario
-  let objFormDb = await CoreFormsModel.findOne({ collection_id: objCrud._id });
-  if (!objFormDb) {
-    // console.log("BH-ERROR:", `No se evidencia un formulario para la gestión "${objCrud.title}".`);
-    return false;
-  }
-
-  /**
-   * definición de variables
-   */
-  // nombre de la colección
-  let collectionName = objCrud.collection_name;
-  // estructura del esquema
-  let collectionSchema = objFormDb.config.schema;
-  // nombre de la entidad o modelo
-  let modelName = `${collectionName}_${objCrud._id}`;
-  // lista de modelos existentes
-  let modelList = mongoose.modelNames();
-  // objeto de modelo dinámico
-  let DynamicModel = null;
-
-  // ajustes al Schema
-  for (const prop in collectionSchema) {
-    if (Object.hasOwnProperty.call(collectionSchema, prop)) {
-      const element = collectionSchema[prop];
-      if (element.type == "Schema.Types.Mixed") {
-        element.type = Schema.Types.Mixed;
-      }
-      if (element.type == "String") {
-        element.type = String;
-      }
-    }
-  }
-
-  // valida si el modelo a usar no se ha creado antes
-  if (!modelList.includes(modelName)) {
-    // se crea el nuevo esquema
-    let modelSchema = new Schema(collectionSchema);
-    // se crea el modelo y se asigna a la variable dinámica
-    DynamicModel = mongoose.model(modelName, modelSchema, collectionName);
-  } else {
-    // si el modelo existe, se obtiene y se asigna a la variable dinámica
-    DynamicModel = mongoose.model(modelName);
-  }
-
-  // retorno de los objetos
-  return {
-    objCrud,
-    objFormDb,
-    DynamicModel,
-    projection: objFormDb.config.projection,
-  };
-};
+const formConfig = require("../../models/form-config/form-crud");
 
 /**
  * Almacenar formulario por defecto para el nuevo CRUD
@@ -97,33 +29,21 @@ let storeDefaultForm = async (objCrud) => {
 /**
  * Listar los registros de la colección
  */
-app.get("/admin/:pathName", async (req, res) => {
-  console.log(mongoose.model("CoreForms").schema.tree);
-
+app.get("/admin/crud", async (req, res) => {
   try {
-    // validar si existe el path
-    let pathName = req.params.pathName;
-
-    // obtener datos importantes
-    let objectsAndModel = await getObjectsAndModel(pathName);
-    if (!objectsAndModel) return res.redirect("/admin");
-
-    // obtener los objetos de la respuesta
-    let { objCrud, DynamicModel, projection } = objectsAndModel;
+    // filtro de columnas a consultar
+    let projection = ["title", "path_name", "collection_name"];
 
     // consulta usando el objeto dinámico
-    let listObjects = await DynamicModel.find({}, projection);
+    let listObjects = await CoreCollectionModel.find({}, projection);
 
     // url botón crear
-    const urlBtnCreate = `/admin/${pathName}/create`;
-    const urlBase = `/admin/${pathName}/`;
-
-    console.log("Objetos:", listObjects.length);
+    const urlBtnCreate = `/admin/crud/create`;
+    const urlBase = `/admin/crud/`;
 
     let data = {
-      title: objCrud.title,
+      title: "Gestión de CRUDssss",
       urlBtnCreate,
-      projection,
       listObjects,
       urlBase,
     };
@@ -139,26 +59,17 @@ app.get("/admin/:pathName", async (req, res) => {
 /**
  * Generar y mostrar el formulario de crear
  */
-app.get("/admin/:pathName/create", async (req, res) => {
+app.get("/admin/crud/create", async (req, res) => {
   try {
     // obtener parámetros
-    const { pathName } = req.params;
-    const actionForm = `/admin/${pathName}`;
-
-    // obtener datos importantes
-    let objectsAndModel = await getObjectsAndModel(pathName);
-    if (!objectsAndModel) return res.redirect("/admin");
-
-    // obtener los objetos de la respuesta
-    let { objCrud, objFormDb } = objectsAndModel;
+    const actionForm = `/admin/crud`;
 
     // crear el objeto formulario
-    // const objForm = new Form(objFormDb.action, objFormDb.config);
-    const objForm = new Form(actionForm, objFormDb.config);
-    objForm.build(objFormDb);
+    const objForm = new Form(actionForm, formConfig.config);
+    objForm.build(formConfig);
 
     let data = {
-      title: objCrud.title,
+      title: "Crear CRUD",
       objForm,
     };
 
@@ -173,28 +84,19 @@ app.get("/admin/:pathName/create", async (req, res) => {
 /**
  * Almacenar los datos de un nuevo registro
  */
-app.post("/admin/:pathName", async (req, res) => {
+app.post("/admin/crud", async (req, res) => {
   try {
-    // obtener parámetros
-    const { pathName } = req.params;
-
-    // obtener datos importantes
-    let objectsAndModel = await getObjectsAndModel(pathName);
-    if (!objectsAndModel) return res.redirect("/admin");
-
-    // obtener los objetos de la respuesta
-    let { DynamicModel } = objectsAndModel;
-
     // generar nuevo objeto con los datos del body o formulario
-    let newObj = new DynamicModel(req.body);
+    let newObj = new CoreCollectionModel(req.body);
     // almacenar datos
     let objStored = await newObj.save();
+    console.log(objStored)
 
     // almacenar fomulario por defecto
     let resultNewForm = await storeDefaultForm(objStored);
     console.log("BH-INFO:", `Resultado de almacenar formulario para la gestión "${newObj.title}"`, resultNewForm);
 
-    res.redirect(`/admin/${pathName}`);
+    res.redirect(`/admin/crud`);
   } catch (error) {
     console.log("Se ha presentado un error - POST - create");
     console.log(`BH-ERROR: ${error}`);
@@ -205,31 +107,24 @@ app.post("/admin/:pathName", async (req, res) => {
 /**
  * Generar y mostrar el formulario de modificar
  */
-app.get("/admin/:pathName/update/:id", async (req, res) => {
+app.get("/admin/crud/update/:id", async (req, res) => {
   try {
     // obtener parámetros
-    const { pathName, id } = req.params;
-    const actionForm = `/admin/${pathName}/${id}`;
-
-    // obtener datos importantes
-    let objectsAndModel = await getObjectsAndModel(pathName);
-    if (!objectsAndModel) return res.redirect("/admin");
-
-    // obtener los objetos de la respuesta
-    let { objCrud, objFormDb, DynamicModel } = objectsAndModel;
+    const { id } = req.params;
+    const actionForm = `/admin/crud/${id}`;
 
     // validar si existe el registro
-    let objDb = await DynamicModel.findById(id);
-    if (!objDb) return res.redirect(`/admin/${pathName}`);
+    let objDb = await CoreCollectionModel.findById(id);
+    if (!objDb) return res.redirect(`/admin/crud`);
 
     // crear el objeto formulario
-    const objForm = new Form(actionForm, objFormDb.config, objDb);
+    const objForm = new Form(actionForm, formConfig.config, objDb);
     objForm.config.btn_submit.value = "Modificar";
     // objForm.method = "put";
-    objForm.build(objFormDb);
+    objForm.build(formConfig);
 
     let data = {
-      title: objCrud.title,
+      title: "Modificar CRUD",
       objForm,
     };
 
@@ -244,28 +139,21 @@ app.get("/admin/:pathName/update/:id", async (req, res) => {
 /**
  * Actualizar los datos de un registro existente
  */
-app.post("/admin/:pathName/:id", async (req, res) => {
+app.post("/admin/crud/:id", async (req, res) => {
   try {
     // obtener parámetros
-    const { id, pathName } = req.params;
-
-    // obtener datos importantes
-    let objectsAndModel = await getObjectsAndModel(pathName);
-    if (!objectsAndModel) return res.redirect("/admin");
-
-    // obtener los objetos de la respuesta
-    let { DynamicModel } = objectsAndModel;
+    const { id } = req.params;
 
     // validar si existe el registro
-    let objDb = await DynamicModel.findById(id);
-    if (!objDb) return res.redirect(`/admin/${pathName}`);
+    let objDb = await CoreCollectionModel.findById(id);
+    if (!objDb) return res.redirect(`/admin/crud`);
 
     // actualizar el objeto con los nuevos valores
     let resObj = Object.assign(objDb, req.body);
 
     // almacenar datos
     await resObj.save();
-    res.redirect(`/admin/${pathName}`);
+    res.redirect(`/admin/crud`);
   } catch (error) {
     console.log("Se ha presentado un error - POST - create");
     console.log(`BH-ERROR: ${error}`);
@@ -276,25 +164,18 @@ app.post("/admin/:pathName/:id", async (req, res) => {
 /**
  * Eliminar un registro
  */
-app.get("/admin/:pathName/delete/:id", async (req, res) => {
+app.get("/admin/crud/delete/:id", async (req, res) => {
   try {
     // obtener parámetros
-    const { pathName, id } = req.params;
-
-    // obtener datos importantes
-    let objectsAndModel = await getObjectsAndModel(pathName);
-    if (!objectsAndModel) return res.redirect("/admin");
-
-    // obtener los objetos de la respuesta
-    let { DynamicModel } = objectsAndModel;
+    const { id } = req.params;
 
     // validar si existe el registro
-    let objDb = await DynamicModel.findById(id);
-    if (!objDb) return res.redirect(`/admin/${pathName}`);
+    let objDb = await CoreCollectionModel.findById(id);
+    if (!objDb) return res.redirect(`/admin/crud`);
 
-    await DynamicModel.findByIdAndDelete(id);
+    await CoreCollectionModel.findByIdAndDelete(id);
 
-    res.redirect(`/admin/${pathName}`);
+    res.redirect(`/admin/crud`);
   } catch (error) {
     console.log("Se ha presentado un error - GET - create");
     console.log(`BH-ERROR: ${error}`);

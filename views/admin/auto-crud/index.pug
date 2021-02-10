@@ -7,16 +7,14 @@ block body-container
   if listObjects.length
     table(class="table table-striped")
       thead
-        th Título
-        th URL
-        th Colección
+        each col in projection
+          th=col
         th Acciones
       tbody
         each row in listObjects
           tr
-            td #{row.title}
-            td #{row.path_name}
-            td #{row.collection_name}
+            each col in projection
+              td #{row[col]}
             td(class="col-acciones")
               a(href=urlBase+"update/"+row._id class="btn btn-secondary") Modificar
               a(href=urlBase+"delete/"+row._id class="btn btn-danger") Eliminar
