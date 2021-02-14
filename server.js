@@ -1,11 +1,11 @@
 require("./config/config");
 const express = require("express");
-// const hbs = require("express-hbs");
 const mongoose = require("mongoose");
+const session = require("express-session");
 const app = express();
 
 // configuración del motor de plantillas
-app.set('views', './views')
+app.set("views", "./views");
 app.set("view engine", "pug");
 
 // directorios públicos
@@ -13,6 +13,15 @@ app.use(express.static(__dirname + "/node_modules/bootstrap/dist"));
 app.use(express.static(__dirname + "/node_modules/font-awesome"));
 app.use(express.static(__dirname + "/node_modules/jquery/dist"));
 app.use(express.static(__dirname + "/public"));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: parseInt(process.env.SESSION_TIME) },
+  })
+);
 
 const bodyParser = require("body-parser");
 // parse application/x-www-form-urlencoded

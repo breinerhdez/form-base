@@ -16,6 +16,11 @@ let modelSchema = new Schema({
     type: String,
     required: [true, "El título principal es obligatorio"],
   },
+  allowServices: {
+    type: Schema.Types.Mixed,
+    required: [true, "Configuración de servicios es requerido"],
+    default: {}
+  },
 });
 
 module.exports = mongoose.model("CoreCollection", modelSchema, 'core_collections');

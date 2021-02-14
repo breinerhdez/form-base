@@ -1,0 +1,42 @@
+extends ../../layouts/adminLayout.pug
+block body-container
+
+  p Configurar la disponibilidad de los servicios para la gestión de datos del CRUD <strong>"#{objCrud.title}"</strong>.
+
+  <div class="form-check">
+    input(class="form-check-input" type="checkbox" value="Y" id="opt-all")
+    <label class="form-check-label" for="opt-all"> All options</label>
+  </div>
+  form(method="post" action="/admin/crud/conf-api/process")
+
+    <div class="form-check">
+      input(class="form-check-input" type="checkbox" value="Y" id="opt-create" name="create" checked=objCrud.allowServices.create=="Y")
+      <label class="form-check-label" for="opt-create"> Create</label>
+    </div>
+
+    <div class="form-check">
+      input(class="form-check-input" type="checkbox" value="Y" id="opt-update" name="update" checked=objCrud.allowServices.update=="Y")
+      <label class="form-check-label" for="opt-update"> Update</label>
+    </div>
+
+    <div class="form-check">
+      input(class="form-check-input" type="checkbox" value="Y" id="opt-delete" name="delete" checked=objCrud.allowServices.delete=="Y")
+      <label class="form-check-label" for="opt-delete"> Delete</label>
+    </div>
+
+    <div class="form-check">
+      input(class="form-check-input" type="checkbox" value="Y" id="opt-list" name="list" checked=objCrud.allowServices.list=="Y")
+      <label class="form-check-label" for="opt-list"> List</label>
+    </div>
+
+    <div class="form-check">
+      input(class="form-check-input" type="checkbox" value="Y" id="opt-get-by-id" name="getById" checked=objCrud.allowServices.getById=="Y")
+      <label class="form-check-label" for="opt-get-by-id"> Get by ID</label>
+    </div>
+
+    div(class="form-group col-md-12 text-center")
+      input(type="submit" value="Ingresar" class="btn btn-primary")
+      input(type="hidden" name="id" value=objCrud._id)
+
+block js-container
+  script(src="/assets/js/conf-api.js") 

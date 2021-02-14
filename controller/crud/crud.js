@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+const { checkSession } = require("../../middlewares/autenticacion");
+
 const CoreCollectionModel = require("../../models/admin/crud/CoreCollectionsModel");
 const CoreFormsModel = require("../../models/admin/crud/CoreFormsModel");
 
@@ -29,7 +31,7 @@ let storeDefaultForm = async (objCrud) => {
 /**
  * Listar los registros de la colección
  */
-app.get("/admin/crud", async (req, res) => {
+app.get("/admin/crud", checkSession, async (req, res) => {
   try {
     // filtro de columnas a consultar
     let projection = ["title", "path_name", "collection_name"];
@@ -59,7 +61,7 @@ app.get("/admin/crud", async (req, res) => {
 /**
  * Generar y mostrar el formulario de crear
  */
-app.get("/admin/crud/create", async (req, res) => {
+app.get("/admin/crud/create", checkSession, async (req, res) => {
   try {
     // obtener parámetros
     const actionForm = `/admin/crud`;
@@ -84,13 +86,21 @@ app.get("/admin/crud/create", async (req, res) => {
 /**
  * Almacenar los datos de un nuevo registro
  */
-app.post("/admin/crud", async (req, res) => {
+app.post("/admin/crud", checkSession, async (req, res) => {
   try {
     // generar nuevo objeto con los datos del body o formulario
     let newObj = new CoreCollectionModel(req.body);
+    newObj.allowServices = {
+      list: "N",
+      getById: "N",
+      create: "N",
+      update: "N",
+      delete: "N",
+    };
+
     // almacenar datos
     let objStored = await newObj.save();
-    console.log(objStored)
+    console.log(objStored);
 
     // almacenar fomulario por defecto
     let resultNewForm = await storeDefaultForm(objStored);
@@ -107,7 +117,7 @@ app.post("/admin/crud", async (req, res) => {
 /**
  * Generar y mostrar el formulario de modificar
  */
-app.get("/admin/crud/update/:id", async (req, res) => {
+app.get("/admin/crud/update/:id", checkSession, async (req, res) => {
   try {
     // obtener parámetros
     const { id } = req.params;
@@ -139,7 +149,7 @@ app.get("/admin/crud/update/:id", async (req, res) => {
 /**
  * Actualizar los datos de un registro existente
  */
-app.post("/admin/crud/:id", async (req, res) => {
+app.post("/admin/crud/:id", checkSession, async (req, res) => {
   try {
     // obtener parámetros
     const { id } = req.params;
@@ -164,7 +174,7 @@ app.post("/admin/crud/:id", async (req, res) => {
 /**
  * Eliminar un registro
  */
-app.get("/admin/crud/delete/:id", async (req, res) => {
+app.get("/admin/crud/delete/:id", checkSession, async (req, res) => {
   try {
     // obtener parámetros
     const { id } = req.params;
@@ -180,6 +190,63 @@ app.get("/admin/crud/delete/:id", async (req, res) => {
     console.log("Se ha presentado un error - GET - create");
     console.log(`BH-ERROR: ${error}`);
     res.redirect("/admin");
+  }
+});
+
+/**
+ * Formulario para configurar el API
+ */
+app.get("/admin/crud/conf-api/:id", checkSession, async (req, res) => {
+  try {
+    // obtener parámetros
+    const { id } = req.params;
+
+    // validar si existe el registro
+    let objDb = await CoreCollectionModel.findById(id);
+    if (!objDb) return res.redirect(`/admin/crud`);
+
+    let data = {
+      title: "Configurar REST API",
+      objCrud: objDb,
+    };
+
+    res.render("admin/crud/api", data);
+  } catch (error) {
+    console.log("Se ha presentado un error - GET - create");
+    console.log(`BH-ERROR: ${error}`);
+    res.redirect("/admin");
+  }
+});
+
+/**
+ * Guardar configuración del API
+ */
+app.post("/admin/crud/conf-api/process", checkSession, async (req, res) => {
+  try {
+    // obtener parámetros
+    const { id } = req.body;
+    const allowServices = {
+      list: (req.body.list == "Y") ? "Y" : "N",
+      getById: (req.body.getById == "Y") ? "Y" : "N",
+      create: (req.body.create == "Y") ? "Y" : "N",
+      update: (req.body.update == "Y") ? "Y" : "N",
+      delete: (req.body.delete == "Y") ? "Y" : "N",
+    };
+
+    // validar si existe el registro
+    let objDb = await CoreCollectionModel.findById(id);
+    if (!objDb) return res.redirect(`/admin/crud`);
+
+    // actualizar el objeto con los nuevos valores
+    objDb.allowServices = allowServices;
+
+    // almacenar datos
+    await objDb.save();
+    res.redirect(`/admin/crud`);
+  } catch (error) {
+    console.log("Se ha presentado un error - POST - API");
+    console.log(`BH-ERROR: ${error}`);
+    res.redirect("/admin/crud");
   }
 });
 

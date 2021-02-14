@@ -8,3 +8,9 @@
 .col-acciones a{
   margin-right: 3px;
 }
+.login-form{
+  max-width: 400px;
+}
+.center-div{
+  margin: 0 auto;
+}
