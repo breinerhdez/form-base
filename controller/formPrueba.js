@@ -12,6 +12,7 @@ app.get("/test/", (req, res) => {
   let data = {
     title: "Formulario de prueba - BH",
     objForm,
+    flashMessages: res.locals.flash,
   };
   
   res.render("prueba/index", data);
@@ -21,5 +22,11 @@ app.post("/processForm", (req, res) => {
   console.log(req.body);
   res.json(req.body);
 });
+
+
+app.get("/test/config", (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  return res.json(dataconf)
+})
 
 module.exports = app;

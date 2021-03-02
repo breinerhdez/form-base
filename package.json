@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start-dev": "nodemon server.js -e html,js,pug,json,css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "wp": "webpack"
   },
   "author": "Breiner Hernández",
   "license": "ISC",
@@ -13,16 +14,29 @@
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-hbs": "^2.3.4",
     "express-session": "^1.17.1",
+    "flash": "^1.1.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.13",
     "mongoose-unique-validator": "^2.0.3",
+    "path": "^0.12.7",
     "popper": "^1.0.1",
     "pug": "^3.0.0",
-    "underscore": "^1.12.0"
+    "underscore": "^1.12.0",
+    "vue": "^2.6.12"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/preset-react": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0"
   }
 }

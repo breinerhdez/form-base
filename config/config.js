@@ -2,18 +2,12 @@
  * Puerto
  * Configuración del puerto con el cual se despliega la aplicación
  */
-process.env.PORT = process.env.PORT || 3000;
+process.env.PORT = process.env.PORT || 5000;
 
 /**
  * Entorno
  */
 process.env.NODE_ENV = process.env.NODE_ENV || "dev";
-
-/**
- * Puerto
- * Configuración del puerto con el cual se despliega la aplicación
- */
-process.env.PORT = process.env.PORT || 3000;
 
 /**
  * JWT expiración
@@ -42,6 +36,6 @@ process.env.URLDB = urlDB;
 process.env.SESSION_SECRET = process.env.SESSION_SECRET || "VU6js0WqT71cWRbK7L6RVo3zuZOLZcmCK";
 
 /**
- * Session secret
+ * Session Time
  */
-process.env.SESSION_TIME = process.env.SESSION_TIME || 1000 * 60;
+process.env.SESSION_TIME = process.env.SESSION_TIME || 1000 * 60 * 60;

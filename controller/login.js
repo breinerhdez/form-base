@@ -63,8 +63,13 @@ app.get("/", async (req, res) => {
     return res.redirect("/admin");
   }
 
+  // req.flash("info", "hello!");
+  // req.flash("danger", "World!");
+  // console.log(res.locals.flash);
+
   let data = {
     title: "Ingresar al sistema",
+    flashMessages: res.locals.flash,
   };
   res.render("home/login", data);
 });

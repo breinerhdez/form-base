@@ -1,0 +1,45 @@
+extends ../../layouts/adminLayout.pug
+block body-container
+
+  div!= objForm.dsp()
+
+  div
+    h3 Configuración de Fieldsets
+    div Listado de fieldsets
+      table
+        thead 
+          tr
+            th Legend
+            th Acciones
+        tbody 
+          each fieldset in fieldsetsList
+            tr 
+              td= fieldset.legend
+
+    form(method="post", action=`/admin/form-config/fieldset/${objFormDb._id}`)
+      legend Adicionar Fieldset
+      input(type="text" name="legend" placeholder="Legend")
+      input(type="submit" value="Agregar" class="btn btn-primary")
+      input(type="hidden" name="collection_id", value=collection_id)
+
+    hr
+    #app
+      input(type="text" id="formId" value=objFormDb._id)
+      p {{ title }}
+      form(method="post", action=`/admin/form-config/v2/fieldset/${objFormDb._id}`, v-on:submit="sendForm")
+        fieldset
+          legend Adicionar Fieldset
+
+            div(class="form-group col-md-12")
+              label(for="formLegend") Nombre
+              input(v-model="formLegend" id="formLegend" type="text" class="form-control" name="formLegend" placeholder="Nombre")
+
+            input(type="submit" value="Agregar" class="btn btn-primary")
+
+      div Fieldsets: {{fieldsets}}
+      div formLegend: {{formLegend}}
+
+      <fieldset-list></fieldset-list>
+
+block js-container 
+  script(src="/assets/js/formConfig.bundle.js") 

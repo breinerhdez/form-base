@@ -35,6 +35,7 @@ let verificarAdminRole = (req, res, next) => {
 };
 
 let checkSession = (req, res, next) => {
+  return next() // TODO: borrar
   if (req.session.user) {
     req.session.reload((err) => {
       console.log(err);

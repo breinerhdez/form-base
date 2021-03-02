@@ -14,3 +14,31 @@
 .center-div{
   margin: 0 auto;
 }
+
+
+.buttons-up{
+  /* background-color: blue; */
+  /* text-align: right; */
+  padding: 0px 5px 20px;
+}
+
+.simple-list{
+  list-style-type: none;
+  padding: 0px;
+}
+.simple-list li{
+  padding: 0px 0px 14px;
+}
+.simple-list li:hover{
+  background-color: beige;
+  border: 1px solid slateblue;
+  font-weight: bold;
+}
+.simple-list li .actions span{
+  margin-right: 5px;
+  font-size: 1.6em;
+}
+.simple-list li .actions span:hover{
+  cursor: pointer;
+  color: slateblue;
+}
