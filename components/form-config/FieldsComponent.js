@@ -1,32 +1,83 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export const FieldsComponent = ({ fieldset, urlBase }) => {
+export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
   const initialState = {
     classNameFullCon: "",
     label: "",
     name: "",
-    required: "",
-    type: "",
+    required: false,
+    type: "text",
   };
+
+  const initialFields = [
+    {
+      classNameFullCon: "col-md-6",
+      label: "ASDF label",
+      name: "asdf",
+      required: false,
+      type: "text",
+    },
+    {
+      classNameFullCon: "col-md-6",
+      label: "QWER label",
+      name: "qwer",
+      required: true,
+      type: "password",
+    },
+  ];
+
+  // console.log(fieldset.fields)
+  // console.log(typeof fieldset.fields, fieldset.fields, fieldset.fields.length)
+
+  const [fields, setFields] = useState(initialFields);
 
   const [values, setValues] = useState(initialState);
 
   const { classNameFullCon, label, name, type, required } = values;
   const [confModal, setConfModal] = useState({});
 
+  // useEffect(() => {
+  //   setFields(fieldset.fields);
+  //   // console.log(fieldset.fields);
+  //   console.log("montado")
+  // }, [fieldset]);
+
   // const [currentField, setCurrentField] = useState(initialState);
 
   const handleInputChange = ({ target }) => {
+    const value = target.type === "checkbox" ? target.checked : target.value;
     setValues({
       ...values,
-      [target.name]: target.value,
+      [target.name]: value,
     });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log(values);
+
+    setFields([...fields, values]);
+
     $("#modalField").modal("hide");
+
+    // setTimeout(async () => {
+    let url = e.target.action;
+    let data = fields;
+    // data['fieldsetId'] = fieldset._id;
+    let conf = {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(url, conf);
+    const result = await response.json();
+    if (result.ok) {
+      getFieldsets();
+    }
+    // }, 1000);
   };
 
   const handleFormNew = () => {
@@ -36,11 +87,6 @@ export const FieldsComponent = ({ fieldset, urlBase }) => {
       action: `${urlBase}/admin/form-config/field/${fieldset._id}`,
       btnSubmit: "Guardar",
     });
-    // setFieldsetForm({
-    //   ...fieldsetForm,
-    //   legend: fieldset.legend,
-    //   idFieldset: fieldset._id,
-    // });
     $("#modalField").modal("show");
   };
 
@@ -50,9 +96,9 @@ export const FieldsComponent = ({ fieldset, urlBase }) => {
       {!fieldset ? (
         <p className="alert alert-info">No se ha seleccionado un Fieldset para configurar los campos</p>
       ) : (
-        <div>
+        <>
           <div className="row">
-            <div className="col-md-3 col-sm-12">
+            <div className="col-md-3 col-sm-12 buttons-up">
               <button className="btn btn-primary" onClick={handleFormNew}>
                 Nuevo
               </button>
@@ -63,19 +109,17 @@ export const FieldsComponent = ({ fieldset, urlBase }) => {
               </p>
             </div>
           </div>
-          <div className="row">
-            <ul className="simple-list">
-              {fieldset.fields.map((field, i) => (
-                <li className="row" key={i}>
-                  <div className="col-md-6 col-sm-12 col-lg-9">{field.label}</div>
-                  <div className="col-md-6 col-sm-12 col-lg-3 actions">
-                    <span className="fa fa-edit fa-2x"></span>
-                    <span className="fa fa-trash fa-2x"></span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul className="simple-list">
+            {fields.map((field, i) => (
+              <li className="row" key={i}>
+                <div className="col-md-6 col-sm-12 col-lg-9">{field.label}</div>
+                <div className="col-md-6 col-sm-12 col-lg-3 actions">
+                  <span className="fa fa-edit fa-2x"></span>
+                  <span className="fa fa-trash fa-2x"></span>
+                </div>
+              </li>
+            ))}
+          </ul>
 
           <div className="modal fade" id="modalField" tabindex="-1" aria-labelledby="modalFieldLabel" aria-hidden="true">
             <div className="modal-dialog">
@@ -109,6 +153,7 @@ export const FieldsComponent = ({ fieldset, urlBase }) => {
                             onChange={handleInputChange}
                           />
                         </div>
+
                         <div className="form-group col-md-12">
                           <label for="inputName">Nombre</label>
                           <input
@@ -120,28 +165,32 @@ export const FieldsComponent = ({ fieldset, urlBase }) => {
                             onChange={handleInputChange}
                           />
                         </div>
+
                         <div className="form-group col-md-12">
-                          <label for="inputRequired">Requerido</label>
-                          <input
-                            type="text"
-                            id="inputRequired"
-                            className="form-control"
-                            name="required"
-                            value={required}
-                            onChange={handleInputChange}
-                          />
+                          <div className="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              id="inputRequired"
+                              className="custom-control-input"
+                              name="required"
+                              value={required}
+                              onChange={handleInputChange}
+                              checked={required}
+                            />
+                            <label className="custom-control-label" for="inputRequired">
+                              Requerido
+                            </label>
+                          </div>
                         </div>
+
                         <div className="form-group col-md-12">
                           <label for="inputType">Tipo</label>
-                          <input
-                            type="text"
-                            id="inputType"
-                            className="form-control"
-                            name="type"
-                            value={type}
-                            onChange={handleInputChange}
-                          />
+                          <select id="inputType" className="form-control" name="type" value={type} onChange={handleInputChange}>
+                            <option value="text">Text</option>
+                            <option value="password">Password</option>
+                          </select>
                         </div>
+
                         <div className="form-group col-md-12">
                           <label for="inputClassFullCon">Clases del contenedor</label>
                           <input
@@ -153,6 +202,7 @@ export const FieldsComponent = ({ fieldset, urlBase }) => {
                             onChange={handleInputChange}
                           />
                         </div>
+
                         <input type="hidden" id="idFieldset" className="form-control" name="idFieldset" value={fieldset._id} />
                       </div>
                     )}
@@ -169,7 +219,7 @@ export const FieldsComponent = ({ fieldset, urlBase }) => {
               </form>
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

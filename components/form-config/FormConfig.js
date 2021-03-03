@@ -23,6 +23,7 @@ export const FormConfig = () => {
     const response = await fetch(url);
     const data = await response.json();
     setFieldsets(data.result);
+    console.log("Se refrescaron los Fieldsets")
   };
 
   useEffect(() => {
@@ -130,7 +131,7 @@ export const FormConfig = () => {
       </div>
 
       <div className="col-md-6">
-        <FieldsComponent fieldset={currentFieldset} urlBase={urlBase} />
+        <FieldsComponent fieldset={currentFieldset} urlBase={urlBase} getFieldsets={getFieldsets} />
       </div>
 
       <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -156,7 +156,9 @@ app.get("/admin/form-config/getForm/:form_id", async (req, res) => {
 // });
 
 app.post("/admin/form-config/field/:fielset_id", (req, res) => {
-  res.json({ msg: "almacenar campos de un fieldset: /admin/form-config/field/:fielset_id", data: req.body });
+  console.log(req.body, req.params.fielset_id);
+
+  res.json({ ok: true, msg: "almacenar campos de un fieldset: /admin/form-config/field/:fielset_id", data: req.body });
 });
 
 let getFormConfig = () => {
