@@ -134,7 +134,7 @@ export const FormConfig = () => {
         <FieldsComponent fieldset={currentFieldset} urlBase={urlBase} getFieldsets={getFieldsets} />
       </div>
 
-      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <form action={modal.action} method="post" onSubmit={handleFieldsetSubmit}>
             <div className="modal-content">
@@ -152,7 +152,7 @@ export const FormConfig = () => {
                     <p className="alert alert-danger">
                       La información se borrará de forma definitiva y no podrá recuperarla después. ¿Desea continuar?
                     </p>
-                    <label for="legendInput">Legend</label>
+                    <label htmlFor="legendInput">Legend</label>
                     <span id="legendInput" className="form-control">
                       {legend}
                     </span>
@@ -160,7 +160,7 @@ export const FormConfig = () => {
                   </div>
                 ) : (
                   <div className="form-group col-md-12">
-                    <label for="legendInput">Legend</label>
+                    <label htmlFor="legendInput">Legend</label>
                     <input type="text" id="legendInput" className="form-control" name="legend" value={legend} onChange={handleInputChange} />
                     <input type="hidden" id="idFieldset" className="form-control" name="idFieldset" value={idFieldset} />
                   </div>

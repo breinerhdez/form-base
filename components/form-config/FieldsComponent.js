@@ -121,7 +121,7 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
             ))}
           </ul>
 
-          <div className="modal fade" id="modalField" tabindex="-1" aria-labelledby="modalFieldLabel" aria-hidden="true">
+          <div className="modal fade" id="modalField" tabIndex="-1" aria-labelledby="modalFieldLabel" aria-hidden="true">
             <div className="modal-dialog">
               <form action={confModal.action} method="post" onSubmit={handleFormSubmit}>
                 <div className="modal-content">
@@ -143,7 +143,7 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
                     ) : (
                       <div className="row">
                         <div className="form-group col-md-12">
-                          <label for="classFullCon">Label</label>
+                          <label htmlFor="classFullCon">Label</label>
                           <input
                             type="text"
                             id="inputLabel"
@@ -155,7 +155,7 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
                         </div>
 
                         <div className="form-group col-md-12">
-                          <label for="inputName">Nombre</label>
+                          <label htmlFor="inputName">Nombre</label>
                           <input
                             type="text"
                             id="inputName"
@@ -177,14 +177,14 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
                               onChange={handleInputChange}
                               checked={required}
                             />
-                            <label className="custom-control-label" for="inputRequired">
+                            <label className="custom-control-label" htmlFor="inputRequired">
                               Requerido
                             </label>
                           </div>
                         </div>
 
                         <div className="form-group col-md-12">
-                          <label for="inputType">Tipo</label>
+                          <label htmlFor="inputType">Tipo</label>
                           <select id="inputType" className="form-control" name="type" value={type} onChange={handleInputChange}>
                             <option value="text">Text</option>
                             <option value="password">Password</option>
@@ -192,7 +192,7 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
                         </div>
 
                         <div className="form-group col-md-12">
-                          <label for="inputClassFullCon">Clases del contenedor</label>
+                          <label htmlFor="inputClassFullCon">Clases del contenedor</label>
                           <input
                             type="text"
                             id="inputClassFullCon"
