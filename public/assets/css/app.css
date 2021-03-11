@@ -27,18 +27,23 @@
   padding: 0px;
 }
 .simple-list li{
-  padding: 0px 0px 14px;
+  padding: 7px 0px 7px;
+  border: 1px solid white;
+  /* border-bottom: 1px solid slateblue; */
+  border-bottom: 1px solid rgb(197, 197, 197);
 }
 .simple-list li:hover{
-  background-color: beige;
-  border: 1px solid slateblue;
   font-weight: bold;
+  background-color: rgb(245, 245, 245);
 }
 .simple-list li .actions span{
   margin-right: 5px;
   font-size: 1.6em;
 }
+.simple-list li .actions a{
+  color: black;
+}
 .simple-list li .actions span:hover{
   cursor: pointer;
-  color: slateblue;
+  color: rgb(88, 62, 255);
 }

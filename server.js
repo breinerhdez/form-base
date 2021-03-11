@@ -3,7 +3,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const path = require("path");
+
 const app = express();
+
+
+// const bodyParser = require("body-parser");
+// parse application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+// parse application/json
+app.use(express.json());
+
+
 // const cors = require("cors");
 
 // configuración del motor de plantillas
@@ -33,12 +43,6 @@ app.use(require("flash")());
 
 //   next();
 // });
-
-const bodyParser = require("body-parser");
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
-app.use(bodyParser.json());
 
 // configuración global de rutas / controladores
 app.use(require("./controller/index"));

@@ -18,6 +18,11 @@ let storeDefaultForm = async (objCrud) => {
       collection_id: objCrud._id,
       config: {
         projection: ["collection_id", "action"],
+        method: "post",
+        btn_submit: {
+          show: true,
+          value: "Enviar"
+        }
         // schema: mongoose.model("CoreForms").schema.tree,
       },
     });

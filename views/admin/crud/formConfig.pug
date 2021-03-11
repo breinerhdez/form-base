@@ -1,25 +1,48 @@
 extends ../../layouts/adminLayout.pug
 block body-container
 
-  div!= objForm.dsp()
+  //- div!= objForm.dsp()
+
+  hr
+
+  form(method="POST" action="/admin/form-config/"+collection_id)
+    fieldset
+      legend Datos del formulario
+      div(class="form-row")
+        div(class="form-group col-md-6")
+          label(for="frmDflt_action") Action *
+          input(type="text" id="frmDflt_action" class="form-control" name="action" required="" value=objFormDb.action)
+
+        div(class="form-group col-md-6")
+          label(for="frmDflt_config.method") Method *
+          select(id="frmDflt_config.method" class="form-control" name="config[method]" required="")
+            option(value="get" selected=("get" == objFormDb.config.method)) GET
+            option(value="post" selected=("post" == objFormDb.config.method)) POST
+
+    fieldset
+      legend Botón de envío
+      div(class="form-row")
+        div(class="form-group col-md-6")
+          label(for="frmDflt_config.btn_submit.value") Texto del botón *
+          - var btnTextValue = (objFormDb.config.btn_submit != undefined) ? objFormDb.config.btn_submit.value: ""
+          input(type="text" id="frmDflt_config.btn_submit.value" class="form-control" name="config[btn_submit][value]" required="" value=btnTextValue)
+
+      div(class="form-row")
+        div(class="form-group col-md-6")
+          label(for="frmDflt_config.btn_submit.show")
+            - var btnCheckValue = (objFormDb.config.btn_submit != undefined && objFormDb.config.btn_submit.show) ? true: false
+            input(type="checkbox" id="frmDflt_config.btn_submit.show" name="config[btn_submit][show]" checked=btnCheckValue value='show')
+            span  Mostrar botón
+
+    div(class="form-button-list text-center")
+      input(type="submit" class="btn btn-primary" value="Guardar")
 
   hr
 
   input(type="hidden" id="formId" value=objFormDb._id)
   input(type="hidden" name="collection_id", value=collection_id)
+
   #main-react-container
 
-
-  hr
-  div
-    h3 Configuración de Fieldsets
-    form(method="post", action=`/admin/form-config/fieldset/${objFormDb._id}`)
-      legend Adicionar Fieldset
-      input(type="text" name="legend" placeholder="Legend")
-      input(type="submit" value="Agregar" class="btn btn-primary")
-      input(type="hidden" name="collection_id", value=collection_id)
-
-    hr
-    
 block js-container 
   script(src="/dist/main.js") 

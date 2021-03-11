@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { FieldsComponent } from "./FieldsComponent";
+// import { FieldsComponent } from "./FieldsComponent";
 
 export const FormConfig = () => {
   const urlBase = `http://localhost:5000`;
@@ -10,7 +10,7 @@ export const FormConfig = () => {
 
   const [modal, setModal] = useState({});
 
-  const [currentFieldset, setCurrentFieldset] = useState(false);
+  // const [currentFieldset, setCurrentFieldset] = useState(false);
 
   const [fieldsetForm, setFieldsetForm] = useState({
     legend: "",
@@ -101,15 +101,15 @@ export const FormConfig = () => {
   };
 
 
-  const handleFieldsConf = (fieldset) => {
-    setCurrentFieldset(fieldset)
-  }
+  // const handleFieldsConf = (fieldset) => {
+  //   setCurrentFieldset(fieldset)
+  // }
 
 
 
   return (
     <div className="row">
-      <div className="col-md-6">
+      <div className="col-md-12">
         <h3>Fieldsets</h3>
         <div className="buttons-up">
           <button className="btn btn-primary" onClick={handleFormNew}>
@@ -119,20 +119,20 @@ export const FormConfig = () => {
         <ul className="simple-list">
           {fieldsets.map((fieldset) => (
             <li className="row" key={fieldset._id}>
-              <div className="col-md-6 col-sm-12 col-lg-9">{fieldset.legend}</div>
-              <div className="col-md-6 col-sm-12 col-lg-3 actions">
+              <div className="col-md-6 col-sm-12 col-lg-10">{fieldset.legend}</div>
+              <div className="col-md-6 col-sm-12 col-lg-2 text-right actions">
                 <span className="fa fa-edit fa-2x" onClick={() => handleFormEdit(fieldset)}></span>
                 <span className="fa fa-trash fa-2x" onClick={() => handleFormDelete(fieldset)}></span>
-                <span className="fa fa-building-o fa-2x" onClick={() => handleFieldsConf(fieldset)}></span>
+                <a href="#"><span className="fa fa-building-o fa-2x"></span></a>
               </div>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="col-md-6">
+      {/* <div className="col-md-6">
         <FieldsComponent fieldset={currentFieldset} urlBase={urlBase} getFieldsets={getFieldsets} />
-      </div>
+      </div> */}
 
       <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">

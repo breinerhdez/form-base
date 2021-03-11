@@ -7,7 +7,7 @@ const app = express();
 // const CoreCollectionModel = require("../../models/admin/crud/CoreCollectionsModel");
 const CoreFormsModel = require("../../models/admin/crud/CoreFormsModel");
 const CoreFielsetModel = require("../../models/admin/crud/CoreFielsetModel");
-const Form = require("../../lib/form/Form");
+// const Form = require("../../lib/form/Form");
 
 /**
  * Formulario para configurar un formulario
@@ -20,15 +20,17 @@ app.get("/admin/form-config/:collection_id", async (req, res) => {
 
   // definición de campos del formulario
   let configForm = getFormConfig();
+  // console.log(objFormDb._id, configForm)
 
   let actionForm = `/admin/form-config/${collection_id}`;
 
-  let objForm = new Form(actionForm, configForm.config, objFormDb); // action no es necesaria
-  objForm.build(configForm);
+  // let objForm = new Form(actionForm, configForm.config, objFormDb); // action no es necesaria
+  // objForm.build(configForm);
+  console.log(objFormDb);
 
   let data = {
     title: "Gestionar formulario",
-    objForm,
+    // objForm,
     objFormDb,
     fieldsetsList,
     collection_id,
@@ -43,10 +45,11 @@ app.post("/admin/form-config/:collection_id", async (req, res) => {
   let collection_id = req.params.collection_id;
   let objFormDb = await CoreFormsModel.findOne({ collection_id: collection_id });
 
-  objFormDb.action = req.body["action"];
-  objFormDb.config.method = req.body["config.method"];
-  objFormDb.config.btn_submit.show = req.body["config.btn_submit.show"] === "true" ? true : false;
-  objFormDb.config.btn_submit.value = req.body["config.btn_submit.value"] ? req.body["config.btn_submit.value"] : "Enviar";
+  // Atributos a actualizar
+  objFormDb.action = req.body.action;
+  objFormDb.config.method = req.body.config.method;
+  objFormDb.config.btn_submit = req.body.config.btn_submit;
+  objFormDb.config.btn_submit.show = req.body.config.btn_submit.show ? true : false;
 
   // indicar qué estructuras internas se deben modificar
   objFormDb.markModified("config");

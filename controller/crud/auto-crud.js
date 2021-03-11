@@ -35,6 +35,7 @@ let getObjectsAndModel = async (pathName) => {
   let collectionName = objCrud.collection_name;
   // estructura del esquema
   let collectionSchema = objFormDb.config.schema;
+  // let collectionSchema = objFormDb.schema;
   // nombre de la entidad o modelo
   let modelName = `${collectionName}_${objCrud._id}`;
   // lista de modelos existentes
@@ -98,7 +99,7 @@ let storeDefaultForm = async (objCrud) => {
  * Listar los registros de la colección
  */
 app.get("/admin/auto-crud/:pathName", async (req, res) => {
-  console.log(mongoose.model("CoreForms").schema.tree);
+  // console.log(mongoose.model("CoreForms").schema.tree);
 
   try {
     // validar si existe el path
@@ -118,7 +119,7 @@ app.get("/admin/auto-crud/:pathName", async (req, res) => {
     const urlBtnCreate = `/admin/auto-crud/${pathName}/create`;
     const urlBase = `/admin/auto-crud/${pathName}/`;
 
-    console.log("Objetos:", listObjects.length);
+    // console.log("Objetos:", listObjects.length);
 
     let data = {
       title: objCrud.title,
