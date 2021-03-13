@@ -19,11 +19,11 @@ export const FormConfig = () => {
   const { legend, idFieldset } = fieldsetForm;
 
   const getFieldsets = async () => {
-    let url = `${urlBase}/admin/form-config/getForm/${formId}`;
+    let url = `${urlBase}/admin/form-config/get-fieldsets/${formId}`;
     const response = await fetch(url);
     const data = await response.json();
     setFieldsets(data.result);
-    console.log("Se refrescaron los Fieldsets")
+    console.log("Se refrescaron los Fieldsets");
   };
 
   useEffect(() => {
@@ -100,13 +100,6 @@ export const FormConfig = () => {
     }
   };
 
-
-  // const handleFieldsConf = (fieldset) => {
-  //   setCurrentFieldset(fieldset)
-  // }
-
-
-
   return (
     <div className="row">
       <div className="col-md-12">
@@ -123,16 +116,14 @@ export const FormConfig = () => {
               <div className="col-md-6 col-sm-12 col-lg-2 text-right actions">
                 <span className="fa fa-edit fa-2x" onClick={() => handleFormEdit(fieldset)}></span>
                 <span className="fa fa-trash fa-2x" onClick={() => handleFormDelete(fieldset)}></span>
-                <a href="#"><span className="fa fa-building-o fa-2x"></span></a>
+                <a href={`/admin/form-config/fields/${fieldset._id}`}>
+                  <span className="fa fa-building-o fa-2x"></span>
+                </a>
               </div>
             </li>
           ))}
         </ul>
       </div>
-
-      {/* <div className="col-md-6">
-        <FieldsComponent fieldset={currentFieldset} urlBase={urlBase} getFieldsets={getFieldsets} />
-      </div> */}
 
       <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">
@@ -161,7 +152,14 @@ export const FormConfig = () => {
                 ) : (
                   <div className="form-group col-md-12">
                     <label htmlFor="legendInput">Legend</label>
-                    <input type="text" id="legendInput" className="form-control" name="legend" value={legend} onChange={handleInputChange} />
+                    <input
+                      type="text"
+                      id="legendInput"
+                      className="form-control"
+                      name="legend"
+                      value={legend}
+                      onChange={handleInputChange}
+                    />
                     <input type="hidden" id="idFieldset" className="form-control" name="idFieldset" value={idFieldset} />
                   </div>
                 )}
@@ -182,4 +180,6 @@ export const FormConfig = () => {
   );
 };
 
-ReactDOM.render(<FormConfig />, document.getElementById("main-react-container"));
+if (document.getElementById("main-react-container")) {
+  ReactDOM.render(<FormConfig />, document.getElementById("main-react-container"));
+}

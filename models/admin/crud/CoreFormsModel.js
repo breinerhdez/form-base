@@ -4,9 +4,9 @@ let Schema = mongoose.Schema;
 
 let modelSchema = new Schema({
   collection_id: {
-    type: String, //TODO Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId, //TODO Schema.Types.ObjectId,
     required: [true, "La URI es obligatoria"],
-    // ref: "core_collections",
+    ref: "CoreCollection",
   },
   action: {
     type: String,

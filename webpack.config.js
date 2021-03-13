@@ -2,7 +2,7 @@ var path = require("path");
 
 module.exports = {
   mode: "development",
-  entry: "./components/form-config/FormConfig.js",
+  entry: ["./components/form-config/FormConfig.js", "./components/form-config/FieldsComponent.js"],
   output: {
     path: path.resolve(__dirname, "public/dist"),
     filename: "[name].js",

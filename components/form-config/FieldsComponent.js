@@ -1,48 +1,49 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 
-export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
+export const FieldsComponent = () => {
+  const urlBase = `http://localhost:5000`;
+
+  const fieldsetId = document.getElementById("fieldsetId").value;
+
   const initialState = {
     classNameFullCon: "",
     label: "",
     name: "",
-    required: false,
+    required: true,
     type: "text",
+    fieldset_id: fieldsetId,
+    _id: "",
   };
 
-  const initialFields = [
-    {
-      classNameFullCon: "col-md-6",
-      label: "ASDF label",
-      name: "asdf",
-      required: false,
-      type: "text",
-    },
-    {
-      classNameFullCon: "col-md-6",
-      label: "QWER label",
-      name: "qwer",
-      required: true,
-      type: "password",
-    },
-  ];
+  const [fieldset, setFieldset] = useState([]);
+  const [fields, setFields] = useState([]);
 
-  // console.log(fieldset.fields)
-  // console.log(typeof fieldset.fields, fieldset.fields, fieldset.fields.length)
+  const getFieldset = async () => {
+    let url = `${urlBase}/admin/form-config/get-fieldset/${fieldsetId}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    setFieldset(data.result);
+    console.log("Se refrescó el Fieldset");
+  };
 
-  const [fields, setFields] = useState(initialFields);
+  const getFields = async () => {
+    let url = `${urlBase}/admin/form-config/get-fields/${fieldsetId}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    setFields(data.result);
+    console.log("Se refrescaron los Fields");
+  };
+
+  useEffect(() => {
+    getFieldset();
+    getFields();
+  }, []);
 
   const [values, setValues] = useState(initialState);
 
-  const { classNameFullCon, label, name, type, required } = values;
+  const { classNameFullCon, label, name, type, required, _id:field_id } = values;
   const [confModal, setConfModal] = useState({});
-
-  // useEffect(() => {
-  //   setFields(fieldset.fields);
-  //   // console.log(fieldset.fields);
-  //   console.log("montado")
-  // }, [fieldset]);
-
-  // const [currentField, setCurrentField] = useState(initialState);
 
   const handleInputChange = ({ target }) => {
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -54,16 +55,11 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
-
-    setFields([...fields, values]);
-
     $("#modalField").modal("hide");
 
-    // setTimeout(async () => {
     let url = e.target.action;
-    let data = fields;
-    // data['fieldsetId'] = fieldset._id;
+    let data = values;
+
     let conf = {
       method: "POST",
       body: JSON.stringify(data),
@@ -75,24 +71,43 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
     const response = await fetch(url, conf);
     const result = await response.json();
     if (result.ok) {
-      getFieldsets();
+      getFields();
     }
-    // }, 1000);
   };
 
   const handleFormNew = () => {
     setValues(initialState);
     setConfModal({
       title: "Crear campo",
-      action: `${urlBase}/admin/form-config/field/${fieldset._id}`,
+      action: `${urlBase}/admin/form-config/fields/create`,
       btnSubmit: "Guardar",
+    });
+    $("#modalField").modal("show");
+  };
+
+  const handleFormEdit = (field) => {
+    setValues(field);
+    setConfModal({
+      title: "Modificar campo",
+      action: `${urlBase}/admin/form-config/fields/update`,
+      btnSubmit: "Modificar",
+    });
+    $("#modalField").modal("show");
+  };
+
+  const handleFormDelete = (field) => {
+    setValues(field);
+    setConfModal({
+      title: "Eliminar campo",
+      action: `${urlBase}/admin/form-config/fields/delete`,
+      btnSubmit: "Eliminar",
     });
     $("#modalField").modal("show");
   };
 
   return (
     <>
-      <h3>Configuración de campos</h3>
+      <h3>Fieldset: {fieldset.legend}</h3>
       {!fieldset ? (
         <p className="alert alert-info">No se ha seleccionado un Fieldset para configurar los campos</p>
       ) : (
@@ -103,19 +118,15 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
                 Nuevo
               </button>
             </div>
-            <div className="col-md-9 col-sm-12">
-              <p>
-                <strong>Fieldset: {fieldset.legend}</strong>
-              </p>
-            </div>
           </div>
           <ul className="simple-list">
             {fields.map((field, i) => (
               <li className="row" key={i}>
                 <div className="col-md-6 col-sm-12 col-lg-9">{field.label}</div>
+                <div className="col-md-6 col-sm-12 col-lg-9">{field.type}</div>
                 <div className="col-md-6 col-sm-12 col-lg-3 actions">
-                  <span className="fa fa-edit fa-2x"></span>
-                  <span className="fa fa-trash fa-2x"></span>
+                  <span className="fa fa-edit fa-2x" onClick={() => handleFormEdit(field)}></span>
+                  <span className="fa fa-trash fa-2x" onClick={() => handleFormDelete(field)}></span>
                 </div>
               </li>
             ))}
@@ -139,6 +150,11 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
                         <p className="alert alert-danger">
                           La información se borrará de forma definitiva y no podrá recuperarla después. ¿Desea continuar?
                         </p>
+                        <label htmlFor="labelInput">Label</label>
+                        <span id="labelInput" className="form-control">
+                          {label}
+                        </span>
+                        <input type="hidden" id="idField" className="form-control" name="idField" value={field_id} />
                       </div>
                     ) : (
                       <div className="row">
@@ -202,8 +218,6 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
                             onChange={handleInputChange}
                           />
                         </div>
-
-                        <input type="hidden" id="idFieldset" className="form-control" name="idFieldset" value={fieldset._id} />
                       </div>
                     )}
                   </div>
@@ -224,3 +238,7 @@ export const FieldsComponent = ({ fieldset, urlBase, getFieldsets }) => {
     </>
   );
 };
+
+if (document.getElementById("main-react-fields-container")) {
+  ReactDOM.render(<FieldsComponent />, document.getElementById("main-react-fields-container"));
+}
