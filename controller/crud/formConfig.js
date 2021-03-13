@@ -384,6 +384,7 @@ async function buildStructure(form_id) {
     });
   });
 
+  // set schema to form object
   objForm.config.schema = mySchema;
   // allow changes for config.schema sub-object
   objForm.markModified("config");
@@ -392,7 +393,7 @@ async function buildStructure(form_id) {
   // save schema and fieldset structure
   await objForm.save();
 
-  // refrescar el modelo - Eliminarlo
+  // refresh model schema - remove it
   let modelDynamic = `${objForm.collection_id.collection_name}_${objForm.collection_id._id}`;
   if (mongoose.modelNames().includes(modelDynamic)) {
     mongoose.deleteModel(`${objForm.collection_id.collection_name}_${objForm.collection_id._id}`);
