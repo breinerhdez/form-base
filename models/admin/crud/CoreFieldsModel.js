@@ -37,6 +37,11 @@ let modelSchema = new Schema({
     type: String,
     default: "",
   },
+  projection: {
+    type: Boolean,
+    required: [true, "Atributo 'projection' es requerido"],
+    default: false,
+  },
   // type: {
   //   type: Array,
   //   default: [],

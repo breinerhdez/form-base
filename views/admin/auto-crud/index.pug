@@ -7,8 +7,8 @@ block body-container
   if listObjects.length
     table(class="table table-striped")
       thead
-        each col in projection
-          th=col
+        each col,index in projection
+          th=projectionLabels[index]
         th Acciones
       tbody
         each row in listObjects

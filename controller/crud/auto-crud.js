@@ -24,7 +24,6 @@ let getObjectsAndModel = async (pathName) => {
   // consultar el formulario
   let objFormDb = await CoreFormsModel.findOne({ collection_id: objCrud._id });
   if (!objFormDb) {
-    // console.log("BH-ERROR:", `No se evidencia un formulario para la gestión "${objCrud.title}".`);
     return false;
   }
 
@@ -73,6 +72,7 @@ let getObjectsAndModel = async (pathName) => {
     objFormDb,
     DynamicModel,
     projection: objFormDb.config.projection,
+    projectionLabels: objFormDb.config.projectionLabels,
   };
 };
 
@@ -99,8 +99,6 @@ let storeDefaultForm = async (objCrud) => {
  * Listar los registros de la colección
  */
 app.get("/admin/auto-crud/:pathName", async (req, res) => {
-  // console.log(mongoose.model("CoreForms").schema.tree);
-
   try {
     // validar si existe el path
     let pathName = req.params.pathName;
@@ -110,7 +108,7 @@ app.get("/admin/auto-crud/:pathName", async (req, res) => {
     if (!objectsAndModel) return res.redirect("/admin");
 
     // obtener los objetos de la respuesta
-    let { objCrud, DynamicModel, projection } = objectsAndModel;
+    let { objCrud, DynamicModel, projection, projectionLabels } = objectsAndModel;
 
     // consulta usando el objeto dinámico
     let listObjects = await DynamicModel.find({}, projection);
@@ -119,12 +117,11 @@ app.get("/admin/auto-crud/:pathName", async (req, res) => {
     const urlBtnCreate = `/admin/auto-crud/${pathName}/create`;
     const urlBase = `/admin/auto-crud/${pathName}/`;
 
-    // console.log("Objetos:", listObjects.length);
-
     let data = {
       title: objCrud.title,
       urlBtnCreate,
       projection,
+      projectionLabels,
       listObjects,
       urlBase,
     };

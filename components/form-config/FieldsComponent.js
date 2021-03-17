@@ -14,6 +14,7 @@ export const FieldsComponent = () => {
     type: "text",
     fieldset_id: fieldsetId,
     _id: "",
+    projection: false,
   };
 
   const [fieldset, setFieldset] = useState([]);
@@ -42,7 +43,7 @@ export const FieldsComponent = () => {
 
   const [values, setValues] = useState(initialState);
 
-  const { classNameFullCon, label, name, type, required, _id:field_id } = values;
+  const { classNameFullCon, label, name, type, required, _id: field_id, projection } = values;
   const [confModal, setConfModal] = useState({});
 
   const handleInputChange = ({ target }) => {
@@ -217,6 +218,23 @@ export const FieldsComponent = () => {
                             value={classNameFullCon}
                             onChange={handleInputChange}
                           />
+                        </div>
+
+                        <div className="form-group col-md-12">
+                          <div className="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              id="inputProjection"
+                              className="custom-control-input"
+                              name="projection"
+                              value={projection}
+                              onChange={handleInputChange}
+                              checked={projection}
+                            />
+                            <label className="custom-control-label" htmlFor="inputProjection">
+                              Aparecer en el listado
+                            </label>
+                          </div>
                         </div>
                       </div>
                     )}

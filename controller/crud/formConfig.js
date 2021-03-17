@@ -13,8 +13,6 @@ const CoreFieldsModel = require("../../models/admin/crud/CoreFieldsModel");
  * Formulario para configurar un formulario
  */
 app.get("/admin/form-config/:collection_id", async (req, res) => {
-  console.log("Entrando");
-
   let collection_id = req.params.collection_id;
   let objFormDb = await CoreFormsModel.findOne({ collection_id: collection_id });
   let fieldsetsList = await CoreFieldsetModel.find({ form_id: objFormDb._id });
@@ -99,7 +97,6 @@ app.post("/admin/form-config/v2/update/fieldset", async (req, res) => {
     let objFieldset = await CoreFieldsetModel.findById(idFieldset);
     objFieldset.legend = legend;
     let result = await objFieldset.save();
-    // console.log(result);
 
     buildStructure(result.form_id);
 
@@ -231,7 +228,7 @@ app.post("/admin/form-config/fields/create", async (req, res) => {
 
 app.post("/admin/form-config/fields/update", async (req, res) => {
   try {
-    const { type_db, type, name, label, required, classNameFullCon, _id, fieldset_id } = req.body;
+    const { type_db, type, name, label, required, classNameFullCon, _id, fieldset_id, projection } = req.body;
     let objFieldset = await CoreFieldsetModel.findById(fieldset_id);
     let objField = await CoreFieldsModel.findById(_id);
 
@@ -240,6 +237,7 @@ app.post("/admin/form-config/fields/update", async (req, res) => {
     objField.name = name;
     objField.label = label;
     objField.required = required;
+    objField.projection = projection;
     objField.classNameFullCon = classNameFullCon;
     let result = await objField.save();
 
@@ -280,70 +278,6 @@ app.post("/admin/form-config/fields/delete", async (req, res) => {
   }
 });
 
-// let getFormConfig = () => {
-//   return {
-//     action: "/",
-//     config: {
-//       btn_submit: {
-//         show: true,
-//         value: "Guardar",
-//       },
-//     },
-
-//     fieldsets: [
-//       {
-//         config: { legend: "Datos del formulario" },
-//         fields: [
-//           [
-//             {
-//               classNameFullCon: "col-md-6",
-//               label: "Action",
-//               name: "action",
-//               required: true,
-//               type: "text",
-//             },
-//             {
-//               classNameFullCon: "col-md-6",
-//               label: "ID de la colección",
-//               name: "collection_id",
-//               required: true,
-//               type: "text",
-//             },
-//             {
-//               classNameFullCon: "col-md-6",
-//               label: "Method",
-//               name: "config.method",
-//               required: true,
-//               type: "text",
-//             },
-//           ],
-//         ],
-//       },
-//       {
-//         config: { legend: "Botón de envío" },
-//         fields: [
-//           [
-//             {
-//               classNameFullCon: "col-md-6",
-//               label: "Mostrar botón",
-//               name: "config.btn_submit.show",
-//               required: true,
-//               type: "text",
-//             },
-//             {
-//               classNameFullCon: "col-md-6",
-//               label: "Texto del botón",
-//               name: "config.btn_submit.value",
-//               required: true,
-//               type: "text",
-//             },
-//           ],
-//         ],
-//       },
-//     ],
-//   };
-// };
-
 async function buildStructure(form_id) {
   // get form information
   let objForm = await CoreFormsModel.findById(form_id).populate("collection_id");
@@ -372,6 +306,8 @@ async function buildStructure(form_id) {
   // set structure to form
   objForm.fieldsets = structure;
 
+  let projection = [];
+  let projectionLabels = [];
   let mySchema = {};
   all_fields.forEach((rowFields) => {
     rowFields.forEach((field) => {
@@ -381,9 +317,17 @@ async function buildStructure(form_id) {
         tmp["required"] = [true, `the field ${field.name} is required`];
       }
       mySchema[field.name] = tmp;
+
+      if (field.projection) {
+        projection = [...projection, field.name];
+        projectionLabels = [...projectionLabels, field.label];
+      }
     });
   });
 
+  // set projection and labels for projection
+  objForm.config.projection = projection;
+  objForm.config.projectionLabels = projectionLabels;
   // set schema to form object
   objForm.config.schema = mySchema;
   // allow changes for config.schema sub-object
