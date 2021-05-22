@@ -1,10 +1,6 @@
 extends ../../layouts/adminLayout.pug
 block body-container
 
-  //- div!= objForm.dsp()
-
-  hr
-
   form(method="POST" action="/admin/form-config/"+collection_id)
     fieldset
       legend Datos del formulario
@@ -40,9 +36,53 @@ block body-container
   hr
 
   input(type="hidden" id="formId" value=objFormDb._id)
-  input(type="hidden" name="collection_id", value=collection_id)
+  input(type="hidden" id="collectionId" value=collection_id)
+  input(type="hidden" id="tmpFieldsetId")
 
-  #main-react-container
+  h2 Grupos de campos
+
+  div(class="app-padding-tb-5 text-right")
+    button(type="button" id="btnAddFieldset" class="btn btn-success" data-toggle="modal" data-target="#fieldsetModal") Nuevo grupo
+
+  table(class="table")
+    thead 
+      tr 
+        th Legend
+        th Acciones
+    tbody(id="tableBodyFieldsets")
+      each item in fieldsetsList
+        tr 
+          td #{item.legend}
+          td
+            span(class="fa fa-edit fa-2x cursor-pointer btnEditFieldset" data-fieldset-id=item._id data-fieldset-legend=item.legend)
+            span(class="fa fa-trash fa-2x cursor-pointer btnDeleteFieldset" data-fieldset-id=item._id data-fieldset-legend=item.legend)
+
+
+  div(class="modal fade" id="fieldsetModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+    div(class="modal-dialog")
+      div(class="modal-content")
+        div(class="modal-header")
+          h5(class="modal-title" id="fieldsetModalLabel") Nuevo grupo
+          button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+            span(aria-hidden="true") &times;
+
+        div(class="modal-body")
+          div(class="form-group col-md-12 createUpdateAction")
+            label(for="legendInput") Legend
+            input(
+              type="text"
+              id="legendInput"
+              class="form-control"
+              name="legend"
+              value="")
+
+          div(class="form-group col-md-12 deleteAction app-hidden")
+            p Delete information
+
+        div(class="modal-footer")
+          button(type="button" class="btn btn-secondary" data-dismiss="modal") Calcelar
+          button(type="button" class="btn btn-primary modalSaveAction") Guardar
+
 
 block js-container 
-  script(src="/dist/main.js") 
+  script(src="/assets/js/crud.js") 

@@ -8,6 +8,14 @@ const mongoose = require("mongoose");
 const CoreFormsModel = require("../../models/admin/crud/CoreFormsModel");
 const CoreFieldsetModel = require("../../models/admin/crud/CoreFieldsetModel");
 const CoreFieldsModel = require("../../models/admin/crud/CoreFieldsModel");
+const CoreCollectionsModel = require("../../models/admin/crud/CoreCollectionsModel");
+
+const breadcrumbOptions = {
+  createCrud: {
+    href: "/admin/crud",
+    text: "Gestión de CRUDs",
+  },
+};
 
 /**
  * Formulario para configurar un formulario
@@ -17,12 +25,18 @@ app.get("/admin/form-config/:collection_id", async (req, res) => {
   let objFormDb = await CoreFormsModel.findOne({ collection_id: collection_id });
   let fieldsetsList = await CoreFieldsetModel.find({ form_id: objFormDb._id });
 
+  // validar si existe el registro
+  let objCollection = await CoreCollectionsModel.findById(collection_id);
+  if (!objCollection) return res.redirect(`/admin/crud`);
+
   let data = {
-    title: "Gestionar formulario",
+    title: `Gestionar formulario - ${objCollection.title}`,
     objFormDb,
     fieldsetsList,
     collection_id,
+    optsBreadcrumb: [breadcrumbOptions.createCrud],
   };
+  console.log(fieldsetsList);
   res.render("admin/crud/formConfig", data);
 });
 

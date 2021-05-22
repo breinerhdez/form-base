@@ -29,7 +29,6 @@
 .simple-list li{
   padding: 7px 0px 7px;
   border: 1px solid white;
-  /* border-bottom: 1px solid slateblue; */
   border-bottom: 1px solid rgb(197, 197, 197);
 }
 .simple-list li:hover{
@@ -47,3 +46,16 @@
   cursor: pointer;
   color: rgb(88, 62, 255);
 }
+
+.app-padding-tb-5{
+  padding: 10px 0px;
+}
+
+.app-hidden{
+  display: none;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+

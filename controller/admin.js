@@ -10,8 +10,9 @@ app.get("/admin", checkSession, async (req, res) => {
   let listObjects = await CoreCollectionModel.find({});
 
   let data = {
-    title: "Administración del sistema",
+    title: "Administración",
     listObjects,
+    breadcrumb: false,
   };
   res.render("admin/index", data);
 });

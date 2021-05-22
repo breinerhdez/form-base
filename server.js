@@ -6,18 +6,12 @@ const path = require("path");
 
 const app = express();
 
-
-// const bodyParser = require("body-parser");
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 // parse application/json
 app.use(express.json());
 
-
-// const cors = require("cors");
-
 // configuración del motor de plantillas
-// app.set("views", "./views");
 app.set(path.join(__dirname, "./views"));
 app.set("view engine", "pug");
 
@@ -58,10 +52,10 @@ mongoose.connect(
   },
   (err, res) => {
     if (err) throw err;
-    console.log("Base de datos: ONLINE");
+    console.log("ONLINE database");
   }
 );
 
 app.listen(process.env.PORT, () => {
-  console.log("App run on PORT: " + process.env.PORT);
+  console.log("App running on PORT " + process.env.PORT);
 });

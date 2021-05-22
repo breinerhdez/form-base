@@ -9,6 +9,13 @@ const CoreFormsModel = require("../../models/admin/crud/CoreFormsModel");
 const Form = require("../../lib/form/Form");
 const formConfig = require("../../models/form-config/form-crud");
 
+const breadcrumbOptions = {
+  createCrud: {
+    href: "/admin/crud",
+    text: "Gestión de CRUDs",
+  },
+};
+
 /**
  * Almacenar formulario por defecto para el nuevo CRUD
  */
@@ -21,8 +28,8 @@ let storeDefaultForm = async (objCrud) => {
         method: "post",
         btn_submit: {
           show: true,
-          value: "Enviar"
-        }
+          value: "Enviar",
+        },
         // schema: mongoose.model("CoreForms").schema.tree,
       },
     });
@@ -49,7 +56,7 @@ app.get("/admin/crud", checkSession, async (req, res) => {
     const urlBase = `/admin/crud/`;
 
     let data = {
-      title: "Gestión de CRUDssss",
+      title: "Gestión de CRUDs",
       urlBtnCreate,
       listObjects,
       urlBase,
@@ -73,11 +80,13 @@ app.get("/admin/crud/create", checkSession, async (req, res) => {
 
     // crear el objeto formulario
     const objForm = new Form(actionForm, formConfig.config);
+    objForm.config.btn_submit.value = "Crear";
     objForm.build(formConfig);
 
     let data = {
-      title: "Crear CRUD",
+      title: "Crear",
       objForm,
+      optsBreadcrumb: [breadcrumbOptions.createCrud],
     };
 
     res.render("admin/crud/create", data);
@@ -139,8 +148,9 @@ app.get("/admin/crud/update/:id", checkSession, async (req, res) => {
     objForm.build(formConfig);
 
     let data = {
-      title: "Modificar CRUD",
+      title: "Modificar",
       objForm,
+      optsBreadcrumb: [breadcrumbOptions.createCrud],
     };
 
     res.render("admin/crud/update", data);
@@ -211,8 +221,9 @@ app.get("/admin/crud/conf-api/:id", checkSession, async (req, res) => {
     if (!objDb) return res.redirect(`/admin/crud`);
 
     let data = {
-      title: "Configurar REST API",
+      title: "Configurar API",
       objCrud: objDb,
+      optsBreadcrumb: [breadcrumbOptions.createCrud],
     };
 
     res.render("admin/crud/api", data);
@@ -231,11 +242,11 @@ app.post("/admin/crud/conf-api/process", checkSession, async (req, res) => {
     // obtener parámetros
     const { id } = req.body;
     const allowServices = {
-      list: (req.body.list == "Y") ? "Y" : "N",
-      getById: (req.body.getById == "Y") ? "Y" : "N",
-      create: (req.body.create == "Y") ? "Y" : "N",
-      update: (req.body.update == "Y") ? "Y" : "N",
-      delete: (req.body.delete == "Y") ? "Y" : "N",
+      list: req.body.list == "Y" ? "Y" : "N",
+      getById: req.body.getById == "Y" ? "Y" : "N",
+      create: req.body.create == "Y" ? "Y" : "N",
+      update: req.body.update == "Y" ? "Y" : "N",
+      delete: req.body.delete == "Y" ? "Y" : "N",
     };
 
     // validar si existe el registro

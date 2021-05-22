@@ -1,7 +1,7 @@
 extends ../../layouts/adminLayout.pug
 block body-container
 
-  div
+  div(class="app-padding-tb-5 text-right")
     a(href=urlBtnCreate class="btn btn-success") Crear registro
 
   if listObjects.length
@@ -19,8 +19,11 @@ block body-container
             td #{row.collection_name}
             td(class="col-acciones")
               a(href=urlBase+"update/"+row._id class="btn btn-secondary") Modificar
-              a(href=urlBase+"delete/"+row._id class="btn btn-danger") Eliminar
+              a(href=urlBase+"delete/"+row._id class="btn btn-danger deleteOption") Eliminar
               a(href=urlBase+"conf-api/"+row._id class="btn btn-warning") API
               a(href="/admin/form-config/"+row._id class="btn btn-secondary") Form
   else
     div No hay registros
+
+block js-container
+  script(src="/assets/js/crud.js") 

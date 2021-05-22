@@ -11,7 +11,25 @@ html(lang="en")
   body
     a(href="/admin") Panel de Control
     div(class="container")
+
       block body-title
+
+        - var showBreadcrumb = true
+        - if (breadcrumb == false) showBreadcrumb = false
+
+        if showBreadcrumb == true
+          nav(aria-label="breadcrumb")
+            ol(class="breadcrumb")
+              li(class="breadcrumb-item")
+                a(href="/admin") Administración
+
+              if(optsBreadcrumb && optsBreadcrumb.length)
+                each option in optsBreadcrumb
+                  li(class="breadcrumb-item")
+                    a(href=option.href) #{option.text}
+
+              li(class="breadcrumb-item active" aria-current="page") #{title}
+
         h1 #{title}
 
         //- each messages in flashMessages

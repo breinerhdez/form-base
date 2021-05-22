@@ -106,7 +106,7 @@ export const FormConfig = () => {
         <h3>Fieldsets</h3>
         <div className="buttons-up">
           <button className="btn btn-primary" onClick={handleFormNew}>
-            Nuevo
+            Nuevos
           </button>
         </div>
         <ul className="simple-list">
