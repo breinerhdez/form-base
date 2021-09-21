@@ -1,5 +1,7 @@
 $(document).on("click", ".deleteOption", function (e) {
-  return confirm("¿Está seguro de eliminar el registro?\nSe perderán todos los datos relacionados.");
+  return confirm(
+    "¿Está seguro de eliminar el registro?\nSe perderán todos los datos relacionados."
+  );
 });
 
 /**
@@ -29,7 +31,10 @@ $(document).on("click", ".btnDeleteFieldset", function () {
   deleteFieldsetAction = true;
   $(".deleteAction").removeClass("app-hidden");
   $(".createUpdateAction").addClass("app-hidden");
-  $(".modalSaveAction").addClass("btn-danger").removeClass("btn-primary").text("Eliminar");
+  $(".modalSaveAction")
+    .addClass("btn-danger")
+    .removeClass("btn-primary")
+    .text("Eliminar");
   // set modal title
   $("#fieldsetModalLabel").text("Eliminar grupo de campos");
   // get fieldset information
@@ -57,8 +62,8 @@ const reloadTable = () => {
       let rowHtml = `<tr>
         <td>${item.legend}</td>
         <td>
-          <span class="fa fa-edit fa-2x cursor-pointer btnEditFieldset" data-fieldset-id=${item._id} data-fieldset-legend="${item.legend}"></span>
-          <span class="fa fa-trash fa-2x cursor-pointer btnDeleteFieldset" data-fieldset-id=${item._id} data-fieldset-legend="${item.legend}"></span>
+          <button class="btn btn-primary mr-1 fa fa-edit btnEditFieldset" data-fieldset-id=${item._id} data-fieldset-legend="${item.legend}"></button>
+          <button class="btn btn-danger mr-1 fa fa-trash btnDeleteFieldset" data-fieldset-id=${item._id} data-fieldset-legend="${item.legend}"></button>
         </td>
       </tr>`;
       $("#tableBodyFieldsets").append(rowHtml);
@@ -72,7 +77,10 @@ $("#fieldsetModal").on("hidden.bs.modal", function (event) {
   $("#legendInput").val("");
   $(".deleteAction").addClass("app-hidden");
   $(".createUpdateAction").removeClass("app-hidden");
-  $(".modalSaveAction").addClass("btn-primary").removeClass("btn-danger").text("Guardar");
+  $(".modalSaveAction")
+    .addClass("btn-primary")
+    .removeClass("btn-danger")
+    .text("Guardar");
   deleteFieldsetAction = false;
 });
 

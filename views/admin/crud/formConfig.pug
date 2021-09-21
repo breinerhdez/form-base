@@ -54,8 +54,8 @@ block body-container
         tr 
           td #{item.legend}
           td
-            span(class="fa fa-edit fa-2x cursor-pointer btnEditFieldset" data-fieldset-id=item._id data-fieldset-legend=item.legend)
-            span(class="fa fa-trash fa-2x cursor-pointer btnDeleteFieldset" data-fieldset-id=item._id data-fieldset-legend=item.legend)
+            button(class="btn btn-primary mr-1 fa fa-edit btnEditFieldset" data-fieldset-id=item._id data-fieldset-legend=item.legend)
+            button(class="btn btn-danger mr-1 fa fa-trash btnDeleteFieldset" data-fieldset-id=item._id data-fieldset-legend=item.legend)
 
 
   div(class="modal fade" id="fieldsetModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")

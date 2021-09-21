@@ -17,7 +17,10 @@ const Form = require("../../lib/form/Form");
 let getObjectsAndModel = async (pathName) => {
   let objCrud = await CoreCollectionModel.findOne({ path_name: pathName });
   if (!objCrud) {
-    console.log("ERROR-BH:", `No se evidencia un crud para el path "${pathName}".`);
+    console.log(
+      "ERROR-BH:",
+      `No se evidencia un crud para el path "${pathName}".`
+    );
     return false;
   }
 
