@@ -7,7 +7,7 @@
     "start-dev": "nodemon server.js -e html,js,pug,json,css",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Breiner Hernandez",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
