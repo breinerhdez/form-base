@@ -1,125 +1,195 @@
-$(document).on("click", ".deleteOption", function (e) {
-  return confirm(
-    "¿Está seguro de eliminar el registro?\nSe perderán todos los datos relacionados."
-  );
-});
+var formId = false;
+const endpoints = {
+  fieldsets: "/admin/form-config/v2/fieldset",
+  fields: "/admin/form-config/v2/fields",
+};
 
-/**
- * Fieldsets management
- */
-var deleteFieldsetAction = false;
-// create modal information
-$("#btnAddFieldset").click(function () {
-  $("#fieldsetModalLabel").text("Nuevo grupo de campos");
-});
+let data = {
+  fieldsets: [],
+  fields: [],
+  formId: false,
+};
 
-// edit modal information
-$(document).on("click", ".btnEditFieldset", function () {
-  // set modal title
-  $("#fieldsetModalLabel").text("Modificar grupo de campos");
-  // get fieldset information
-  var idFieldset = $(this).attr("data-fieldset-id");
-  var legend = $(this).attr("data-fieldset-legend");
-  $("#tmpFieldsetId").val(idFieldset);
+let current = {
+  fieldset: {},
+  field: {},
+};
 
-  $("#legendInput").val(legend);
-  $("#fieldsetModal").modal("show");
-});
+function getFieldset(idFieldset) {
+  return data.fieldsets.find((element) => element._id == idFieldset);
+}
 
-// delete modal information
-$(document).on("click", ".btnDeleteFieldset", function () {
-  deleteFieldsetAction = true;
-  $(".deleteAction").removeClass("app-hidden");
-  $(".createUpdateAction").addClass("app-hidden");
-  $(".modalSaveAction")
-    .addClass("btn-danger")
-    .removeClass("btn-primary")
-    .text("Eliminar");
-  // set modal title
-  $("#fieldsetModalLabel").text("Eliminar grupo de campos");
-  // get fieldset information
-  let idFieldset = $(this).attr("data-fieldset-id");
-  let legend = $(this).attr("data-fieldset-legend");
-  $("#tmpFieldsetId").val(idFieldset);
+function getField(idField) {
+  return data.fields.find((element) => element._id == idField);
+}
 
-  let deleteInformation = `Todos los datos de configuración del grupo de campos <strong>${legend}</strong> se perderán.
-  <br/><br/>¿Desea continuar?`;
-  $(".deleteAction p").html(deleteInformation);
-  $("#fieldsetModal").modal("show");
-});
-
-// reload table
-const reloadTable = () => {
+// load fieldsets
+const loadFieldsets = () => {
   $.ajax({
-    url: "/admin/form-config/get-fieldsets/" + $("#formId").val(),
+    url: endpoints.fieldsets,
+    data: { form_id: data.formId },
   }).done(function (res) {
     if (!res.ok) {
       console.log("No fue posible obtener los datos del servidor");
     }
-    $("#tableBodyFieldsets").html("");
+
+    data.fieldsets = res.result;
+
+    $(".fieldset-list").html("");
 
     res.result.map((item) => {
-      let rowHtml = `<tr>
-        <td>${item.legend}</td>
-        <td>
+      let rowHtml = `<div class="col-md-12 item-fieldset">
+        <span>
           <button class="btn btn-primary mr-1 fa fa-edit btnEditFieldset" data-fieldset-id=${item._id} data-fieldset-legend="${item.legend}"></button>
           <button class="btn btn-danger mr-1 fa fa-trash btnDeleteFieldset" data-fieldset-id=${item._id} data-fieldset-legend="${item.legend}"></button>
-        </td>
-      </tr>`;
-      $("#tableBodyFieldsets").append(rowHtml);
+        </span>
+        <span>${item.legend}</span>
+      </div>`;
+      $(".fieldset-list").append(rowHtml);
     });
   });
 };
 
-// reset modal form
-$("#fieldsetModal").on("hidden.bs.modal", function (event) {
-  $("#tmpFieldsetId").val("");
-  $("#legendInput").val("");
-  $(".deleteAction").addClass("app-hidden");
-  $(".createUpdateAction").removeClass("app-hidden");
-  $(".modalSaveAction")
-    .addClass("btn-primary")
-    .removeClass("btn-danger")
-    .text("Guardar");
-  deleteFieldsetAction = false;
+$(document).on("click", ".item-fieldset", function () {
+  $(".item-fieldset").removeClass("active");
+  $(this).addClass("active");
+
+  current.fieldset = getFieldset(
+    $(this).find(".btnEditFieldset").attr("data-fieldset-id")
+  );
+
+  updateHeaderFields(true);
+  loadFields();
+  $("#btnAddField").attr("disabled", false);
 });
 
-// handle save action
-$(".modalSaveAction").click(function () {
-  let legend = $("#legendInput").val();
-  if (!deleteFieldsetAction && (!legend || legend.length < 1)) {
-    $("#legendInput").focus();
-    return alert("El Legend es obligatorio");
-  }
+function onChangeFieldsetData(name, value) {
+  current.fieldset = {
+    ...current.fieldset,
+    [name]: value,
+  };
+  console.log(current.fieldset);
+}
 
-  let idFieldset = $("#tmpFieldsetId").val();
-  let url = "";
-  let data = {};
+$("#btnAddFieldset").click(function () {
+  $("#form-fieldset").trigger("reset");
+  current.fieldset = { legend: "", form_id: data.formId };
+  $("#fieldsetModal .modal-title").text("Crear grupo de campos");
+});
 
-  if (deleteFieldsetAction) {
-    url = "/admin/form-config/v2/delete/fieldset";
-    data = {
-      idFieldset,
-    };
-  } else if (idFieldset) {
-    url = "/admin/form-config/v2/update/fieldset";
-    data = {
-      legend,
-      idFieldset,
-    };
+$("#form-fieldset").submit(function (e) {
+  e.preventDefault();
+
+  let method = false;
+
+  if ($("#fieldsetModal .modal-title").text() == "Crear grupo de campos") {
+    method = "post";
   } else {
-    url = "/admin/form-config/v2/fieldset/" + $("#formId").val();
-    data = {
-      legend,
-    };
+    method = "put";
   }
+  if (!method) {
+    return alert("No se puede realizar la operación");
+  }
+  $("#fieldsetModal").modal("hide");
 
   $.ajax({
-    url,
-    data,
-    method: "post",
-  }).done(function (res) {
-    $("#fieldsetModal").modal("hide");
-    reloadTable();
+    method,
+    url: endpoints.fieldsets,
+    data: current.fieldset,
+    success: (res) => {
+      if (res.ok) {
+        loadFieldsets();
+        updateHeaderFields();
+      }
+    },
   });
 });
+
+$(document).on("click", ".btnEditFieldset", function () {
+  $(this).parents(".item-fieldset").click();
+
+  $("#fieldsetModal").modal("show");
+  setFormFields(current.fieldset, "#fieldsetModal");
+
+  $("#fieldsetModal .modal-title").text("Editar grupo de campos");
+});
+
+$(document).on("click", ".btnDeleteFieldset", function () {
+  $.ajax({
+    method: "delete",
+    url: endpoints.fieldsets,
+    data: { idFieldset: $(this).attr("data-fieldset-id") },
+    success: (res) => {
+      if (res.ok) {
+        loadFieldsets();
+        updateHeaderFields();
+      }
+    },
+  });
+});
+
+function updateHeaderFields(selected = false) {
+  let title = "Campos";
+  if (selected) {
+    title = `Campos <i>[${current.fieldset.legend}]</i>`;
+  }
+
+  $(".section-fields h3 span").html(title);
+}
+
+function onChangeFieldData(name, value) {
+  current.field = {
+    ...current.field,
+    [name]: value,
+  };
+  console.log(current.field);
+}
+
+// load fields
+const loadFields = () => {
+  console.log(current.fieldset._id);
+  $.ajax({
+    url: endpoints.fields,
+    data: { fieldset_id: current.fieldset._id },
+  }).done(function (res) {
+    console.log(res);
+    if (!res.ok) {
+      console.log("No fue posible obtener los datos del servidor");
+    }
+
+    data.fields = res.result;
+
+    $(".field-list").html("");
+
+    res.result.map((item) => {
+      let rowHtml = `<div class="col-md-12 item-field">
+        <span>
+          <button class="btn btn-primary mr-1 fa fa-edit btnEditField" data-field-id=${item._id} data-fieldset-legend="${item.legend}"></button>
+          <button class="btn btn-danger mr-1 fa fa-trash btnDeleteField" data-field-id=${item._id} data-fieldset-legend="${item.legend}"></button>
+        </span>
+        <span>${item.label}</span>
+      </div>`;
+      $(".field-list").append(rowHtml);
+    });
+
+    if (res.result.length == 0) {
+      $(".field-list").html("No hay campos");
+    }
+  });
+};
+
+$(document).ready(function () {
+  data.formId = $("#formId").val();
+  loadFieldsets();
+});
+
+/**
+ * Función encargada de asignar los valores de un objeto a un formulario
+ * @param {object} _obj Objeto con los atributos del registro
+ * @param {String} _parent Elemento padre donde se encuentran los campos
+ */
+function setFormFields(_obj, _parent) {
+  Object.entries(_obj).forEach(([attr, value]) => {
+    $(_parent).find(`*[name=${attr}]`).val(value);
+  });
+}

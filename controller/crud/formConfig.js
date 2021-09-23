@@ -21,23 +21,27 @@ const breadcrumbOptions = {
  * Formulario para configurar un formulario
  */
 app.get("/admin/form-config/:collection_id", async (req, res) => {
-  let collection_id = req.params.collection_id;
-  let objFormDb = await CoreFormsModel.findOne({ collection_id: collection_id });
-  let fieldsetsList = await CoreFieldsetModel.find({ form_id: objFormDb._id });
+  try {
+    let collection_id = req.params.collection_id;
+    let objFormDb = await CoreFormsModel.findOne({
+      collection_id: collection_id,
+    });
 
-  // validar si existe el registro
-  let objCollection = await CoreCollectionsModel.findById(collection_id);
-  if (!objCollection) return res.redirect(`/admin/crud`);
+    // validar si existe el registro
+    let objCollection = await CoreCollectionsModel.findById(collection_id);
+    if (!objCollection) return res.redirect(`/admin/crud`);
 
-  let data = {
-    title: `Gestionar formulario - ${objCollection.title}`,
-    objFormDb,
-    fieldsetsList,
-    collection_id,
-    optsBreadcrumb: [breadcrumbOptions.createCrud],
-  };
-  console.log(fieldsetsList);
-  res.render("admin/crud/formConfig", data);
+    let data = {
+      title: `${objCollection.title}`,
+      objFormDb,
+      collection_id,
+      optsBreadcrumb: [breadcrumbOptions.createCrud],
+    };
+
+    res.render("admin/crud/formConfig", data);
+  } catch (e) {
+    console.log("/admin/form-config/:collection_id", e.message);
+  }
 });
 
 /**
@@ -45,13 +49,17 @@ app.get("/admin/form-config/:collection_id", async (req, res) => {
  */
 app.post("/admin/form-config/:collection_id", async (req, res) => {
   let collection_id = req.params.collection_id;
-  let objFormDb = await CoreFormsModel.findOne({ collection_id: collection_id });
+  let objFormDb = await CoreFormsModel.findOne({
+    collection_id: collection_id,
+  });
 
   // Atributos a actualizar
   objFormDb.action = req.body.action;
   objFormDb.config.method = req.body.config.method;
   objFormDb.config.btn_submit = req.body.config.btn_submit;
-  objFormDb.config.btn_submit.show = req.body.config.btn_submit.show ? true : false;
+  objFormDb.config.btn_submit.show = req.body.config.btn_submit.show
+    ? true
+    : false;
 
   // indicar qué estructuras internas se deben modificar
   objFormDb.markModified("config");
@@ -62,9 +70,9 @@ app.post("/admin/form-config/:collection_id", async (req, res) => {
 });
 
 app.post("/admin/form-config/fieldset/:form_id", async (req, res) => {
-  let form_id = req.params.form_id;
-  let { legend, collection_id } = req.body;
   try {
+    let form_id = req.params.form_id;
+    let { legend, collection_id } = req.body;
     let objFieldset = new CoreFieldsetModel({
       form_id,
       legend,
@@ -79,10 +87,11 @@ app.post("/admin/form-config/fieldset/:form_id", async (req, res) => {
   }
 });
 
-app.post("/admin/form-config/v2/fieldset/:form_id", async (req, res) => {
-  let form_id = req.params.form_id;
-  let { legend } = req.body;
+app.post("/admin/form-config/v2/fieldset", async (req, res) => {
   try {
+    // let form_id = req.params.form_id;
+    let { legend, form_id } = req.body;
+    console.log("Data on backend:", req.body);
     let objFieldset = new CoreFieldsetModel({
       form_id,
       legend,
@@ -105,9 +114,9 @@ app.post("/admin/form-config/v2/fieldset/:form_id", async (req, res) => {
   }
 });
 
-app.post("/admin/form-config/v2/update/fieldset", async (req, res) => {
-  let { legend, idFieldset } = req.body;
+app.put("/admin/form-config/v2/fieldset", async (req, res) => {
   try {
+    let { legend, _id: idFieldset } = req.body;
     let objFieldset = await CoreFieldsetModel.findById(idFieldset);
     objFieldset.legend = legend;
     let result = await objFieldset.save();
@@ -119,7 +128,7 @@ app.post("/admin/form-config/v2/update/fieldset", async (req, res) => {
       result,
     });
   } catch (error) {
-    console.log("Se ha presentado un error - POST - Update Fieldset");
+    console.log("Se ha presentado un error - PUT - Update Fieldset");
     console.log(`BH-ERROR: ${error}`);
     res.json({
       ok: false,
@@ -128,9 +137,9 @@ app.post("/admin/form-config/v2/update/fieldset", async (req, res) => {
   }
 });
 
-app.post("/admin/form-config/v2/delete/fieldset", async (req, res) => {
-  let { idFieldset } = req.body;
+app.delete("/admin/form-config/v2/fieldset", async (req, res) => {
   try {
+    let { idFieldset } = req.body;
     let result = await CoreFieldsetModel.findByIdAndDelete(idFieldset);
 
     buildStructure(result.form_id);
@@ -149,9 +158,9 @@ app.post("/admin/form-config/v2/delete/fieldset", async (req, res) => {
   }
 });
 
-app.get("/admin/form-config/get-fieldsets/:form_id", async (req, res) => {
+app.get("/admin/form-config/v2/fieldset", async (req, res) => {
   try {
-    let form_id = req.params.form_id;
+    let { form_id } = req.query;
     let fieldsetsList = await CoreFieldsetModel.find({ form_id: form_id });
     res.json({
       ok: true,
@@ -165,7 +174,7 @@ app.get("/admin/form-config/get-fieldsets/:form_id", async (req, res) => {
   }
 });
 
-app.get("/admin/form-config/get-fieldset/:id", async (req, res) => {
+app.get("/admin/form-config/fieldset/:id", async (req, res) => {
   try {
     let id = req.params.id;
     let fieldset = await CoreFieldsetModel.findById(id);
@@ -186,9 +195,9 @@ app.get("/admin/form-config/get-fieldset/:id", async (req, res) => {
  * Fields management
  ************************************************/
 
-app.get("/admin/form-config/get-fields/:fieldset_id", async (req, res) => {
+app.get("/admin/form-config/v2/fields", async (req, res) => {
   try {
-    let fieldset_id = req.params.fieldset_id;
+    let { fieldset_id } = req.query;
     let fieldsList = await CoreFieldsModel.find({ fieldset_id: fieldset_id });
     res.json({
       ok: true,
@@ -203,19 +212,20 @@ app.get("/admin/form-config/get-fields/:fieldset_id", async (req, res) => {
   }
 });
 
-app.get("/admin/form-config/fields/:fieldset_id", async (req, res) => {
-  const fieldset_id = req.params.fieldset_id;
-  const fieldset = await CoreFieldsetModel.findById(fieldset_id);
+// TODO: eliminar
+// app.get("/admin/form-config/fields/:fieldset_id", async (req, res) => {
+//   const fieldset_id = req.params.fieldset_id;
+//   const fieldset = await CoreFieldsetModel.findById(fieldset_id);
 
-  let data = {
-    title: "Gestionar campos",
-    fieldset,
-  };
+//   let data = {
+//     title: "Gestionar campos",
+//     fieldset,
+//   };
 
-  res.render("admin/crud/formFields", data);
-});
+//   res.render("admin/crud/formFields", data);
+// });
 
-app.post("/admin/form-config/fields/create", async (req, res) => {
+app.post("/admin/form-config/v2/fields", async (req, res) => {
   try {
     let data = req.body;
     delete data._id;
@@ -240,9 +250,19 @@ app.post("/admin/form-config/fields/create", async (req, res) => {
   }
 });
 
-app.post("/admin/form-config/fields/update", async (req, res) => {
+app.put("/admin/form-config/v2/fields", async (req, res) => {
   try {
-    const { type_db, type, name, label, required, classNameFullCon, _id, fieldset_id, projection } = req.body;
+    const {
+      type_db,
+      type,
+      name,
+      label,
+      required,
+      classNameFullCon,
+      _id,
+      fieldset_id,
+      projection,
+    } = req.body;
     let objFieldset = await CoreFieldsetModel.findById(fieldset_id);
     let objField = await CoreFieldsModel.findById(_id);
 
@@ -271,10 +291,12 @@ app.post("/admin/form-config/fields/update", async (req, res) => {
   }
 });
 
-app.post("/admin/form-config/fields/delete", async (req, res) => {
+app.delete("/admin/form-config/v2/fields", async (req, res) => {
   let { _id: idField } = req.body;
   try {
-    let result = await CoreFieldsModel.findByIdAndDelete(idField).populate("fieldset_id");
+    let result = await CoreFieldsModel.findByIdAndDelete(idField).populate(
+      "fieldset_id"
+    );
 
     buildStructure(result.fieldset_id.form_id);
 
@@ -294,7 +316,9 @@ app.post("/admin/form-config/fields/delete", async (req, res) => {
 
 async function buildStructure(form_id) {
   // get form information
-  let objForm = await CoreFormsModel.findById(form_id).populate("collection_id");
+  let objForm = await CoreFormsModel.findById(form_id).populate(
+    "collection_id"
+  );
   // get fieldsets
   let listFieldsets = await CoreFieldsetModel.find({ form_id });
   // create fieldset structure to form
@@ -354,7 +378,9 @@ async function buildStructure(form_id) {
   // refresh model schema - remove it
   let modelDynamic = `${objForm.collection_id.collection_name}_${objForm.collection_id._id}`;
   if (mongoose.modelNames().includes(modelDynamic)) {
-    mongoose.deleteModel(`${objForm.collection_id.collection_name}_${objForm.collection_id._id}`);
+    mongoose.deleteModel(
+      `${objForm.collection_id.collection_name}_${objForm.collection_id._id}`
+    );
   }
 }
 
