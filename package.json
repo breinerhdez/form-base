@@ -1,31 +1,23 @@
 {
-  "name": "software-component",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "name": "app-mvc",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "dev": "nodemon server.js -e html,js,pug,json,css",
-    "start": "node server.js"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www -e js,sass,pug,css,json"
   },
-  "author": "Breiner Hernandez",
-  "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.0.0",
-    "body-parser": "^1.19.0",
-    "bootstrap": "^4.6.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "express-hbs": "^2.3.4",
-    "express-session": "^1.17.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "express-session": "^1.17.2",
     "flash": "^1.1.0",
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.5.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.13",
-    "mongoose-unique-validator": "^2.0.3",
-    "path": "^0.12.7",
-    "popper": "^1.0.1",
-    "pug": "^3.0.0",
-    "underscore": "^1.13.1"
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "node-sass-middleware": "0.11.0",
+    "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

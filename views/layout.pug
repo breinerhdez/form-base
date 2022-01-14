@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet' href='/stylesheets/style.css')
+  body
+    div
+      while message = flash.shift()
+        div(class='alert alert-' + message.type)
+          p= message.message
+    block content
+    div
+      a(class="item" href="/") Index
+      a(class="item" href="/users") Users
+      a(class="item" href="/get-number") Number
