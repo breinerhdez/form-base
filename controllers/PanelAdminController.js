@@ -1,5 +1,5 @@
-const panelAdmin = (req, res) => {
+const index = (req, res) => {
   res.render("panelAdmin/index", { title: "Admin" });
 };
 
-module.exports = panelAdmin;
+module.exports = { index };

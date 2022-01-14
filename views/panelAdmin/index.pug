@@ -1,5 +1,22 @@
 extends ../layout
 
 block content
-  p Welcome to #{title}
+  div(class="d-flex flex-row bd-highlight mb-3 row")
+    div(class="p-2 bd-highlight col-2 text-center")
+      a(href="#")
+        span(class="fa fa-users fa-2x")
+        br
+        span Users
+    div(class="p-2 bd-highlight col-2 text-center")
+      a(href="/admin/collections")
+        span(class="fa fa-cubes fa-2x")
+        br
+        span Collections
+    div(class="p-2 bd-highlight col-2 text-center")
+      a(href="/")
+        span(class="fa fa-sign-out fa-2x")
+        br
+        span Logout
+
+
 

@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
 
-const panelAdmin = require("../../controllers/PaneladminController");
+const controller = require("../../controllers/PaneladminController");
 
-router.get("/", panelAdmin);
+router.get("/", controller.index);
 
 module.exports = router;

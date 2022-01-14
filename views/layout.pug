@@ -2,15 +2,21 @@ doctype html
 html
   head
     title= title
+    link(rel="stylesheet" href="/static/css/font-awesome.min.css")
+    link(rel="stylesheet" href="/static/css/bootstrap.min.css")
     link(rel='stylesheet' href='/stylesheets/style.css')
   body
-    h1= title
-    div
-      while message = flash.shift()
-        div(class='alert alert-' + message.type)
-          p= message.message
-    block content
-    div
-      a(class="item" href="/") Index
-      a(class="item" href="/admin") Admin
-      a(class="item" href="/get-number") Number
+    nav(class="navbar navbar-dark bg-dark")
+      .container-fluid
+        a(class="navbar-brand mb-0 h1" href="/") AutoCRUD
+
+    .container
+      h1= title
+      div
+        while message = flash.shift()
+          div(class='alert alert-' + message.type)
+            p= message.message
+      block content
+
+    script(src="/static/jquery.min.js") 
+    script(src="/static/js/bootstrap.min.js") 

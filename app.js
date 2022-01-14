@@ -4,12 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var sassMiddleware = require("node-sass-middleware");
-
 var session = require("express-session");
-
-// var indexRouter = require("./routes/prueba");
-// var usersRouter = require("./routes/users");
-
 var app = express();
 
 // view engine setup
@@ -21,6 +16,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(require("flash")());
+
+app.use(
   sassMiddleware({
     src: path.join(__dirname, "public"),
     dest: path.join(__dirname, "public"),
@@ -29,16 +33,12 @@ app.use(
     outputStyle: "compressed",
   })
 );
-app.use(express.static(path.join(__dirname, "public")));
 
-app.use(
-  session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-app.use(require("flash")());
+// public directories
+app.use("/static", express.static(__dirname + "/node_modules/bootstrap/dist"));
+app.use("/static", express.static(__dirname + "/node_modules/font-awesome"));
+app.use("/static", express.static(__dirname + "/node_modules/jquery/dist"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(require("./routes"));
 
