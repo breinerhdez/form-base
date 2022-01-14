@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start-dev": "nodemon server.js -e html,js,pug,json,css",
+    "dev": "nodemon server.js -e html,js,pug,json,css",
     "start": "node server.js"
   },
   "author": "Breiner Hernandez",
