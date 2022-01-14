@@ -4,6 +4,7 @@ html
     title= title
     link(rel='stylesheet' href='/stylesheets/style.css')
   body
+    h1= title
     div
       while message = flash.shift()
         div(class='alert alert-' + message.type)
@@ -11,5 +12,5 @@ html
     block content
     div
       a(class="item" href="/") Index
-      a(class="item" href="/users") Users
+      a(class="item" href="/admin") Admin
       a(class="item" href="/get-number") Number

@@ -7,8 +7,8 @@ var sassMiddleware = require("node-sass-middleware");
 
 var session = require("express-session");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+// var indexRouter = require("./routes/prueba");
+// var usersRouter = require("./routes/users");
 
 var app = express();
 
@@ -26,6 +26,7 @@ app.use(
     dest: path.join(__dirname, "public"),
     indentedSyntax: true, // true = .sass and false = .scss
     sourceMap: true,
+    outputStyle: "compressed",
   })
 );
 app.use(express.static(path.join(__dirname, "public")));
@@ -39,17 +40,11 @@ app.use(
 );
 app.use(require("flash")());
 
-// app.use((req, res, next) => {
-//   // flash a message
-//   req.flash("info", "hello!");
-//   next();
-// });
-
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use(require("./routes"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+  req.flash("danger", "Page not found");
   next(createError(404));
 });
 
