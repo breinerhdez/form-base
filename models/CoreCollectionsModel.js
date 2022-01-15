@@ -1,26 +1,59 @@
 const mongoose = require("mongoose");
 
-let Schema = mongoose.Schema;
+// let Schema = mongoose.Schema;
 
-let modelSchema = new Schema({
+let allowServiceSchema = new mongoose.Schema({
+  list: {
+    type: String,
+    default: "N",
+  },
+  getById: {
+    type: String,
+    default: "N",
+  },
+  create: {
+    type: String,
+    default: "N",
+  },
+  update: {
+    type: String,
+    default: "N",
+  },
+  delete: {
+    type: String,
+    default: "N",
+  },
+});
+
+let modelSchema = new mongoose.Schema({
   path_name: {
     type: String,
-    required: [true, "La URI es obligatoria"],
+    required: [true, "Path name required"],
   },
   collection_name: {
     type: String,
     unique: true,
-    required: [true, "El nombre de la colección es obligatoria"],
+    required: [true, "Collection name required"],
   },
   title: {
     type: String,
-    required: [true, "El título principal es obligatorio"],
+    required: [true, "Title required"],
   },
-  allowServices: {
-    type: Schema.Types.Mixed,
-    required: [true, "Configuración de servicios es requerido"],
-    default: {}
+  allow_services: {
+    type: allowServiceSchema,
+    required: [true, "Allow service required"],
+    default: {
+      list: "N",
+      getById: "N",
+      create: "N",
+      update: "N",
+      delete: "N",
+    },
   },
 });
 
-module.exports = mongoose.model("CoreCollection", modelSchema, 'core_collections');
+module.exports = mongoose.model(
+  "CoreCollections",
+  modelSchema,
+  "core_collections"
+);

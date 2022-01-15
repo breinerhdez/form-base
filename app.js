@@ -1,3 +1,4 @@
+require("./config/config");
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -5,6 +6,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var sassMiddleware = require("node-sass-middleware");
 var session = require("express-session");
+const mongoose = require("mongoose");
 var app = express();
 
 // view engine setup
@@ -57,6 +59,13 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
+});
+
+// database connection
+console.log(process.env.URLDB);
+mongoose.connect(process.env.URLDB, (err, res) => {
+  if (err) throw err;
+  console.log("ONLINE database");
 });
 
 module.exports = app;

@@ -1,3 +1,4 @@
+// Patterns routes for web application
 const crudAppPatterns = {
   index: "/",
   create: "/create",
@@ -7,6 +8,7 @@ const crudAppPatterns = {
   destroy: "/:id",
 };
 
+// Application routes for web application
 const crudAppRoutes = (main) => {
   return {
     index: main,
@@ -18,6 +20,7 @@ const crudAppRoutes = (main) => {
   };
 };
 
+// Get route by name option
 const getRoute = (paths, option, id = null) => {
   return id ? paths[option].replace("/:id", `/${id}`) : paths[option];
 };

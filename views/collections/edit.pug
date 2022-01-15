@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+
+  form(method="post" action=getRoute(paths, "update", item._id))
+
+    div(class="mb-3")
+      label(class="form-label" for='title') Title
+      input(class="form-control" type='text' name="title" id="title" placeholder='User management' value=item.title required)
+
+    div(class="mb-3")
+      label(class="form-label" for='path_name') Path Name
+      input(class="form-control" type='text' name="path_name" id="path_name" placeholder='user-management' value=item.path_name required)
+
+    div(class="mb-3")
+      label(class="form-label" for='collection_name') Collection Name
+      input(class="form-control" type='text' name="collection_name" id="collection_name" placeholder='custom_user_management' value=item.collection_name required)
+
+    div(class="text-end")
+      a(href=getRoute(paths, "index") class="btn btn-danger me-2") Cancel
+      button(class="btn btn-primary" type="submit") Save
+
+
