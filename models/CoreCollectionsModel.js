@@ -1,29 +1,10 @@
 const mongoose = require("mongoose");
 
-// let Schema = mongoose.Schema;
-
-let allowServiceSchema = new mongoose.Schema({
-  list: {
-    type: String,
-    default: "N",
-  },
-  getById: {
-    type: String,
-    default: "N",
-  },
-  create: {
-    type: String,
-    default: "N",
-  },
-  update: {
-    type: String,
-    default: "N",
-  },
-  delete: {
-    type: String,
-    default: "N",
-  },
-});
+const {
+  allowServiceSchema,
+  formSchema,
+  collectionConfig,
+} = require("./schemes/collectionsSubSchemas");
 
 let modelSchema = new mongoose.Schema({
   path_name: {
@@ -42,13 +23,15 @@ let modelSchema = new mongoose.Schema({
   allow_services: {
     type: allowServiceSchema,
     required: [true, "Allow service required"],
-    default: {
-      list: "N",
-      getById: "N",
-      create: "N",
-      update: "N",
-      delete: "N",
-    },
+    default: {},
+  },
+  form: {
+    type: formSchema,
+    default: {},
+  },
+  collectionConfig: {
+    type: collectionConfig,
+    default: {},
   },
 });
 

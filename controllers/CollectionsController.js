@@ -5,6 +5,13 @@ const lang = require("../utils/lang");
 const paths = crudAppRoutes("/admin/collections");
 var viewData = { getRoute, paths, title: "Collections" };
 
+const breadItems = [
+  {
+    title: "Collections",
+    href: getRoute(paths, "index"),
+  },
+];
+
 const index = async (req, res) => {
   try {
     let listObjects = await CoreCollectionsModel.find({}, [
@@ -12,7 +19,6 @@ const index = async (req, res) => {
       "path_name",
       "collection_name",
     ]);
-    // console.log(listObjects);
     let data = { ...viewData, listObjects, counter: 0 };
     res.render(`collections/index`, data);
   } catch (error) {
@@ -22,7 +28,7 @@ const index = async (req, res) => {
 };
 
 const create = (req, res) => {
-  let data = { ...viewData, title: `${viewData.title} - Add New` };
+  let data = { ...viewData, title: `Add Collection`, breadItems };
   res.render(`collections/create`, data);
 };
 
@@ -59,7 +65,12 @@ const edit = async (req, res) => {
       req.flash("info", lang.CRUD_NOT_EXIST);
       return res.redirect(getRoute(paths, "index"));
     }
-    let data = { ...viewData, title: `${viewData.title} - Edit`, item: objDb };
+    let data = {
+      ...viewData,
+      title: `Edit Collection`,
+      breadItems,
+      item: objDb,
+    };
     res.render(`collections/edit`, data);
   } catch (error) {
     console.log(error);

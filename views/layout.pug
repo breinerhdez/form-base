@@ -11,6 +11,18 @@ html
         a(class="navbar-brand mb-0 h1" href="/") AutoCRUD
 
     .container
+
+      nav(aria-label='breadcrumb')
+        ol.breadcrumb
+          if title != "Admin"
+            li.breadcrumb-item
+              a(href='/admin') Admin
+          if breadItems
+            each breadItem in breadItems
+              li.breadcrumb-item
+                a(href=breadItem.href)= breadItem.title
+          li.breadcrumb-item.active(aria-current='page') #{title}
+
       h1.mt-3.mb-3= title
 
       while message = flash.shift()

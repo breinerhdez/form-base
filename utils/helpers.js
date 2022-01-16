@@ -6,6 +6,7 @@ const crudAppPatterns = {
   edit: "/:id/edit",
   update: "/:id",
   destroy: "/:id",
+  show: "/:id",
 };
 
 // Application routes for web application
