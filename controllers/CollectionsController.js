@@ -30,7 +30,7 @@ const store = async (req, res) => {
   try {
     let newObj = new CoreCollectionsModel(req.body);
     await newObj.save();
-    req.flash("success", "The object has been created");
+    req.flash("success", lang.CRUD_CREATED);
     res.redirect(getRoute(paths, "index"));
   } catch (error) {
     console.log(error.message);
@@ -56,12 +56,13 @@ const edit = async (req, res) => {
     // validate object existence
     let objDb = await CoreCollectionsModel.findById(id);
     if (!objDb) {
-      req.flash("info", "The object does not exist");
+      req.flash("info", lang.CRUD_NOT_EXIST);
       return res.redirect(getRoute(paths, "index"));
     }
     let data = { ...viewData, title: `${viewData.title} - Edit`, item: objDb };
     res.render(`collections/edit`, data);
   } catch (error) {
+    console.log(error);
     req.flash("warning", lang.ERROR_500);
     res.redirect(getRoute(paths, "index"));
   }
@@ -74,7 +75,7 @@ const update = async (req, res) => {
     // validate object existence
     let objDb = await CoreCollectionsModel.findById(id);
     if (!objDb) {
-      req.flash("info", "The object does not exist");
+      req.flash("info", lang.CRUD_NOT_EXIST);
       return res.redirect(getRoute(paths, "index"));
     }
     // update details
@@ -91,7 +92,7 @@ const update = async (req, res) => {
     objDb.allow_services = allowServices;
     // save
     await objDb.save();
-    req.flash("success", "The object has been updated");
+    req.flash("success", lang.CRUD_UPDATED);
     res.redirect(getRoute(paths, "index"));
   } catch (error) {
     req.flash("warning", lang.ERROR_500);
@@ -106,12 +107,12 @@ const destroy = async (req, res) => {
     // validate object existence
     let objDb = await CoreCollectionsModel.findById(id);
     if (!objDb) {
-      req.flash("info", "The object does not exist");
+      req.flash("info", lang.CRUD_NOT_EXIST);
       return res.redirect(getRoute(paths, "index"));
     }
     // delete object
     await CoreCollectionsModel.findByIdAndDelete(id);
-    req.flash("success", "The object has been deleted");
+    req.flash("success", lang.CRUD_DELETED);
     res.redirect(getRoute(paths, "index"));
   } catch (error) {
     req.flash("warning", lang.ERROR_500);
