@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+	h2 Hello World
+
+	form(method="post" action=fieldsPath)
+		div(class="text-end")
+			a(href=getRoute(paths, "index") class="btn btn-danger me-2") Cancel
+			button(type="submit" class="btn btn-primary") Save
