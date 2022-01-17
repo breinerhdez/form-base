@@ -10,7 +10,7 @@ const breadItems = [
     href: getRoute(paths, "index"),
   },
 ];
-var viewData = { getRoute, paths, title: "Fields Collection", breadItems };
+var viewData = { getRoute, paths, title: "Fields", breadItems };
 
 const index = (req, res) => {
   let { id } = req.params;
