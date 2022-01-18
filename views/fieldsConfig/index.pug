@@ -1,9 +1,55 @@
 extends ../layout
 
 block content
-	h2 Hello World
+  h2= collection.title
 
-	form(method="post" action=fieldsPath)
-		div(class="text-end")
-			a(href=getRoute(paths, "index") class="btn btn-danger me-2") Cancel
-			button(type="submit" class="btn btn-primary") Save
+  button(class="btn btn-primary float-end" id="btnAddField")
+    span(class="fa fa-plus")
+    span  Add New
+
+  form(method="post" action=fieldsPath)
+
+    table(class="table" id="fieldsTable")
+      thead
+        tr
+          th Name
+          th Label
+          th Type
+          th Default Value
+          th Cols
+          th Projection
+          th Actions
+      tbody(id="rowFieldsSortable")
+        each field in collection.form.fields
+          tr
+            td
+              input(type="text" name="field[name][]" class="fieldNameRow" value=field.name required)
+            td
+              input(type="text" name="field[label][]" value=field.label required)
+            td
+              select(name="field[type][]" required)
+                option(value="") Select an option
+                option(value="Email" selected=field.type=="Email") Email
+                option(value="Number" selected=field.type=="Number") Number
+                option(value="Password" selected=field.type=="Password") Password
+                option(value="Text" selected=field.type=="Text") Text
+            td
+              input(type="text" name="field[default_value][]" value=field.default_value)
+            td
+              input(type="text" name="field[cols][]" value=field.cols required)
+            td
+              input(type="checkbox" name="field[projection][]" checked=field.projection==true class="projectionCheckboxRow" value=field.name)
+            td
+              span(class="btn btn-danger fa fa-trash fa-2x btn-removeField" title="Delete")
+
+
+    div(class="text-end")
+      a(href=getRoute(paths, "index") class="btn btn-danger me-2") Cancel
+      button(type="submit" class="btn btn-primary") Save
+
+block scriptsJs
+  script(src="/libs/jquery-ui-1.13.0.custom/jquery-ui.min.js") 
+  script(src="/javascripts/fieldsConfig.js") 
+
+block stylesheetsCss
+  link(rel="stylesheet" href="/libs/jquery-ui-1.13.0.custom/jquery-ui.min.css")
