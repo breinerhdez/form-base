@@ -9,6 +9,7 @@ const {
 let modelSchema = new mongoose.Schema({
   path_name: {
     type: String,
+    unique: true,
     required: [true, "Path name required"],
   },
   collection_name: {
