@@ -64,7 +64,7 @@ let fieldSchema = new mongoose.Schema({
   },
   cols: {
     type: String,
-    default: "col-md-6",
+    default: "col-md-12",
   },
   default_value: {
     type: String,
