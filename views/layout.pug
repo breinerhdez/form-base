@@ -4,6 +4,9 @@ html
     title= title
     link(rel="stylesheet" href="/static/css/font-awesome.min.css")
     link(rel="stylesheet" href="/static/css/bootstrap.min.css")
+
+    block stylesheetsCss
+
     link(rel='stylesheet' href='/stylesheets/style.css')
   body
     nav(class="navbar navbar-dark bg-dark")
@@ -49,3 +52,5 @@ html
     script(src="/static/jquery.min.js") 
     script(src="/static/js/bootstrap.min.js") 
     script(src="/javascripts/app.js") 
+
+    block scriptsJs
