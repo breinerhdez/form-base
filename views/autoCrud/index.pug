@@ -1,5 +1,13 @@
 extends ../layout
 
 block content
-  h2 #{"CRUD " + collection.title}
-  div!= objForm.dsp()
+  a(href=getAutocrudRoute(basePath, "create", collection.path_name) class="btn btn-primary float-end")
+    span(class="fa fa-plus")
+    span  Add New
+
+  div= getAutocrudRoute(basePath, "index", collection.path_name)
+  div= getAutocrudRoute(basePath, "create", collection.path_name)
+  div= getAutocrudRoute(basePath, "store", collection.path_name)
+  div= getAutocrudRoute(basePath, "edit", collection.path_name, collection._id)
+  div= getAutocrudRoute(basePath, "update", collection.path_name, collection._id)
+  div= getAutocrudRoute(basePath, "destroy", collection.path_name, collection._id)
