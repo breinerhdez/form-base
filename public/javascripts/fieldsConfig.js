@@ -16,7 +16,7 @@ const newFieldForm = `<tr>
     </select>
 </td>
 <td>
-    <input type="text" name="field[default_value][]" placeholder="Default field value">
+    <input type="text" name="field[default_value][]" placeholder="Default value">
 </td>
 <td>
     <input type="text" name="field[cols][]" placeholder="col-md-12" required>
