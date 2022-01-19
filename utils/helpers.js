@@ -47,10 +47,20 @@ const getAutocrudRoute = (basePath, option = "index", path_name, id = null) => {
   return route;
 };
 
+const getAutoCrudBreadItems = (basePath, collection) => {
+  return [
+    {
+      title: collection.title,
+      href: getAutocrudRoute(basePath, "index", collection.path_name),
+    },
+  ];
+};
+
 module.exports = {
   crudAppPatterns,
   crudAppRoutes,
   autoCrudAppPatterns,
   getAutocrudRoute,
   getRoute,
+  getAutoCrudBreadItems,
 };

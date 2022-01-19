@@ -1,4 +1,5 @@
 const CoreCollectionsModel = require("../models/CoreCollectionsModel");
+const { deleteDynamicModel } = require("../utils/dynamicResources");
 const { crudAppRoutes, getRoute } = require("../utils/helpers");
 const lang = require("../utils/lang");
 
@@ -60,23 +61,18 @@ const update = async (req, res) => {
 
       objFields.push(field);
     }
-
+    // set attributes
     objDb.collectionConfig.projection = reqFields.projection.join(" ");
     objDb.collectionConfig.labels = labels;
     objDb.form.fields = objFields;
-
+    // save data
     await objDb.save();
+    // delete dynamic model
+    await deleteDynamicModel(objDb);
 
     req.flash("info", "Fields updated");
-
-    console.log(req.body);
-    console.log(objDb);
-    console.log(objFields);
-    // res.send(JSON.stringify(req.body));
-
     res.redirect(fieldsPath);
   } catch (error) {
-    console.log(error.message);
     if (error.name === "ValidationError") {
       req.flash(
         "danger",

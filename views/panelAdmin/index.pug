@@ -18,5 +18,13 @@ block content
         br
         span Logout
 
-
+  h3 Custom Collections
+  div(class="d-flex flex-row bd-highlight mb-3 row")
+    each collection in collections
+      if collection.showAdmin
+        div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center")
+          a(href=`/admin/crud/${collection.path_name}`)
+            span(class="fa fa-cogs fa-2x")
+            br
+            span #{collection.title}
 

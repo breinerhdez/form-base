@@ -5,9 +5,17 @@ block content
     span(class="fa fa-plus")
     span  Add New
 
-  div= getAutocrudRoute(basePath, "index", collection.path_name)
-  div= getAutocrudRoute(basePath, "create", collection.path_name)
-  div= getAutocrudRoute(basePath, "store", collection.path_name)
-  div= getAutocrudRoute(basePath, "edit", collection.path_name, collection._id)
-  div= getAutocrudRoute(basePath, "update", collection.path_name, collection._id)
-  div= getAutocrudRoute(basePath, "destroy", collection.path_name, collection._id)
+  table.table
+    tr
+      each th in collection.collectionConfig.labels
+        th= th
+      th Actions
+    each item in collectionObjects
+      tr
+        each attr in collection.collectionConfig.projection.split(" ")
+          td= item[attr]
+        td
+          a(href=getAutocrudRoute(basePath, "edit", collection.path_name, item._id) class="text-warning me-3" title="Edit")
+            span(class="fa fa-pencil fa-2x")
+          a(href=getAutocrudRoute(basePath, "destroy", collection.path_name, item._id) class="text-danger me-3 delete-button" title="Delete")
+            span(class="fa fa-trash fa-2x")

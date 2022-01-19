@@ -34,6 +34,10 @@ let modelSchema = new mongoose.Schema({
     type: collectionConfig,
     default: {},
   },
+  showAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model(

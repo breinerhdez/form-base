@@ -19,6 +19,9 @@ block content
         div(class="mb-3")
           label(class="form-label" for='collection_name') Collection Name
           span(class="form-control")= item.collection_name
+        div(class="mb-3")
+          input(class="form-check-input" type="checkbox" value="Y" id="showAdmin" name="showAdmin" checked=item.showAdmin)
+          label(class="form-check-label ps-1" for="showAdmin") Show in Admin
 
       .tab-pane.fade.pt-3#nav-api(role='tabpanel' aria-labelledby='nav-api-tab')
         div(class="mb-3")
