@@ -101,6 +101,7 @@ const update = async (req, res) => {
       delete: req.body.delete == "Y" ? "Y" : "N",
     };
     objDb.allow_services = allowServices;
+    objDb.showAdmin = req.body.showAdmin ? true : false;
     // save
     await objDb.save();
     req.flash("success", lang.CRUD_UPDATED);
