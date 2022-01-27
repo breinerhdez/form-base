@@ -9,7 +9,7 @@ const crudAppPatterns = {
   show: "/:id", // GET
 };
 
-// Patterns routes for autocrud web application
+// Patterns routes for autocrud operations
 const autoCrudAppPatterns = {
   index: "/:path_name", // GET
   create: "/:path_name/create", // GET
