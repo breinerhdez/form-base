@@ -3,6 +3,7 @@ var router = express.Router();
 var adminRouter = express.Router();
 
 adminRouter.use(require("./paneladmin.routes"));
+adminRouter.use("/users", require("./users.routes"));
 adminRouter.use("/collections", require("./collections.routes"));
 adminRouter.use("/fields", require("./fields.routes"));
 adminRouter.use("/crud", require("./autocrud.routes"));

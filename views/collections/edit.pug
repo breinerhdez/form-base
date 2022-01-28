@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 
-  form(method="post" action=getRoute(paths, "update", item._id))
+  form(method="post" action=getRoute(basePath, "update", item._id))
     nav
       .nav.nav-tabs#nav-tab(role='tablist')
         button.nav-link.active#nav-details-tab(data-bs-toggle='tab' data-bs-target='#nav-details' type='button' role='tab' aria-controls='nav-details' aria-selected='true') Details
@@ -44,5 +44,5 @@ block content
           label(class="form-check-label ps-1" for="opt-get-by-id") Get by ID
 
     div(class="text-end")
-      a(href=getRoute(paths, "index") class="btn btn-danger me-2") Cancel
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") Cancel
       button(class="btn btn-primary" type="submit") Save

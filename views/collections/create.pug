@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 
-  form(method="post" action=getRoute(paths, "store"))
+  form(method="post" action=getRoute(basePath, "store"))
 
     div(class="mb-3")
       label(class="form-label" for='title') Title
@@ -17,7 +17,7 @@ block content
       input(class="form-control" type='text' name="collection_name" id="collection_name" placeholder='custom_user_management' required)
 
     div(class="text-end")
-      a(href=getRoute(paths, "index") class="btn btn-danger me-2") Cancel
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") Cancel
       button(class="btn btn-primary" type="submit") Save
 
 

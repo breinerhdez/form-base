@@ -1,26 +1,25 @@
-const CoreCollectionsModel = require("../models/CoreCollectionsModel");
+const bcrypt = require("bcrypt");
+const _ = require("underscore");
+
+const CoreUsersModel = require("../models/CoreUsersModel");
 const { getRoute } = require("../utils/helpers");
 const lang = require("../utils/lang");
 
-const basePath = "/admin/collections";
-var viewData = { getRoute, basePath, title: "Collections" };
+const basePath = "/admin/users";
+var viewData = { getRoute, basePath, title: "Users" };
 
 const breadItems = [
   {
-    title: "Collections",
+    title: "Users",
     href: getRoute(basePath, "index"),
   },
 ];
 
 const index = async (req, res) => {
   try {
-    let listObjects = await CoreCollectionsModel.find({}, [
-      "title",
-      "path_name",
-      "collection_name",
-    ]);
+    let listObjects = await CoreUsersModel.find({});
     let data = { ...viewData, listObjects, counter: 0 };
-    res.render(`collections/index`, data);
+    res.render(`users/index`, data);
   } catch (error) {
     req.flash("warning", lang.ERROR_500);
     res.redirect(getRoute(basePath, "index"));
@@ -28,13 +27,14 @@ const index = async (req, res) => {
 };
 
 const create = (req, res) => {
-  let data = { ...viewData, title: `Add Collection`, breadItems };
-  res.render(`collections/create`, data);
+  let data = { ...viewData, title: `Add User`, breadItems };
+  res.render(`users/create`, data);
 };
 
 const store = async (req, res) => {
   try {
-    let newObj = new CoreCollectionsModel(req.body);
+    let newObj = new CoreUsersModel(req.body);
+    newObj.password = bcrypt.hashSync(req.body.password, 12);
     await newObj.save();
     req.flash("success", lang.CRUD_CREATED);
     res.redirect(getRoute(basePath, "index"));
@@ -60,20 +60,19 @@ const edit = async (req, res) => {
     // get params
     const { id } = req.params;
     // validate object existence
-    let objDb = await CoreCollectionsModel.findById(id);
+    let objDb = await CoreUsersModel.findById(id);
     if (!objDb) {
       req.flash("info", lang.CRUD_NOT_EXIST);
       return res.redirect(getRoute(basePath, "index"));
     }
     let data = {
       ...viewData,
-      title: `Edit Collection`,
+      title: `Edit User`,
       breadItems,
       item: objDb,
     };
-    res.render(`collections/edit`, data);
+    res.render(`users/edit`, data);
   } catch (error) {
-    console.log(error);
     req.flash("warning", lang.ERROR_500);
     res.redirect(getRoute(basePath, "index"));
   }
@@ -84,29 +83,23 @@ const update = async (req, res) => {
     // get params
     const { id } = req.params;
     // validate object existence
-    let objDb = await CoreCollectionsModel.findById(id);
+    let objDb = await CoreUsersModel.findById(id);
     if (!objDb) {
       req.flash("info", lang.CRUD_NOT_EXIST);
       return res.redirect(getRoute(basePath, "index"));
     }
     // update details
-    objDb.title = req.body.title;
-    objDb.path_name = req.body.path_name;
-    // update API options
-    const allowServices = {
-      list: req.body.list == "Y" ? "Y" : "N",
-      getById: req.body.getById == "Y" ? "Y" : "N",
-      create: req.body.create == "Y" ? "Y" : "N",
-      update: req.body.update == "Y" ? "Y" : "N",
-      delete: req.body.delete == "Y" ? "Y" : "N",
-    };
-    objDb.allow_services = allowServices;
-    objDb.showAdmin = req.body.showAdmin ? true : false;
+    let body = _.pick(req.body, ["name", "email", "status"]);
+    objDb.name = body.name;
+    objDb.email = body.email;
+    objDb.status = body.status == "Y" ? true : false;
+
     // save
     await objDb.save();
     req.flash("success", lang.CRUD_UPDATED);
     res.redirect(getRoute(basePath, "index"));
   } catch (error) {
+    console.log(error);
     req.flash("warning", lang.ERROR_500);
     res.redirect(getRoute(basePath, "index"));
   }
@@ -117,16 +110,19 @@ const destroy = async (req, res) => {
     // get params
     const { id } = req.params;
     // validate object existence
-    let objDb = await CoreCollectionsModel.findById(id);
+    let objDb = await CoreUsersModel.findById(id);
     if (!objDb) {
       req.flash("info", lang.CRUD_NOT_EXIST);
       return res.redirect(getRoute(basePath, "index"));
     }
     // delete object
-    await CoreCollectionsModel.findByIdAndDelete(id);
+    // await CoreUsersModel.findByIdAndDelete(id);
+    objDb.status = false;
+    await objDb.save();
     req.flash("success", lang.CRUD_DELETED);
     res.redirect(getRoute(basePath, "index"));
   } catch (error) {
+    console.log(error);
     req.flash("warning", lang.ERROR_500);
     res.redirect(getRoute(basePath, "index"));
   }

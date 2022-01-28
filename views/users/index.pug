@@ -10,17 +10,17 @@ block content
     thead
       tr 
         th(class="col-md-1") #
-        th(class="col-md-433") Title
-        th(class="col-md-233") Collection name
-        th(class="col-md-233") Path name
+        th(class="col-md-433") Name
+        th(class="col-md-233") E-mail
+        th(class="col-md-233") Status
         th(class="col-md-22") Actions
     tbody
       each item in listObjects
         tr
           td #{++counter}
-          td #{item.title}
-          td #{item.collection_name}
-          td #{item.path_name}
+          td #{item.name}
+          td #{item.email}
+          td #{item.status ? "Active": "Inactive"}
           td
             a(href=getRoute(basePath, "edit", item._id) class="text-warning me-3" title="Edit")
               span(class="fa fa-pencil fa-2x")

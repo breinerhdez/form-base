@@ -1,13 +1,13 @@
 {
-  "name": "app-mvc",
-  "version": "0.0.0",
+  "name": "software-component",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www -e js,sass,pug,json",
-    "cssAndJs": "gulp"
+    "dev": "nodemon ./bin/www -e js,sass,pug,json"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "bootstrap": "^5.1.3",
     "colors": "^1.4.0",
     "cookie-parser": "~1.4.4",
@@ -19,9 +19,11 @@
     "http-errors": "~1.6.3",
     "jquery": "^3.6.0",
     "mongoose": "^6.1.6",
+    "mongoose-unique-validator": "^3.0.0",
     "morgan": "~1.9.1",
     "node-sass-middleware": "0.11.0",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "underscore": "^1.13.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
