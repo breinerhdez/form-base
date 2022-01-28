@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 
-  a(href=getRoute(paths, "create") class="btn btn-primary float-end")
+  a(href=getRoute(basePath, "create") class="btn btn-primary float-end")
     span(class="fa fa-plus")
     span  Add New
 
@@ -22,11 +22,11 @@ block content
           td #{item.collection_name}
           td #{item.path_name}
           td
-            a(href=getRoute(paths, "edit", item._id) class="text-warning me-3" title="Edit")
+            a(href=getRoute(basePath, "edit", item._id) class="text-warning me-3" title="Edit")
               span(class="fa fa-pencil fa-2x")
             a(href=`/admin/fields/${item._id}` class="text-primary me-3" title="Fields")
               span(class="fa fa-list fa-2x")
-            a(href=getRoute(paths, "destroy", item._id) class="text-danger me-3 delete-button" title="Delete")
+            a(href=getRoute(basePath, "destroy", item._id) class="text-danger me-3 delete-button" title="Delete")
               span(class="fa fa-trash fa-2x")
 
 

@@ -1,17 +1,17 @@
 const CoreCollectionsModel = require("../models/CoreCollectionsModel");
 const { deleteDynamicModel } = require("../utils/dynamicResources");
-const { crudAppRoutes, getRoute } = require("../utils/helpers");
+const { getRoute } = require("../utils/helpers");
 const lang = require("../utils/lang");
 
 var fieldsMainPath = "/admin/fields/";
-const paths = crudAppRoutes("/admin/collections");
+const basePath = "/admin/collections";
 const breadItems = [
   {
     title: "Collections",
-    href: getRoute(paths, "index"),
+    href: getRoute(basePath, "index"),
   },
 ];
-var viewData = { getRoute, paths, title: "Fields", breadItems };
+var viewData = { getRoute, basePath, title: "Fields", breadItems };
 
 const index = async (req, res) => {
   // get params
@@ -22,7 +22,7 @@ const index = async (req, res) => {
   let objDb = await CoreCollectionsModel.findById(id);
   if (!objDb) {
     req.flash("info", lang.CRUD_NOT_EXIST);
-    return res.redirect(getRoute(paths, "index"));
+    return res.redirect(getRoute(basePath, "index"));
   }
 
   let data = { ...viewData, fieldsPath, collection: objDb };
@@ -38,7 +38,7 @@ const update = async (req, res) => {
     let objDb = await CoreCollectionsModel.findById(id);
     if (!objDb) {
       req.flash("info", lang.CRUD_NOT_EXIST);
-      return res.redirect(getRoute(paths, "index"));
+      return res.redirect(getRoute(basePath, "index"));
     }
 
     let reqFields = req.body.field;
@@ -83,7 +83,7 @@ const update = async (req, res) => {
       res.redirect(fieldsPath);
     } else {
       req.flash("warning", lang.ERROR_500);
-      res.redirect(getRoute(paths, "index"));
+      res.redirect(getRoute(basePath, "index"));
     }
   }
 };

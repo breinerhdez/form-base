@@ -1,14 +1,14 @@
 const CoreCollectionsModel = require("../models/CoreCollectionsModel");
-const { crudAppRoutes, getRoute } = require("../utils/helpers");
+const { getRoute } = require("../utils/helpers");
 const lang = require("../utils/lang");
 
-const paths = crudAppRoutes("/admin/collections");
-var viewData = { getRoute, paths, title: "Collections" };
+const basePath = "/admin/collections";
+var viewData = { getRoute, basePath, title: "Collections" };
 
 const breadItems = [
   {
     title: "Collections",
-    href: getRoute(paths, "index"),
+    href: getRoute(basePath, "index"),
   },
 ];
 
@@ -23,7 +23,7 @@ const index = async (req, res) => {
     res.render(`collections/index`, data);
   } catch (error) {
     req.flash("warning", lang.ERROR_500);
-    res.redirect(getRoute(paths, "index"));
+    res.redirect(getRoute(basePath, "index"));
   }
 };
 
@@ -37,7 +37,7 @@ const store = async (req, res) => {
     let newObj = new CoreCollectionsModel(req.body);
     await newObj.save();
     req.flash("success", lang.CRUD_CREATED);
-    res.redirect(getRoute(paths, "index"));
+    res.redirect(getRoute(basePath, "index"));
   } catch (error) {
     console.log(error.message);
     if (error.name === "ValidationError") {
@@ -47,10 +47,10 @@ const store = async (req, res) => {
           .map((val) => val.message)
           .join("<br>")
       );
-      res.redirect(getRoute(paths, "create"));
+      res.redirect(getRoute(basePath, "create"));
     } else {
       req.flash("warning", lang.ERROR_500);
-      res.redirect(getRoute(paths, "index"));
+      res.redirect(getRoute(basePath, "index"));
     }
   }
 };
@@ -63,7 +63,7 @@ const edit = async (req, res) => {
     let objDb = await CoreCollectionsModel.findById(id);
     if (!objDb) {
       req.flash("info", lang.CRUD_NOT_EXIST);
-      return res.redirect(getRoute(paths, "index"));
+      return res.redirect(getRoute(basePath, "index"));
     }
     let data = {
       ...viewData,
@@ -75,7 +75,7 @@ const edit = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash("warning", lang.ERROR_500);
-    res.redirect(getRoute(paths, "index"));
+    res.redirect(getRoute(basePath, "index"));
   }
 };
 
@@ -87,7 +87,7 @@ const update = async (req, res) => {
     let objDb = await CoreCollectionsModel.findById(id);
     if (!objDb) {
       req.flash("info", lang.CRUD_NOT_EXIST);
-      return res.redirect(getRoute(paths, "index"));
+      return res.redirect(getRoute(basePath, "index"));
     }
     // update details
     objDb.title = req.body.title;
@@ -105,10 +105,10 @@ const update = async (req, res) => {
     // save
     await objDb.save();
     req.flash("success", lang.CRUD_UPDATED);
-    res.redirect(getRoute(paths, "index"));
+    res.redirect(getRoute(basePath, "index"));
   } catch (error) {
     req.flash("warning", lang.ERROR_500);
-    res.redirect(getRoute(paths, "index"));
+    res.redirect(getRoute(basePath, "index"));
   }
 };
 
@@ -120,15 +120,15 @@ const destroy = async (req, res) => {
     let objDb = await CoreCollectionsModel.findById(id);
     if (!objDb) {
       req.flash("info", lang.CRUD_NOT_EXIST);
-      return res.redirect(getRoute(paths, "index"));
+      return res.redirect(getRoute(basePath, "index"));
     }
     // delete object
     await CoreCollectionsModel.findByIdAndDelete(id);
     req.flash("success", lang.CRUD_DELETED);
-    res.redirect(getRoute(paths, "index"));
+    res.redirect(getRoute(basePath, "index"));
   } catch (error) {
     req.flash("warning", lang.ERROR_500);
-    res.redirect(getRoute(paths, "index"));
+    res.redirect(getRoute(basePath, "index"));
   }
 };
 

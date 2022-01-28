@@ -33,12 +33,7 @@ const crudAppRoutes = (main) => {
 };
 
 // Get route by name option
-// TODO: update like getAutocrudRoute
-const getRoute = (paths, option, id = null) => {
-  return id ? paths[option].replace("/:id", `/${id}`) : paths[option];
-};
-
-const getRoute2 = (basePath, option = "index", id = null) => {
+const getRoute = (basePath, option = "index", id = null) => {
   let route = basePath + crudAppPatterns[option];
   route = id ? route.replace("/:id", `/${id}`) : route;
   return route;
@@ -68,6 +63,5 @@ module.exports = {
   autoCrudAppPatterns,
   getAutocrudRoute,
   getRoute,
-  getRoute2,
   getAutoCrudBreadItems,
 };

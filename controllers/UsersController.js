@@ -2,11 +2,8 @@ const bcrypt = require("bcrypt");
 const _ = require("underscore");
 
 const CoreUsersModel = require("../models/CoreUsersModel");
-const { getRoute2 } = require("../utils/helpers");
+const { getRoute } = require("../utils/helpers");
 const lang = require("../utils/lang");
-
-// TODO: borrar
-let getRoute = getRoute2;
 
 const basePath = "/admin/users";
 var viewData = { getRoute, basePath, title: "Users" };
