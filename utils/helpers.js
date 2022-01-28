@@ -38,6 +38,12 @@ const getRoute = (paths, option, id = null) => {
   return id ? paths[option].replace("/:id", `/${id}`) : paths[option];
 };
 
+const getRoute2 = (basePath, option = "index", id = null) => {
+  let route = basePath + crudAppPatterns[option];
+  route = id ? route.replace("/:id", `/${id}`) : route;
+  return route;
+};
+
 // Get route by name option and dynamic path_name for AutoCRUD
 const getAutocrudRoute = (basePath, option = "index", path_name, id = null) => {
   let route =
@@ -62,5 +68,6 @@ module.exports = {
   autoCrudAppPatterns,
   getAutocrudRoute,
   getRoute,
+  getRoute2,
   getAutoCrudBreadItems,
 };

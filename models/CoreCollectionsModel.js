@@ -10,20 +10,20 @@ let modelSchema = new mongoose.Schema({
   path_name: {
     type: String,
     unique: true,
-    required: [true, "Path name required"],
+    required: [true, "Path name required."],
   },
   collection_name: {
     type: String,
     unique: true,
-    required: [true, "Collection name required"],
+    required: [true, "Collection name required."],
   },
   title: {
     type: String,
-    required: [true, "Title required"],
+    required: [true, "Title required."],
   },
   allow_services: {
     type: allowServiceSchema,
-    required: [true, "Allow service required"],
+    required: [true, "Allow service required."],
     default: {},
   },
   form: {
