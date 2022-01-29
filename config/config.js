@@ -12,7 +12,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 /**
  * JWT expiración
  */
-process.env.JWT_EXPIRES_IN = 60 * 60 * 24 * 30;
+process.env.JWT_EXPIRES_IN = 60 * 60 * 24 * 1;
 
 /**
  * JWT secret
