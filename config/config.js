@@ -18,7 +18,7 @@ process.env.JWT_EXPIRES_IN = 60 * 60 * 24 * 30;
  * JWT secret
  */
 process.env.JWT_SIGN_SECRET =
-  process.env.JWT_SIGN_SECRET || "VU6js0WqT71cWdJTSlNRVo3zuZOLZcmCK";
+  process.env.JWT_SIGN_SECRET || "cU3js0WqX71cWdyTSlNRVo3zuZOLWcmCK";
 
 /**
  * Base de datos
@@ -35,9 +35,9 @@ process.env.URLDB = urlDB;
  * Session secret
  */
 process.env.SESSION_SECRET =
-  process.env.SESSION_SECRET || "VU6js0WqT71cWRbK7L6RVo3zuZOLZcmCK";
+  process.env.SESSION_SECRET || "VU6js0WqR71cWRbK1L6RVo3zuZOLCcmCK";
 
 /**
  * Session Time
  */
-process.env.SESSION_TIME = process.env.SESSION_TIME || 1000 * 60 * 60;
+process.env.SESSION_TIME = process.env.SESSION_TIME || 1000 * 60 * 30;
