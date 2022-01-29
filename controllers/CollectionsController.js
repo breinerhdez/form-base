@@ -73,7 +73,6 @@ const edit = async (req, res) => {
     };
     res.render(`collections/edit`, data);
   } catch (error) {
-    console.log(error);
     req.flash("warning", lang.ERROR_500);
     res.redirect(getRoute(basePath, "index"));
   }

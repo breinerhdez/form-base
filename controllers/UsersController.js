@@ -95,7 +95,8 @@ const update = async (req, res) => {
     objDb.status = body.status == "Y" ? true : false;
 
     // save
-    await objDb.save();
+    await CoreUsersModel.findByIdAndUpdate(id, objDb);
+
     req.flash("success", lang.CRUD_UPDATED);
     res.redirect(getRoute(basePath, "index"));
   } catch (error) {
@@ -118,7 +119,8 @@ const destroy = async (req, res) => {
     // delete object
     // await CoreUsersModel.findByIdAndDelete(id);
     objDb.status = false;
-    await objDb.save();
+    await CoreUsersModel.findByIdAndUpdate(id, objDb);
+
     req.flash("success", lang.CRUD_DELETED);
     res.redirect(getRoute(basePath, "index"));
   } catch (error) {
