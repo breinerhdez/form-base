@@ -19,7 +19,10 @@ const loginProcess = async (req, res) => {
     // get data
     let data = req.body;
     // get user by email
-    let user = await CoreUsersModel.findOne({ email: data.email });
+    let user = await CoreUsersModel.findOne({
+      email: data.email,
+      status: true,
+    });
     // validate object existence
     if (!user) {
       req.flash("info", lang.AUTH_INCORRECT_CREDENTIALS);
@@ -58,7 +61,10 @@ const getJWT = async (req, res) => {
     // get payload
     let data = req.body;
     // search user by email
-    let user = await CoreUsersModel.findOne({ email: data.email });
+    let user = await CoreUsersModel.findOne({
+      email: data.email,
+      status: true,
+    });
     // check if object exists
     if (!user) {
       return res.status(400).send(lang.AUTH_INCORRECT_CREDENTIALS);

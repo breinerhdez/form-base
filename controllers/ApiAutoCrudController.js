@@ -182,4 +182,5 @@ const show = async (req, res) => {
     res.status(500).send(lang.ERROR_500);
   }
 };
+
 module.exports = { index, store, update, destroy, show };
