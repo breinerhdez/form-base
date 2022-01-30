@@ -12,8 +12,14 @@ const index = async (req, res) => {
       throw new Error("Not found information by path_name");
     }
     // destructure result query into variables
-    let { dynamicModel } = result;
+    let { collection, dynamicModel } = result;
 
+    // validate endpoint allowed
+    if (collection.allow_services.list != "Y") {
+      return res.status(503).send(lang.ERROR_503);
+    }
+
+    // query
     let collectionObjects = await dynamicModel.find({});
 
     // response
@@ -38,7 +44,12 @@ const store = async (req, res) => {
       throw new Error("Not found information by path_name");
     }
     // destructure result query into variables
-    let { dynamicModel } = result;
+    let { collection, dynamicModel } = result;
+
+    // validate endpoint allowed
+    if (collection.allow_services.create != "Y") {
+      return res.status(503).send(lang.ERROR_503);
+    }
 
     // create new object
     let newObj = new dynamicModel(req.body);
@@ -65,7 +76,12 @@ const update = async (req, res) => {
       throw new Error("500");
     }
     // destructure result query into variables
-    let { dynamicModel } = result;
+    let { collection, dynamicModel } = result;
+
+    // validate endpoint allowed
+    if (collection.allow_services.update != "Y") {
+      return res.status(503).send(lang.ERROR_503);
+    }
 
     // check if object exists
     let objDb = await dynamicModel.findById(id);
@@ -102,7 +118,12 @@ const destroy = async (req, res) => {
     }
 
     // destructure result query into variables
-    let { dynamicModel } = result;
+    let { collection, dynamicModel } = result;
+
+    // validate endpoint allowed
+    if (collection.allow_services.delete != "Y") {
+      return res.status(503).send(lang.ERROR_503);
+    }
 
     // check if object exists
     let objDb = await dynamicModel.findById(id);
@@ -136,7 +157,12 @@ const show = async (req, res) => {
     }
 
     // destructure result query into variables
-    let { dynamicModel } = result;
+    let { collection, dynamicModel } = result;
+
+    // validate endpoint allowed
+    if (collection.allow_services.getById != "Y") {
+      return res.status(503).send(lang.ERROR_503);
+    }
 
     // check if object exists
     let objDb = await dynamicModel.findById(id);

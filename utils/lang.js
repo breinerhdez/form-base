@@ -5,6 +5,7 @@ module.exports = {
   ERROR_403: "Forbidden",
   ERROR_404: "Not Found",
   ERROR_500: "Internal Server Error",
+  ERROR_503: "Service Unavailable",
   // Auth Messages
   AUTH_INCORRECT_CREDENTIALS: "The credentials are incorrect",
   // CRUD Messages
