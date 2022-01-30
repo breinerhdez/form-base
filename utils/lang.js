@@ -1,7 +1,7 @@
 module.exports = {
   // HTTP errors
   ERROR_400: "Bad Request",
-  ERROR_400: "Unauthorized",
+  ERROR_401: "Unauthorized",
   ERROR_403: "Forbidden",
   ERROR_404: "Not Found",
   ERROR_500: "Internal Server Error",
