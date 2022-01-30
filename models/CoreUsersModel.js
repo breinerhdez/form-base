@@ -8,39 +8,44 @@ const uniqueValidator = require("mongoose-unique-validator");
 
 let Schema = mongoose.Schema;
 
-let coreUserSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "Name required."],
+let coreUserSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Name required."],
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: [true, "Email required."],
+    },
+    password: {
+      type: String,
+      required: [true, "Password required."],
+    },
+    // img: {
+    //   type: String,
+    //   required: false,
+    // },
+    // role: {
+    //   type: String,
+    //   required: [true, "El rol es obligatorio"],
+    //   default: "USER_ROLE",
+    //   enum: rolesValidos,
+    // },
+    status: {
+      type: Boolean,
+      default: true,
+    },
+    // google: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
-  email: {
-    type: String,
-    unique: true,
-    required: [true, "Email required."],
-  },
-  password: {
-    type: String,
-    required: [true, "Password required."],
-  },
-  // img: {
-  //   type: String,
-  //   required: false,
-  // },
-  // role: {
-  //   type: String,
-  //   required: [true, "El rol es obligatorio"],
-  //   default: "USER_ROLE",
-  //   enum: rolesValidos,
-  // },
-  status: {
-    type: Boolean,
-    default: true,
-  },
-  // google: {
-  //   type: Boolean,
-  //   default: false,
-  // },
-});
+  {
+    timestamps: true,
+  }
+);
 
 coreUserSchema.methods.toJSON = function () {
   let user = this;

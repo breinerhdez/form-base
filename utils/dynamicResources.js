@@ -45,7 +45,9 @@ let getDynamicModel = async (objCrud) => {
   // check if dynamic model exists
   if (!modelList.includes(modelName)) {
     // generate mongoose schema
-    let modelSchema = new Schema(collectionSchema);
+    let modelSchema = new Schema(collectionSchema, {
+      timestamps: true,
+    });
     // generate mongoose model
     dynamicModel = mongoose.model(modelName, modelSchema, collectionName);
   } else {
