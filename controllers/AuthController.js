@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const lang = require("../utils/lang");
 const CoreUsersModel = require("../models/CoreUsersModel");
@@ -51,8 +52,37 @@ const logout = (req, res) => {
   res.redirect("/");
 };
 
+// get JSON Web Token
+const getJWT = async (req, res) => {
+  try {
+    // get payload
+    let data = req.body;
+    // search user by email
+    let user = await CoreUsersModel.findOne({ email: data.email });
+    // check if object exists
+    if (!user) {
+      return res.status(400).send(lang.AUTH_INCORRECT_CREDENTIALS);
+    }
+    // check password
+    if (!bcrypt.compareSync(data.password, user.password)) {
+      return res.status(400).send(lang.AUTH_INCORRECT_CREDENTIALS);
+    }
+    // generate JSON Web Token
+    let token = jwt.sign({ user }, process.env.JWT_SIGN_SECRET, {
+      expiresIn: parseInt(process.env.JWT_EXPIRES_IN),
+    });
+    // response
+    res.json({
+      token,
+    });
+  } catch (error) {
+    return res.status(500).send(lang.ERROR_500);
+  }
+};
+
 module.exports = {
   login,
   loginProcess,
   logout,
+  getJWT,
 };
