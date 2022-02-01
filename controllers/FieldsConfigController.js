@@ -44,6 +44,8 @@ const update = async (req, res) => {
     let reqFields = req.body.field;
     let objFields = [];
     let labels = [];
+    let others = req.body.others;
+    let fieldsProjection = reqFields.projection ? reqFields.projection : [];
 
     for (let i = 0; i < reqFields.name.length; i++) {
       let field = {
@@ -52,17 +54,18 @@ const update = async (req, res) => {
         label: reqFields.label[i],
         cols: reqFields.cols[i],
         default_value: reqFields.default_value[i],
-        projection: reqFields.projection.includes(reqFields.name[i]),
+        projection: fieldsProjection.includes(reqFields.name[i]),
+        others: others[reqFields.name[i]],
       };
 
-      if (reqFields.projection.includes(field.name)) {
+      if (fieldsProjection.includes(field.name)) {
         labels.push(field.label);
       }
 
       objFields.push(field);
     }
     // set attributes
-    objDb.collectionConfig.projection = reqFields.projection.join(" ");
+    objDb.collectionConfig.projection = fieldsProjection.join(" ");
     objDb.collectionConfig.labels = labels;
     objDb.form.fields = objFields;
     // save data
@@ -82,6 +85,7 @@ const update = async (req, res) => {
       );
       res.redirect(fieldsPath);
     } else {
+      console.log(error); // TODO clg
       req.flash("warning", lang.ERROR_500);
       res.redirect(getRoute(basePath, "index"));
     }
