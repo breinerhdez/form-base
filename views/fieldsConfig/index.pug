@@ -28,6 +28,7 @@ block content
               div(class="otherElements" style="display:none")
                 input(type="text" name=`field[cols][]` value=`${value=field.cols}`)
                 input(type="text" name=`others[${field.name}][rules][required]` value=`${field.others.rules.required}`)
+                input(type="text" name=`others[${field.name}][config][database_type]` value=`${field.others.config.database_type}`)
 
             td
               input(type="text" name="field[label][]" value=field.label required)

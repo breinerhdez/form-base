@@ -69,7 +69,7 @@ $(document).on("change", ".fieldNameRow", function () {
     });
 });
 
-var currentRow = { rules: {} };
+var currentRow = { rules: {}, config: {} };
 // get field information for current field/row
 $(document).on("click", ".buttonAdvancedModal", function () {
   currentRow.row = $(this).parents("tr");
@@ -94,6 +94,10 @@ function getValuesFromRow() {
       .val() == "true"
       ? true
       : false;
+  // database type
+  currentRow.config.database_type = currentRow.row
+    .find(`input[name="others[${currentRow.name}][config][database_type]"]`)
+    .val();
 }
 
 // set data for modal
@@ -103,8 +107,9 @@ function setValuesForModal() {
   // cols
   $("#modalConf-cols").val(currentRow.cols);
   // required
-  console.log(currentRow.name, currentRow.rules.required);
   $("#modalConf-required").prop("checked", currentRow.rules.required);
+  // database type
+  $("#modalConf-database_type").val(currentRow.config.database_type);
 }
 
 // save changes
@@ -120,4 +125,8 @@ function submitConfAdvance() {
   currentRow.row
     .find(`input[name="others[${currentRow.name}][rules][required]"]`)
     .val($("#modalConf-required").prop("checked"));
+  // database type
+  currentRow.row
+    .find(`input[name="others[${currentRow.name}][config][database_type]"]`)
+    .val($("#modalConf-database_type").val());
 }
