@@ -62,7 +62,7 @@ const getSchema = async (objCrud = null) => {
   let schema = {};
   objCrud.form.fields.forEach((field) => {
     schema[field.name] = {
-      type: String,
+      type: field.others.config.database_type,
     };
   });
   return schema;

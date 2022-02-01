@@ -49,6 +49,13 @@ let optionsSchema = new mongoose.Schema({
   },
 });
 
+let configFieldSchema = new mongoose.Schema({
+  database_type: {
+    type: String,
+    default: "String",
+  },
+});
+
 let rulesSchema = new mongoose.Schema({
   required: {
     type: Boolean,
@@ -63,6 +70,10 @@ let othersSchema = new mongoose.Schema({
   },
   options: {
     type: optionsSchema,
+    default: {},
+  },
+  config: {
+    type: configFieldSchema,
     default: {},
   },
 });

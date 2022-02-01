@@ -1,0 +1,37 @@
+
+div(class="modal fade" id="advancedModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+  div(class="modal-dialog modal-xl")
+    div(class="modal-content")
+      div(class="modal-header")
+        h5(class="modal-title" id="advancedConfModalTitle") Modal title
+        button(type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close")
+
+      div(class="modal-body")
+        .row
+
+          div(class="mb-3 col-md-3")
+            label(class="form-label" for='modalConf-databaseType') Database Type
+            select(class="form-select" id="modalConf-databaseType")
+              option(value="String") String
+              option(value="Number") Number
+              option(value="Boolean") Boolean
+
+          div(class="mb-3 col-md-3")
+            label(class="form-label" for='modalConf-cols') Columns
+            select(class="form-select" id="modalConf-cols")
+              option(value="col-md-12") 12
+              option(value="col-md-9") 9
+              option(value="col-md-8") 8
+              option(value="col-md-6") 6
+              option(value="col-md-4") 4
+              option(value="col-md-3") 3
+              option(value="col-md-2") 2
+              option(value="col-md-1") 1
+
+          div(class="mb-3 col-md-3")
+            input(class="form-check-input" type="checkbox" id="modalConf-required")
+            label(class="form-check-label ps-1" for="modalConf-required") Required
+
+      div(class="modal-footer")
+        button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
+        button(type="submit" class="btn btn-primary" id="modalSaveButton") Save changes

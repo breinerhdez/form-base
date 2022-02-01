@@ -68,3 +68,56 @@ $(document).on("change", ".fieldNameRow", function () {
       $(this).attr("name", newName);
     });
 });
+
+var currentRow = { rules: {} };
+// get field information for current field/row
+$(document).on("click", ".buttonAdvancedModal", function () {
+  currentRow.row = $(this).parents("tr");
+  getValuesFromRow();
+  setValuesForModal();
+});
+
+// get values for modal
+function getValuesFromRow() {
+  // name
+  currentRow.name = currentRow.row.find('input[name="field[name][]"]').val();
+  // title
+  currentRow.title = `Advanced configuration for ${currentRow.row
+    .find('input[name="field[name][]"]')
+    .val()}:${currentRow.row.find('input[name="field[label][]"]').val()}`;
+  // cols
+  currentRow.cols = currentRow.row.find('input[name="field[cols][]"]').val();
+  // required
+  currentRow.rules.required =
+    currentRow.row
+      .find(`input[name="others[${currentRow.name}][rules][required]"]`)
+      .val() == "true"
+      ? true
+      : false;
+}
+
+// set data for modal
+function setValuesForModal() {
+  // title
+  $("#advancedConfModalTitle").text(currentRow.title);
+  // cols
+  $("#modalConf-cols").val(currentRow.cols);
+  // required
+  console.log(currentRow.name, currentRow.rules.required);
+  $("#modalConf-required").prop("checked", currentRow.rules.required);
+}
+
+// save changes
+$("#modalSaveButton").click(submitConfAdvance);
+function submitConfAdvance() {
+  // close modal
+  $(".btn-close-modal").click();
+  // set cols
+  currentRow.row
+    .find('input[name="field[cols][]"]')
+    .val($("#modalConf-cols").val());
+  // required
+  currentRow.row
+    .find(`input[name="others[${currentRow.name}][rules][required]"]`)
+    .val($("#modalConf-required").prop("checked"));
+}
