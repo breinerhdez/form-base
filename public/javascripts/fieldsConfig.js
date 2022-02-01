@@ -49,8 +49,22 @@ $(document).on("click", ".btn-removeField", function () {
   }
 });
 
-// event handler for change value in name input and replace value for projection input
+// event handler for change value in name input
 $(document).on("change", ".fieldNameRow", function () {
+  let nameInput = $(this).val();
+
+  // replace value for projection input
   let prjCheckbox = $(this).parents("tr").find(".projectionCheckboxRow");
-  prjCheckbox.attr("value", $(this).val());
+  prjCheckbox.attr("value", nameInput);
+
+  // replace name attribute in others attributes
+  let regex = /others\[[a-z1-9A-Z_]+\]/;
+  $(this)
+    .parents("tr")
+    .find(".otherElements input")
+    .each(function () {
+      let oldName = $(this).attr("name");
+      let newName = oldName.replace(regex, `others[${nameInput}]`);
+      $(this).attr("name", newName);
+    });
 });

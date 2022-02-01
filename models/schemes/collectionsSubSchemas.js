@@ -34,18 +34,36 @@ let collectionConfig = new mongoose.Schema({
   },
 });
 
-let fieldConfigOptionsSchema = new mongoose.Schema({
+let optionsSchema = new mongoose.Schema({
   type: {
     type: String,
     default: "CUSTOM",
   },
   values: {
     type: String,
-    default: "OPTION 1, OPTION 2, OPTION 3",
+    default: "OPTION 1,OPTION 2,OPTION 3",
   },
   collection_name: {
     type: String,
     default: "",
+  },
+});
+
+let rulesSchema = new mongoose.Schema({
+  required: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+let othersSchema = new mongoose.Schema({
+  rules: {
+    type: rulesSchema,
+    default: {},
+  },
+  options: {
+    type: optionsSchema,
+    default: {},
   },
 });
 
@@ -68,14 +86,14 @@ let fieldSchema = new mongoose.Schema({
   },
   default_value: {
     type: String,
-    default: "Default field value",
+    default: "Default value",
   },
   projection: {
     type: Boolean,
     default: true,
   },
-  options: {
-    type: fieldConfigOptionsSchema,
+  others: {
+    type: othersSchema,
     default: {},
   },
 });

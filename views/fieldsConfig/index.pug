@@ -24,6 +24,8 @@ block content
           tr
             td
               input(type="text" name="field[name][]" class="fieldNameRow" value=field.name required)
+              div(class="otherElements")
+                input(type="text" name=`others[${field.name}][rules][required]` value=`${field.others.rules.required}`)
             td
               input(type="text" name="field[label][]" value=field.label required)
             td
