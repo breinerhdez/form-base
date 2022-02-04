@@ -98,6 +98,15 @@ function showOptionsSection() {
   }
 }
 
+// display or hide collection_name in options section
+$("#modalConf-options_type").change(function () {
+  if ($(this).val() == "COLLECTION") {
+    $(".collection_name_input_container").css("display", "block");
+  } else {
+    $(".collection_name_input_container").css("display", "none");
+  }
+});
+
 // get values for modal
 function getValuesFromRow() {
   // name
@@ -146,6 +155,7 @@ function setValuesForModal() {
   $("#modalConf-database_type").val(currentRow.config.database_type);
   // options type
   $("#modalConf-options_type").val(currentRow.options.type);
+  $("#modalConf-options_type").change(); // trigger
   // options values
   $("#modalConf-options_values").val(currentRow.options.values);
   // options collection_name
