@@ -60,7 +60,7 @@ const create = async (req, res) => {
       ...viewData,
       title: "Add",
       collection,
-      objForm,
+      objForm: await objForm.dsp(),
       breadItems: getAutoCrudBreadItems(basePath, collection),
     };
     res.render("autoCrud/form", data);
@@ -128,7 +128,7 @@ const edit = async (req, res) => {
       ...viewData,
       title: "Edit",
       collection,
-      objForm,
+      objForm: await objForm.dsp(),
       breadItems: getAutoCrudBreadItems(basePath, collection),
     };
     res.render("autoCrud/form", data);
