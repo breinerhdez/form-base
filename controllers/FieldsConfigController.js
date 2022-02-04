@@ -25,7 +25,9 @@ const index = async (req, res) => {
     return res.redirect(getRoute(basePath, "index"));
   }
 
-  let data = { ...viewData, fieldsPath, collection: objDb };
+  let collectionList = await CoreCollectionsModel.find({});
+
+  let data = { ...viewData, fieldsPath, collection: objDb, collectionList };
   res.render(`fieldsConfig/index`, data);
 };
 
@@ -85,7 +87,6 @@ const update = async (req, res) => {
       );
       res.redirect(fieldsPath);
     } else {
-      console.log(error); // TODO clg
       req.flash("warning", lang.ERROR_500);
       res.redirect(getRoute(basePath, "index"));
     }

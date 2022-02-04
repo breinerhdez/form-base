@@ -1,32 +1,41 @@
 // form for new field
 const newFieldForm = `<tr>
-<td>
+  <td>
     <input type="text" name="field[name][]" class="fieldNameRow" placeholder="name_field" required>
-</td>
-<td>
+    <div class="otherElements" style="display:none">
+      <input type="text" name="field[cols][]" />
+      <input type="text" name="others[input_name][rules][required]" />
+      <input type="text" name="others[input_name][config][database_type]" />
+      <input type="text" name="others[input_name][options][type]" value="CUSTOM" />
+      <input type="text" name="others[input_name][options][values]" value="Option 1,Option 2,Option 3" />
+      <input type="text" name="others[input_name][options][collection_name]" value="" />
+    </div>
+  </td>
+  <td>
     <input type="text" name="field[label][]" placeholder="Label field" required>
-</td>
-<td>
+  </td>
+  <td>
     <select name="field[type][]" required>
-        <option value="">Select an option</option>
-        <option value="Email">Email</option>
-        <option value="Number">Number</option>
-        <option value="Password">Password</option>
-        <option value="Text">Text</option>
+      <option value="">Select an option</option>
+      <option value="Email">Email</option>
+      <option value="Number">Number</option>
+      <option value="Password">Password</option>
+      <option value="Select">Select</option>
+      <option value="Text">Text</option>
     </select>
-</td>
-<td>
+  </td>
+  <td>
     <input type="text" name="field[default_value][]" placeholder="Default value">
-</td>
-<td>
-    <input type="text" name="field[cols][]" placeholder="col-md-12" required>
-</td>
-<td>
+  </td>
+  <td>
     <input type="checkbox" name="field[projection][]" class="projectionCheckboxRow">
-</td>
-<td>
+  </td>
+  <td>
+    <button type="button" class="btn btn-primary buttonAdvancedModal" data-bs-toggle="modal" data-bs-target="#advancedModal">Advanced</button>
+  </td>
+  <td>
     <span class="btn btn-danger fa fa-trash btn-removeField" title="Delete"></span>
-</td>
+  </td>
 </tr>`;
 
 $(document).ready(function () {
@@ -69,13 +78,25 @@ $(document).on("change", ".fieldNameRow", function () {
     });
 });
 
-var currentRow = { rules: {}, config: {} };
+var currentRow = { rules: {}, config: {}, options: {} };
 // get field information for current field/row
 $(document).on("click", ".buttonAdvancedModal", function () {
   currentRow.row = $(this).parents("tr");
+  showOptionsSection();
   getValuesFromRow();
   setValuesForModal();
 });
+
+// display or hide options section
+function showOptionsSection() {
+  let allowTypes = ["Select", "Radio", "Checkbox"];
+  let fieldType = currentRow.row.find('select[name="field[type][]"]').val();
+  if (allowTypes.includes(fieldType)) {
+    $(".options-section").css("display", "block");
+  } else {
+    $(".options-section").css("display", "none");
+  }
+}
 
 // get values for modal
 function getValuesFromRow() {
@@ -98,6 +119,19 @@ function getValuesFromRow() {
   currentRow.config.database_type = currentRow.row
     .find(`input[name="others[${currentRow.name}][config][database_type]"]`)
     .val();
+  // Options config
+  // options type
+  currentRow.options.type = currentRow.row
+    .find(`input[name="others[${currentRow.name}][options][type]"]`)
+    .val();
+  // options values
+  currentRow.options.values = currentRow.row
+    .find(`input[name="others[${currentRow.name}][options][values]"]`)
+    .val();
+  // options collection_name
+  currentRow.options.collection_name = currentRow.row
+    .find(`input[name="others[${currentRow.name}][options][collection_name]"]`)
+    .val();
 }
 
 // set data for modal
@@ -110,6 +144,14 @@ function setValuesForModal() {
   $("#modalConf-required").prop("checked", currentRow.rules.required);
   // database type
   $("#modalConf-database_type").val(currentRow.config.database_type);
+  // options type
+  $("#modalConf-options_type").val(currentRow.options.type);
+  // options values
+  $("#modalConf-options_values").val(currentRow.options.values);
+  // options collection_name
+  $("#modalConf-options_collection_name").val(
+    currentRow.options.collection_name
+  );
 }
 
 // save changes
@@ -129,4 +171,17 @@ function submitConfAdvance() {
   currentRow.row
     .find(`input[name="others[${currentRow.name}][config][database_type]"]`)
     .val($("#modalConf-database_type").val());
+  // Options config
+  // Options type
+  currentRow.row
+    .find(`input[name="others[${currentRow.name}][options][type]"]`)
+    .val($("#modalConf-options_type").val());
+  // Options values
+  currentRow.row
+    .find(`input[name="others[${currentRow.name}][options][values]"]`)
+    .val($("#modalConf-options_values").val());
+  // Options collection_name
+  currentRow.row
+    .find(`input[name="others[${currentRow.name}][options][collection_name]"]`)
+    .val($("#modalConf-options_collection_name").val());
 }

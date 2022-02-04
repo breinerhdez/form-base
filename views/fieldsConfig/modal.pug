@@ -32,6 +32,27 @@ div(class="modal fade" id="advancedModal" tabindex="-1" aria-labelledby="example
             input(class="form-check-input" type="checkbox" id="modalConf-required")
             label(class="form-check-label ps-1" for="modalConf-required") Required
 
+        .options-section
+          h5 Options
+          .row
+            div(class="mb-3 col-md-3")
+              label(class="form-label" for='modalConf-options_type') Type
+              select(class="form-select" id="modalConf-options_type")
+                option(value="CUSTOM") CUSTOM
+                option(value="COLLECTION") COLLECTION
+
+            div(class="mb-3 col-md-3")
+              label(class="form-label" for='modalConf-options_values') Values
+              input(type="text" class="form-control" id="modalConf-options_values")
+
+            div(class="mb-3 col-md-3")
+              label(class="form-label" for='modalConf-options_collection_name') Collection
+              select(class="form-select" id="modalConf-options_collection_name")
+                option(value="") Select an option
+                each item in collectionList
+                  option(value=item.collection_name)= item.collection_name
+
+
       div(class="modal-footer")
         button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
-        button(type="submit" class="btn btn-primary" id="modalSaveButton") Save changes
+        button(type="submit" class="btn btn-primary" id="modalSaveButton") Save
