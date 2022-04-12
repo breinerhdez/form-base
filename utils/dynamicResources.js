@@ -63,6 +63,7 @@ const getSchema = async (objCrud = null) => {
   objCrud.form.fields.forEach((field) => {
     schema[field.name] = {
       type: field.others.config.database_type,
+      required: [field.others.rules.required, `${field.label} is required.`],
     };
   });
   return schema;

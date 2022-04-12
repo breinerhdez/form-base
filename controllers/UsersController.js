@@ -39,7 +39,6 @@ const store = async (req, res) => {
     req.flash("success", lang.CRUD_CREATED);
     res.redirect(getRoute(basePath, "index"));
   } catch (error) {
-    console.log(error.message);
     if (error.name === "ValidationError") {
       req.flash(
         "danger",

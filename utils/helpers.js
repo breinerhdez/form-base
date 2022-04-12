@@ -57,6 +57,15 @@ const getAutoCrudBreadItems = (basePath, collection) => {
   ];
 };
 
+const setFlashErrors = (req, error) => {
+  req.flash(
+    "danger",
+    Object.values(error.errors)
+      .map((val) => val.message)
+      .join("<br>")
+  );
+};
+
 module.exports = {
   crudAppPatterns,
   crudAppRoutes,
@@ -64,4 +73,5 @@ module.exports = {
   getAutocrudRoute,
   getRoute,
   getAutoCrudBreadItems,
+  setFlashErrors,
 };
