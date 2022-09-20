@@ -57,13 +57,12 @@ const getAutoCrudBreadItems = (basePath, collection) => {
   ];
 };
 
+const getErrorsMap = (error) => {
+  return Object.values(error.errors).map((val) => val.message);
+};
+
 const setFlashErrors = (req, error) => {
-  req.flash(
-    "danger",
-    Object.values(error.errors)
-      .map((val) => val.message)
-      .join("<br>")
-  );
+  req.flash("danger", getErrorsMap(error).join("<br>"));
 };
 
 module.exports = {
@@ -74,4 +73,5 @@ module.exports = {
   getRoute,
   getAutoCrudBreadItems,
   setFlashErrors,
+  getErrorsMap,
 };

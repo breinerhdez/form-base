@@ -1,9 +1,11 @@
 const CoreCollectionsModel = require("../models/CoreCollectionsModel");
 
-const index = async (req, res) => {
-  let collections = await CoreCollectionsModel.find({}).sort({ title: 1 });
+class PanelAdminController {
+  async index(req, res) {
+    let collections = await CoreCollectionsModel.find({}).sort({ title: 1 });
 
-  res.render("panelAdmin/index", { title: "Admin", collections });
-};
+    res.render("panelAdmin/index", { title: "Admin", collections });
+  }
+}
 
-module.exports = { index };
+module.exports = PanelAdminController;

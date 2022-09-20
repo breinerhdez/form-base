@@ -7,6 +7,7 @@ var logger = require("morgan");
 var sassMiddleware = require("node-sass-middleware");
 var session = require("express-session");
 const mongoose = require("mongoose");
+const Router = require("./routes");
 var app = express();
 
 // view engine setup
@@ -43,7 +44,7 @@ app.use("/static", express.static(__dirname + "/node_modules/font-awesome"));
 app.use("/static", express.static(__dirname + "/node_modules/jquery/dist"));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(require("./routes"));
+app.use(new Router().getRoutes());
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -63,10 +64,9 @@ app.use(function (err, req, res, next) {
 });
 
 // database connection
-console.log(process.env.URLDB);
 mongoose.connect(process.env.URLDB, (err, res) => {
   if (err) throw err;
-  console.log("ONLINE database");
+  console.log("Database running");
 });
 
 module.exports = app;
