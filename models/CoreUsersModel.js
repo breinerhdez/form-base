@@ -12,16 +12,16 @@ let coreUserSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Name required."],
+      required: [true, "Name is required."],
     },
     email: {
       type: String,
       unique: true,
-      required: [true, "Email required."],
+      required: [true, "Email is required."],
     },
     password: {
       type: String,
-      required: [true, "Password required."],
+      required: [true, "Password is required."],
     },
     // img: {
     //   type: String,
