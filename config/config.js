@@ -41,3 +41,5 @@ process.env.SESSION_SECRET =
  * Session Time
  */
 process.env.SESSION_TIME = process.env.SESSION_TIME || 1000 * 60 * 30;
+
+process.env.PORT = process.env.PORT || 3000;

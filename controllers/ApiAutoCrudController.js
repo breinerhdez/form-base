@@ -1,7 +1,7 @@
 const lang = require("../utils/lang");
 const colors = require("colors");
 const { getObjectsAndModel } = require("../utils/dynamicResources");
-const { getErrorsMap } = require("../utils/helpers");
+const { getErrorsMap, saveAuditLog } = require("../utils/helpers");
 
 class ApiAutoCrudController {
   async index(req, res) {
@@ -58,6 +58,14 @@ class ApiAutoCrudController {
       // save data
       await newObj.save();
 
+      saveAuditLog(
+        req,
+        collection.collection_name,
+        {},
+        newObj,
+        "CREATE"
+      );
+
       // response
       res.status(201).json({
         item: newObj,
@@ -99,10 +107,20 @@ class ApiAutoCrudController {
         throw new Error("404");
       }
 
+      let originalData = { ...objDb.toObject() };
       // update object
       let resObj = Object.assign(objDb, req.body);
+
       // save object
       await resObj.save();
+
+      saveAuditLog(
+        req,
+        collection.collection_name,
+        originalData,
+        resObj,
+        "UPDATE"
+      );
 
       // response
       res.status(200).json({
@@ -142,6 +160,8 @@ class ApiAutoCrudController {
       }
       // delete object
       await dynamicModel.findByIdAndDelete(id);
+
+      saveAuditLog(req, collection.collection_name, {}, objDb, "DELETE");
 
       // response
       res.status(200).json({

@@ -20,6 +20,7 @@ const newFieldForm = `<tr>
       <option value="Email">Email</option>
       <option value="Number">Number</option>
       <option value="Password">Password</option>
+      <option value="Radio">Radio</option>
       <option value="Select">Select</option>
       <option value="Text">Text</option>
     </select>

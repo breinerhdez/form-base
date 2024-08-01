@@ -69,4 +69,9 @@ mongoose.connect(process.env.URLDB, (err, res) => {
   console.log("Database running");
 });
 
-module.exports = app;
+app.listen(process.env.PORT, () => {
+  console.log(`Application running on port ${process.env.PORT}`);
+});
+
+
+// module.exports = app;

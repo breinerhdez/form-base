@@ -17,7 +17,9 @@ class AuthMiddleware {
     try {
       let token = req.get("Authorization").split(" ")[1];
       let decoded = await jwt.verify(token, process.env.JWT_SIGN_SECRET);
-      req.user = decoded.user;
+      req.session.user = decoded.user;
+      req.session.originAction = "API";
+      console.log("checkJWT");
       next();
     } catch (error) {
       return res.status(401).send(lang.ERROR_401);
