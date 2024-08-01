@@ -1,13 +1,13 @@
 var express = require("express");
-const ApiAutoCrudController = require(__dirname + "/../controllers/ApiAutoCrudController");
-const AuthController = require(__dirname + "/../controllers/AuthController");
-const AutoCrudController = require(__dirname + "/../controllers/AutoCrudController");
-const CollectionsController = require(__dirname + "/../controllers/CollectionsController");
-const FieldsConfigController = require(__dirname + "/../controllers/FieldsConfigController");
-const PaneladminController = require(__dirname + "/../controllers/PaneladminController");
-const UserController = require(__dirname + "/../controllers/UsersController");
-const AuthMiddleware = require(__dirname + "/../middlewares/authMiddleware");
-const { crudAppPatterns, autoCrudAppPatterns } = require(__dirname + "/../utils/helpers");
+const ApiAutoCrudController = require("../controllers/ApiAutoCrudController");
+const AuthController = require("../controllers/AuthController");
+const AutoCrudController = require("../controllers/AutoCrudController");
+const CollectionsController = require("../controllers/CollectionsController");
+const FieldsConfigController = require("../controllers/FieldsConfigController");
+const PaneladminController = require("../controllers/PanelAdminController");
+const UserController = require("../controllers/UsersController");
+const AuthMiddleware = require("../middlewares/authMiddleware");
+const { crudAppPatterns, autoCrudAppPatterns } = require("../utils/helpers");
 
 class Router {
   router = express.Router();
