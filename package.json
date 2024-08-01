@@ -32,6 +32,6 @@
   "homepage": "https://github.com/breinerhdez/form-base",
   "engines": {
     "node": "14.17.6",
-    "npm": "10.8.2"
+    "npm": "6.14.15"
   }
 }
