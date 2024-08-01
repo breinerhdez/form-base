@@ -29,5 +29,10 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
+  },
+  "homepage": "https://github.com/breinerhdez/form-base",
+  "engines": {
+    "node": "20.x",
+    "npm": "10.8.2"
   }
 }
