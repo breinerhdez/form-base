@@ -5,6 +5,7 @@ const {
   getAutocrudRoute,
   getAutoCrudBreadItems,
   setFlashErrors,
+  saveAuditLog,
 } = require("../utils/helpers");
 
 const basePath = "/admin/crud";
@@ -101,6 +102,8 @@ class AutoCrudController {
       let newObj = new dynamicModel(req.body);
       // save data
       await newObj.save();
+
+      saveAuditLog(req, collection.collection_name, {}, newObj, "CREATE");
 
       // clean session data
       req.session.reqData = {};
@@ -199,10 +202,20 @@ class AutoCrudController {
         );
       }
 
+      let originalData = { ...objDb.toObject() };
       // update object
       let resObj = Object.assign(objDb, req.body);
+
       // save object
       await resObj.save();
+
+      saveAuditLog(
+        req,
+        collection.collection_name,
+        originalData,
+        resObj,
+        "UPDATE"
+      );
 
       // clean session data
       req.session.reqData = {};
@@ -210,6 +223,7 @@ class AutoCrudController {
       req.flash("success", lang.CRUD_UPDATED);
       res.redirect(getAutocrudRoute(basePath, "index", collection.path_name));
     } catch (error) {
+      console.log(error.message);
       if (error.name === "ValidationError") {
         setFlashErrors(req, error);
         res.redirect(
@@ -245,6 +259,9 @@ class AutoCrudController {
       }
       // delete object
       await dynamicModel.findByIdAndDelete(id);
+      
+      saveAuditLog(req, collection.collection_name, {}, objDb, "DELETE");
+
       req.flash("success", lang.CRUD_DELETED);
       res.redirect(getAutocrudRoute(basePath, "index", collection.path_name));
     } catch (error) {

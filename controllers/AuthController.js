@@ -36,13 +36,14 @@ class AuthController {
       }
       // user data
       let sessionData = {
-        uid: user._id,
+        _id: user._id,
         email: user.email,
         name: user.name,
       };
       // set user session data
       req.session.user = sessionData;
       req.session.isLoggedIn = true;
+      req.session.originAction = "GUI";
       res.redirect("/admin");
     } catch (error) {
       console.log(error);

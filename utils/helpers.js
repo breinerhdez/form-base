@@ -1,3 +1,5 @@
+const CoreAuditLogsModel = require("../models/CoreAuditLogsModel");
+
 // Patterns routes for web application
 const crudAppPatterns = {
   index: "/", // GET
@@ -65,6 +67,50 @@ const setFlashErrors = (req, error) => {
   req.flash("danger", getErrorsMap(error).join("<br>"));
 };
 
+const getDiferencesBetweenObjects = (originalData, updatedData) => {
+  let updatedFields = [];
+
+  for (let key in updatedData) {
+    if (
+      updatedData[key] !== originalData[key] &&
+      !["_id", "createdAt", "updatedAt", "__v"].includes(key)
+    ) {
+      let field = {
+        field: key,
+        original: originalData[key],
+        updated: updatedData[key],
+      };
+      updatedFields.push(field);
+    }
+  }
+  return updatedFields;
+};
+
+const saveAuditLog = (req, collectionName, originalData, updated, action) => {
+  console.log("saveAuditLog" + "*".repeat(120));
+  let updatedFields = getDiferencesBetweenObjects(
+    originalData,
+    updated.toObject()
+  );
+  if (updatedFields.length) {
+    let logData = {
+      collection_name: collectionName,
+      user: {
+        _id: req.session.user._id,
+        email: req.session.user.email,
+        name: req.session.user.name,
+      },
+      detail: updatedFields,
+      documentId: updated._id,
+      action,
+      originAction: req.session.originAction,
+    };
+    console.log(logData);
+    let log = new CoreAuditLogsModel(logData);
+    log.save();
+  }
+};
+
 module.exports = {
   crudAppPatterns,
   crudAppRoutes,
@@ -74,4 +120,5 @@ module.exports = {
   getAutoCrudBreadItems,
   setFlashErrors,
   getErrorsMap,
+  saveAuditLog,
 };
