@@ -92,6 +92,7 @@ class CollectionsController {
       // update details
       objDb.title = req.body.title;
       objDb.path_name = req.body.path_name;
+      objDb.urlToAfterCreate = req.body.urlToAfterCreate;
       // update API options
       const allowServices = {
         list: req.body.list == "Y" ? "Y" : "N",
@@ -102,6 +103,7 @@ class CollectionsController {
       };
       objDb.allow_services = allowServices;
       objDb.showAdmin = req.body.showAdmin ? true : false;
+      objDb.publicForm = req.body.publicForm ? true : false;
       // save
       await objDb.save();
       req.flash("success", lang.CRUD_UPDATED);

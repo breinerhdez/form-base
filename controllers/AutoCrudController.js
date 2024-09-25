@@ -108,8 +108,18 @@ class AutoCrudController {
       // clean session data
       req.session.reqData = {};
 
-      req.flash("success", lang.CRUD_CREATED);
-      res.redirect(getAutocrudRoute(basePath, "index", collection.path_name));
+      if(collection.urlToAfterCreate != ""){
+        console.log(
+          "=".repeat(30) +
+            ">>> " +
+            "Redirect to external URL: " +
+            collection.urlToAfterCreate
+        );
+        res.redirect(collection.urlToAfterCreate);
+      }else{
+        req.flash("success", lang.CRUD_CREATED);
+        res.redirect(getAutocrudRoute(basePath, "index", collection.path_name));
+      }
     } catch (error) {
       if (error.name === "ValidationError") {
         setFlashErrors(req, error);
@@ -117,6 +127,7 @@ class AutoCrudController {
           getAutocrudRoute(basePath, "create", collection.path_name)
         );
       } else {
+        console.log(error.message);
         req.flash("warning", lang.ERROR_500);
         res.redirect("/admin");
       }

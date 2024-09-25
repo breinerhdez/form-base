@@ -34,9 +34,9 @@ class FieldsConfigController {
   }
 
   async update(req, res) {
+    let { id } = req.params;
+    let fieldsPath = fieldsMainPath + id;
     try {
-      let { id } = req.params;
-      let fieldsPath = fieldsMainPath + id;
 
       // validate object existence
       let objDb = await CoreCollectionsModel.findById(id);
