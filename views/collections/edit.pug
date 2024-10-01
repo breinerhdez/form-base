@@ -20,8 +20,14 @@ block content
           label(class="form-label" for='collection_name') Collection Name
           span(class="form-control")= item.collection_name
         div(class="mb-3")
-          input(class="form-check-input" type="checkbox" value="Y" id="showAdmin" name="showAdmin" checked=item.showAdmin)
-          label(class="form-check-label ps-1" for="showAdmin") Show in Admin
+          label(class="form-label" for='urlToAfterCreate') URL to after create
+          input(class="form-control" type='text' name="urlToAfterCreate" id="urlToAfterCreate" placeholder='https://www.google.com' value=item.urlToAfterCreate)
+        div(class="mb-3 form-check form-switch")
+          input(class="form-check-input" type="checkbox" role="switch" id="showAdmin" name="showAdmin" checked=item.showAdmin)
+          label(class="form-check-label ps-1" for="showAdmin") Show option in control pannel
+        div(class="mb-3 form-check form-switch")
+          input(class="form-check-input" type="checkbox" role="switch" id="publicForm" name="publicForm" checked=item.publicForm)
+          label(class="form-check-label ps-1" for="publicForm") Public form
 
       .tab-pane.fade.pt-3#nav-api(role='tabpanel' aria-labelledby='nav-api-tab')
         div(class="mb-3")

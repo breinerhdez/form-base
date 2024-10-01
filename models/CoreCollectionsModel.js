@@ -39,6 +39,14 @@ let modelSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    publicForm: {
+      type: Boolean,
+      default: false,
+    },
+    urlToAfterCreate: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,
