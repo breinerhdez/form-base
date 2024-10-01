@@ -38,6 +38,7 @@ block content
             td
               select(name="field[type][]" required)
                 option(value="") Select an option
+                option(value="Checkbox" selected=field.type=="Checkbox") Checkbox
                 option(value="Email" selected=field.type=="Email") Email
                 option(value="Number" selected=field.type=="Number") Number
                 option(value="Password" selected=field.type=="Password") Password

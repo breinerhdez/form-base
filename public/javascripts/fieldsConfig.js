@@ -17,6 +17,7 @@ const newFieldForm = `<tr>
   <td>
     <select name="field[type][]" required>
       <option value="">Select an option</option>
+      <option value="Checkbox">Checkbox</option>
       <option value="Email">Email</option>
       <option value="Number">Number</option>
       <option value="Password">Password</option>

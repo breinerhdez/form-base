@@ -120,7 +120,8 @@ const getSchema = async (objCrud = null) => {
   let schema = {};
   objCrud.form.fields.forEach((field) => {
     schema[field.name] = {
-      type: field.others.config.database_type,
+      type: getSchemaFieldType(field.others.config.database_type),
+      default: field.default_value,
       required: [field.others.rules.required, `${field.label} is required.`],
     };
   });
@@ -134,6 +135,34 @@ const deleteDynamicModel = async (objCrud) => {
   if (mongoose.modelNames().includes(modelName)) {
     mongoose.deleteModel(modelName);
   }
+};
+
+const getSchemaFieldType = (databaseType) => {
+  let schemaFieldType;
+  switch (databaseType) {
+    case "String":
+      schemaFieldType = String;
+      break;
+    case "Number":
+      schemaFieldType = Number;
+      break;
+    case "Boolean":
+      schemaFieldType = Boolean;
+      break;
+    case "[String]": // Caso específico para un array de Strings
+      schemaFieldType = [String];
+      break;
+    case "[Number]": // Caso específico para un array de Number
+      schemaFieldType = [Number];
+      break;
+    case "[Boolean]": // Caso específico para un array de Boolean
+      schemaFieldType = [Boolean];
+      break;
+    default:
+      schemaFieldType = String;
+      break;
+  }
+  return schemaFieldType;
 };
 
 module.exports = { getObjectsAndModel, deleteDynamicModel };
