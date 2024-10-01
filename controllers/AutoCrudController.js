@@ -76,6 +76,7 @@ class AutoCrudController {
       req.session.reqData = {};
       res.render("autoCrud/form", data);
     } catch (error) {
+      console.log("ERROR: ================================> ",error.message);
       req.flash("warning", lang.ERROR_500);
       res.redirect("/admin");
     }
