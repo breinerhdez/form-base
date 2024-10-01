@@ -2,9 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CoreCollectionModel = require("../models/CoreCollectionsModel");
-const CoreAuditLogsModel = require("../models/CoreAuditLogsModel");
-
-const { getRequest } = require("../middlewares/alsMiddleware");
 
 /**
  * Validate path_name
