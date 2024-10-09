@@ -23,11 +23,11 @@ let detailSchema = new Schema({
     required: true,
   },
   original: {
-    type: String,
-    default:""
+    type: [Schema.Types.Mixed],
+    default: "",
   },
   updated: {
-    type: String,
+    type: [Schema.Types.Mixed],
     required: true,
   },
 });
