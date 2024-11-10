@@ -1,0 +1,460 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API - Equipos clasificados a libertadores",
+    "description": "Documentación generada automáticamente para la colección Equipos clasificados a libertadores",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "paths": {
+    "/api/crud/equipos-libertadores": {
+      "get": {
+        "description": "Endpoint para obtener todos los registros",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IndexResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/IndexResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Endpoint para crear un nuevo registro",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/crud/equipos-libertadores/{id}": {
+      "put": {
+        "description": "Endpoint para editar un registro por id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequest"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Endpoint para obtener un registro por id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Endpoint para eliminar un registro por id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "IndexResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "string",
+                      "example": "América de Cali"
+                    },
+                    "pais": {
+                      "type": "string",
+                      "example": "Argentina"
+                    },
+                    "idioma": {
+                      "type": "string",
+                      "example": "Español"
+                    },
+                    "tipo_clasificacion": {
+                      "type": "string",
+                      "example": "Directa"
+                    },
+                    "fundacion": {
+                      "type": "number",
+                      "example": 1927
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "_id": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "IndexResponse"
+        }
+      },
+      "CreateRequest": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "example": "América de Cali"
+          },
+          "pais": {
+            "type": "string",
+            "example": "Argentina"
+          },
+          "idioma": {
+            "type": "string",
+            "example": "Español"
+          },
+          "tipo_clasificacion": {
+            "type": "string",
+            "example": "Directa"
+          },
+          "fundacion": {
+            "type": "number",
+            "example": 1927
+          },
+          "email": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "CreateRequest"
+        }
+      },
+      "CreateResponse": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "properties": {
+              "nombre": {
+                "type": "string",
+                "example": "América de Cali"
+              },
+              "pais": {
+                "type": "string",
+                "example": "Argentina"
+              },
+              "idioma": {
+                "type": "string",
+                "example": "Español"
+              },
+              "tipo_clasificacion": {
+                "type": "string",
+                "example": "Directa"
+              },
+              "fundacion": {
+                "type": "number",
+                "example": 1927
+              },
+              "email": {
+                "type": "string",
+                "example": ""
+              },
+              "_id": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "CreateResponse"
+        }
+      },
+      "UpdateRequest": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "example": "América de Cali"
+          },
+          "pais": {
+            "type": "string",
+            "example": "Argentina"
+          },
+          "idioma": {
+            "type": "string",
+            "example": "Español"
+          },
+          "tipo_clasificacion": {
+            "type": "string",
+            "example": "Directa"
+          },
+          "fundacion": {
+            "type": "number",
+            "example": 1927
+          },
+          "email": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "UpdateRequest"
+        }
+      },
+      "UpdateResponse": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "properties": {
+              "nombre": {
+                "type": "string",
+                "example": "América de Cali"
+              },
+              "pais": {
+                "type": "string",
+                "example": "Argentina"
+              },
+              "idioma": {
+                "type": "string",
+                "example": "Español"
+              },
+              "tipo_clasificacion": {
+                "type": "string",
+                "example": "Directa"
+              },
+              "fundacion": {
+                "type": "number",
+                "example": 1927
+              },
+              "email": {
+                "type": "string",
+                "example": ""
+              },
+              "_id": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "UpdateResponse"
+        }
+      },
+      "ShowResponse": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "properties": {
+              "nombre": {
+                "type": "string",
+                "example": "América de Cali"
+              },
+              "pais": {
+                "type": "string",
+                "example": "Argentina"
+              },
+              "idioma": {
+                "type": "string",
+                "example": "Español"
+              },
+              "tipo_clasificacion": {
+                "type": "string",
+                "example": "Directa"
+              },
+              "fundacion": {
+                "type": "number",
+                "example": 1927
+              },
+              "email": {
+                "type": "string",
+                "example": ""
+              },
+              "_id": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "ShowResponse"
+        }
+      },
+      "DeleteResponse": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "properties": {
+              "nombre": {
+                "type": "string",
+                "example": "América de Cali"
+              },
+              "pais": {
+                "type": "string",
+                "example": "Argentina"
+              },
+              "idioma": {
+                "type": "string",
+                "example": "Español"
+              },
+              "tipo_clasificacion": {
+                "type": "string",
+                "example": "Directa"
+              },
+              "fundacion": {
+                "type": "number",
+                "example": 1927
+              },
+              "email": {
+                "type": "string",
+                "example": ""
+              },
+              "_id": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "DeleteResponse"
+        }
+      }
+    }
+  }
+}

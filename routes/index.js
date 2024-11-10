@@ -8,6 +8,8 @@ const PaneladminController = require("../controllers/PanelAdminController");
 const UserController = require("../controllers/UsersController");
 const AuthMiddleware = require("../middlewares/authMiddleware");
 const { crudAppPatterns, autoCrudAppPatterns } = require("../utils/helpers");
+const ApiDocController = require("../controllers/ApiDocController");
+const swaggerUi = require("swagger-ui-express");
 
 class Router {
   router = express.Router();
@@ -28,6 +30,9 @@ class Router {
     router.use("/collections", this.getCollectionRoutes());
     router.use("/fields", this.getFieldsRoutes());
     router.use("/crud", this.getAutoCrudRoutes());
+
+    let apiDocController = new ApiDocController();
+    router.use("/api-doc/:path_name", swaggerUi.serve, apiDocController.index);
 
     // set /admin routes
     this.router.use("/admin", [AuthMiddleware.checkSession], router);
