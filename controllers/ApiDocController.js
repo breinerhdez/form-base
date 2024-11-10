@@ -58,6 +58,14 @@ class ApiDocController {
             DeleteResponse: {
               item: dynamicObjectId,
             },
+            LoginRequest: {
+              email: "example@citdev-express.com",
+              password: "@1!aS85*",
+            },
+            LoginResponse: {
+              token:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            },
           },
         },
       };
@@ -97,12 +105,35 @@ class ApiDocController {
     const express = require('express');
     const router = express.Router();
 
+    router.post('/api/auth/login', (req, res) => {
+      /*
+      #swagger.tags = ['Authorization']
+      #swagger.description = 'Endpoint para iniciar sesión o generar un JWT'
+      #swagger.requestBody = {
+        required: true,
+        schema: { $ref: "#/components/schemas/LoginRequest"}
+      }
+      #swagger.responses[200] = {
+        description: 'OK',
+        schema: { $ref: "#/components/schemas/LoginResponse"}
+      }
+      */
+      res.json({ message: 'Usuario creado' });
+    });
+
     router.get('${replacePathName(
       autoCrudAppPatterns.index,
       pathName
     )}', (req, res) => {
       /*
+      #swagger.tags = ['${pathName}']
       #swagger.description = 'Endpoint para obtener todos los registros'
+      #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true,
+        type: "string",
+        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      }
       #swagger.responses[200] = {
         description: 'OK',
         schema: { $ref: "#/components/schemas/IndexResponse"}
@@ -116,7 +147,14 @@ class ApiDocController {
       pathName
     )}', (req, res) => {
       /*
+      #swagger.tags = ['${pathName}']
       #swagger.description = 'Endpoint para crear un nuevo registro'
+      #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true,
+        type: "string",
+        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      }
       #swagger.requestBody = {
         required: true,
         schema: { $ref: "#/components/schemas/CreateRequest"}
@@ -134,7 +172,20 @@ class ApiDocController {
       pathName
     )}', (req, res) => {
       /*
+      #swagger.tags = ['${pathName}']
       #swagger.description = 'Endpoint para editar un registro por id'
+      #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true,
+        type: "string",
+        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      }
+      #swagger.parameters['id'] = {
+        in: "path",
+        required: true,
+        type: "string",
+        example: "61fc9039c7452ebc81c72a17"
+      }
       #swagger.requestBody = {
         required: true,
         schema: { $ref: "#/components/schemas/UpdateRequest"}
@@ -152,7 +203,20 @@ class ApiDocController {
       pathName
     )}', (req, res) => {
       /*
+      #swagger.tags = ['${pathName}']
       #swagger.description = 'Endpoint para obtener un registro por id'
+      #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true,
+        type: "string",
+        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      }
+      #swagger.parameters['id'] = {
+        in: "path",
+        required: true,
+        type: "string",
+        example: "61fc9039c7452ebc81c72a17"
+      }
       #swagger.responses[200] = {
         description: 'OK',
         schema: { $ref: "#/components/schemas/ShowResponse"}
@@ -166,7 +230,20 @@ class ApiDocController {
       pathName
     )}', (req, res) => {
       /*
+      #swagger.tags = ['${pathName}']
       #swagger.description = 'Endpoint para eliminar un registro por id'
+      #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true,
+        type: "string",
+        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      }
+      #swagger.parameters['id'] = {
+        in: "path",
+        required: true,
+        type: "string",
+        example: "61fc9039c7452ebc81c72a17"
+      }
       #swagger.responses[200] = {
         description: 'OK',
         schema: { $ref: "#/components/schemas/DeleteResponse"}
