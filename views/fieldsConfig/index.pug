@@ -5,7 +5,7 @@ block content
 
   button(class="btn btn-primary float-end" id="btnAddField")
     span(class="fa fa-plus")
-    span  Add New
+    span  #{lang.BTN_CREATE}
 
   form(method="post" action=fieldsPath)
 
@@ -52,12 +52,12 @@ block content
             td
               button(type="button" class="btn btn-primary buttonAdvancedModal" data-bs-toggle="modal" data-bs-target="#advancedModal") Advanced
             td
-              span(class="btn btn-default fa fa-trash-o fa-2x btn-removeField" title="Delete")
+              span(class="btn btn-default fa fa-trash-o fa-2x btn-removeField" title=lang.BTN_DELETE)
 
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") Cancel
-      button(type="submit" class="btn btn-primary") Save
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
+      button(type="submit" class="btn btn-primary") #{lang.BTN_SAVE}
 
   include modal.pug
 

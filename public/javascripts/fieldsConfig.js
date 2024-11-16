@@ -52,7 +52,7 @@ $("#btnAddField").on("click", function () {
 
 // event handler for remove field
 $(document).on("click", ".btn-removeField", function () {
-  if (confirm("Are you sure you want to delete this object?")) {
+  if (confirm("¿Está seguro que quiere eliminar el objeto?")) {
     let row = $(this).parents("tr");
     row.hide(800, function () {
       $(this).remove();

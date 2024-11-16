@@ -6,19 +6,19 @@ block content
       a(href="/admin/users")
         span(class="fa fa-users fa-2x")
         br
-        span Users
+        span #{lang.USERS_TITLE}
     div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center")
       a(href="/admin/collections")
         span(class="fa fa-cubes fa-2x")
         br
-        span Collections
+        span #{lang.COLLECTIONS_TITLE}
     div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center")
       a(href="/auth/logout")
         span(class="fa fa-sign-out fa-2x")
         br
-        span Logout
+        span #{lang.LOGIN_OUT}
 
-  h3 Custom Collections
+  h2 Colecciones dinámicas del sistema
   div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
     each collection in collections
       if collection.showAdmin

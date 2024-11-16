@@ -5,50 +5,50 @@ block content
   form(method="post" action=getRoute(basePath, "update", item._id))
     nav
       .nav.nav-tabs#nav-tab(role='tablist')
-        button.nav-link.active#nav-details-tab(data-bs-toggle='tab' data-bs-target='#nav-details' type='button' role='tab' aria-controls='nav-details' aria-selected='true') Details
-        button.nav-link#nav-api-tab(data-bs-toggle='tab' data-bs-target='#nav-api' type='button' role='tab' aria-controls='nav-api' aria-selected='false') API
+        button.nav-link.active#nav-details-tab(data-bs-toggle='tab' data-bs-target='#nav-details' type='button' role='tab' aria-controls='nav-details' aria-selected='true') #{lang.TEXT_DETAILS}
+        button.nav-link#nav-api-tab(data-bs-toggle='tab' data-bs-target='#nav-api' type='button' role='tab' aria-controls='nav-api' aria-selected='false') #{lang.TEXT_API}
 
     .tab-content#nav-tabContent
       .tab-pane.fade.show.active.pt-3#nav-details(role='tabpanel' aria-labelledby='nav-details-tab')
         div(class="mb-3")
-          label(class="form-label" for='title') Title
+          label(class="form-label" for='title') #{lang.COLLECTIONS_COL_TITLE}
           input(class="form-control" type='text' name="title" id="title" placeholder='User management' value=item.title required)
         div(class="mb-3")
-          label(class="form-label" for='path_name') Path Name
+          label(class="form-label" for='path_name') #{lang.COLLECTIONS_PATH}
           input(class="form-control" type='text' name="path_name" id="path_name" placeholder='user-management' value=item.path_name required)
         div(class="mb-3")
-          label(class="form-label" for='collection_name') Collection Name
+          label(class="form-label" for='collection_name') #{lang.COLLECTIONS_NAME}
           span(class="form-control")= item.collection_name
         div(class="mb-3")
-          label(class="form-label" for='urlToAfterCreate') URL to after create
+          label(class="form-label" for='urlToAfterCreate') #{lang.COLLECTIONS_URL_AFTER_CREATE}
           input(class="form-control" type='text' name="urlToAfterCreate" id="urlToAfterCreate" placeholder='https://www.google.com' value=item.urlToAfterCreate)
         div(class="mb-3 form-check form-switch")
           input(class="form-check-input" type="checkbox" role="switch" id="showAdmin" name="showAdmin" checked=item.showAdmin)
-          label(class="form-check-label ps-1" for="showAdmin") Show option in control pannel
+          label(class="form-check-label ps-1" for="showAdmin") #{lang.COLLECTIONS_SHOW_IN_PANELADMIN}
         div(class="mb-3 form-check form-switch")
           input(class="form-check-input" type="checkbox" role="switch" id="publicForm" name="publicForm" checked=item.publicForm)
-          label(class="form-check-label ps-1" for="publicForm") Public form
+          label(class="form-check-label ps-1" for="publicForm") #{lang.COLLECTIONS_PUBLIC_FORM}
 
       .tab-pane.fade.pt-3#nav-api(role='tabpanel' aria-labelledby='nav-api-tab')
         div(class="mb-3")
           input(class="form-check-input" type="checkbox" id="opt-all")
-          label(class="form-check-label ps-1" for="opt-all") All options
+          label(class="form-check-label ps-1" for="opt-all") #{lang.ALL_OPTIONS}
         div(class="mb-3")
           input(class="form-check-input api-check" type="checkbox" value="Y" id="opt-create" name="create" checked=item.allow_services.create=="Y")
-          label(class="form-check-label ps-1" for="opt-create") Create
+          label(class="form-check-label ps-1" for="opt-create") #{lang.CREATE_OPTION}
         div(class="mb-3")
           input(class="form-check-input api-check" type="checkbox" value="Y" id="opt-update" name="update" checked=item.allow_services.update=="Y")
-          label(class="form-check-label ps-1" for="opt-update") Update
+          label(class="form-check-label ps-1" for="opt-update") #{lang.UPDATE_OPTION}
         div(class="mb-3")
           input(class="form-check-input api-check" type="checkbox" value="Y" id="opt-delete" name="delete" checked=item.allow_services.delete=="Y")
-          label(class="form-check-label ps-1" for="opt-delete") Delete
+          label(class="form-check-label ps-1" for="opt-delete") #{lang.DELETE_OPTION}
         div(class="mb-3")
           input(class="form-check-input api-check" type="checkbox" value="Y" id="opt-list" name="list" checked=item.allow_services.list=="Y")
-          label(class="form-check-label ps-1" for="opt-list") List
+          label(class="form-check-label ps-1" for="opt-list") #{lang.LIST_OPTION}
         div(class="mb-3")
           input(class="form-check-input api-check" type="checkbox" value="Y" id="opt-get-by-id" name="getById" checked=item.allow_services.getById=="Y")
-          label(class="form-check-label ps-1" for="opt-get-by-id") Get by ID
+          label(class="form-check-label ps-1" for="opt-get-by-id") #{lang.GET_BY_ID}
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") Cancel
-      button(class="btn btn-primary" type="submit") Save
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
+      button(class="btn btn-primary" type="submit") #{lang.BTN_SAVE}
