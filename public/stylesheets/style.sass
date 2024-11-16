@@ -1,0 +1,36 @@
+// Variables de color
+$color-default: #000;
+$color-hover-blue: rgb(13, 110, 253);
+$color-hover-red: rgb(253, 13, 13);
+
+// Estilos
+.panel-admin
+  div
+    a
+      text-decoration: none;
+      color: $color-default;
+
+      .fa
+        color: $color-default;
+
+        &:hover
+          color: $color-hover-blue;
+
+      &:hover
+        color: $color-hover-blue;
+
+
+td
+  a
+    .fa
+      color: $color-default;
+
+      &:hover
+        color: $color-hover-blue;
+
+      &.fa-trash-o:hover
+        color: $color-hover-red;
+
+.btn-default
+  .fa.fa-trash-o:hover
+    color: $color-hover-red;

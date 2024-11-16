@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  div(class="d-flex flex-row bd-highlight mb-3 row")
+  div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
     div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center")
       a(href="/admin/users")
         span(class="fa fa-users fa-2x")
@@ -19,7 +19,7 @@ block content
         span Logout
 
   h3 Custom Collections
-  div(class="d-flex flex-row bd-highlight mb-3 row")
+  div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
     each collection in collections
       if collection.showAdmin
         div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center")
