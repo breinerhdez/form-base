@@ -51,7 +51,14 @@ module.exports = {
   UPDATE_OPTION: "Modificar",
 
   // FieldsConfig
+  FIELDS_ADVANCED: "Conf. Avanzada",
   FIELDS_APIDOC: "Configuración de campos",
+  FIELDS_DEFAULT_VALUE: "Valor por defecto",
+  FIELDS_LABEL: "Nombre",
+  FIELDS_NAME: "Nombre de atributo",
+  FIELDS_PROJECTION: "En listado",
+  FIELDS_SELECT_OPTION: "Seleccione una opción",
+  FIELDS_TYPE: "Tipo de entrada",
 
   // Users
   USERS_CREATE: "Crear usuario",
