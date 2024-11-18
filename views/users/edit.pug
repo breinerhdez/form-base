@@ -5,19 +5,19 @@ block content
   form(method="post" action=getRoute(basePath, "update", item._id))
 
     div(class="mb-3")
-      label(class="form-label" for='name') Full name
+      label(class="form-label" for='name') #{lang.USERS_FULLNAME}
       input(class="form-control" type='text' name="name" id="name" placeholder='Mark Webber' required value=item.name)
 
     div(class="mb-3")
-      label(class="form-label" for='email') E-mail
+      label(class="form-label" for='email') #{lang.USERS_EMAIL}
       input(class="form-control" type='email' name="email" id="email" placeholder='mark.webber@example.com' required value=item.email)
 
-    div(class="mb-3")
-      input(class="form-check-control" type='checkbox' name="status" id="status" value="Y" checked=item.status)
-      label(class="form-check-label ps-1" for='status') Active
+    div(class="mb-3 form-check form-switch")
+      input(class="form-check-input" type='checkbox' role="switch" name="status" id="status" value="Y" checked=item.status)
+      label(class="form-check-label ps-1" for='status') #{lang.USERS_STATUS}
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") Cancel
-      button(class="btn btn-primary" type="submit") Save
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
+      button(class="btn btn-primary" type="submit") #{lang.BTN_SAVE}
 
 

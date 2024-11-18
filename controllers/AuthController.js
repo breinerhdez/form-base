@@ -7,7 +7,7 @@ const CoreUsersModel = require("../models/CoreUsersModel");
 class AuthController {
   login(req, res) {
     try {
-      let data = { title: "Sign In", showBread: "hide" };
+      let data = { title: lang.LOGIN_TITLE, showBread: "hide", lang };
       res.render(`auth/login`, data);
     } catch (error) {
       req.flash("warning", lang.ERROR_500);

@@ -5,14 +5,14 @@ block content
   form(method="post" action="/auth/login")
 
     div(class="mb-3")
-      label(class="form-label" for='email') E-mail
+      label(class="form-label" for='email') #{lang.LOGIN_USER}
       input(class="form-control" type='email' name="email" id="email" placeholder='mark.webber@example.com' required)
 
     div(class="mb-3")
-      label(class="form-label" for='password') Password
+      label(class="form-label" for='password') #{lang.LOGIN_PASSWORD}
       input(class="form-control" type='password' name="password" id="password" placeholder='Hm*fBj-IzyDB' required)
 
     div(class="text-end")
-      button(class="btn btn-primary" type="submit") Sign In
+      button(class="btn btn-primary" type="submit") #{lang.LOGIN_BTN}
 
 

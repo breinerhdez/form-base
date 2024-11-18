@@ -3,11 +3,11 @@ const { getRoute } = require("../utils/helpers");
 const lang = require("../utils/lang");
 
 const basePath = "/admin/collections";
-var viewData = { getRoute, basePath, title: "Collections" };
+var viewData = { getRoute, basePath, title: lang.COLLECTIONS_TITLE, lang };
 
 const breadItems = [
   {
-    title: "Collections",
+    title: lang.COLLECTIONS_TITLE,
     href: getRoute(basePath, "index"),
   },
 ];
@@ -15,6 +15,8 @@ const breadItems = [
 class CollectionsController {
   async index(req, res) {
     try {
+      // clean session data
+      req.session.reqData = {};
       let listObjects = await CoreCollectionsModel.find({}, [
         "title",
         "path_name",
@@ -29,15 +31,21 @@ class CollectionsController {
   }
 
   create(req, res) {
-    let data = { ...viewData, title: `Add Collection`, breadItems };
+    let sessData = req.session.reqData;
+    let data = { ...viewData, title: `Add Collection`, breadItems, sessData };
     res.render(`collections/create`, data);
   }
 
   async store(req, res) {
     try {
+      // set session data
+      req.session.reqData = req.body;
       let newObj = new CoreCollectionsModel(req.body);
       await newObj.save();
       req.flash("success", lang.CRUD_CREATED);
+
+      // clean session data
+      req.session.reqData = {};
       res.redirect(getRoute(basePath, "index"));
     } catch (error) {
       console.log(error.message);
@@ -48,6 +56,10 @@ class CollectionsController {
             .map((val) => val.message)
             .join("<br>")
         );
+        res.redirect(getRoute(basePath, "create"));
+      } else if (error.name === "MongoServerError") {
+        console.log(error);
+        req.flash("danger", error.message);
         res.redirect(getRoute(basePath, "create"));
       } else {
         req.flash("warning", lang.ERROR_500);
@@ -109,8 +121,14 @@ class CollectionsController {
       req.flash("success", lang.CRUD_UPDATED);
       res.redirect(getRoute(basePath, "index"));
     } catch (error) {
-      req.flash("warning", lang.ERROR_500);
-      res.redirect(getRoute(basePath, "index"));
+      if (error.name === "MongoServerError") {
+        console.log(error);
+        req.flash("danger", error.message);
+        res.redirect(getRoute(basePath, "index"));
+      } else {
+        req.flash("warning", lang.ERROR_500);
+        res.redirect(getRoute(basePath, "index"));
+      }
     }
   }
 

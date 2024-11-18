@@ -7,11 +7,17 @@ var fieldsMainPath = "/admin/fields/";
 const basePath = "/admin/collections";
 const breadItems = [
   {
-    title: "Collections",
+    title: lang.FIELDS_APIDOC,
     href: getRoute(basePath, "index"),
   },
 ];
-var viewData = { getRoute, basePath, title: "Fields", breadItems };
+var viewData = {
+  getRoute,
+  basePath,
+  title: lang.FIELDS_APIDOC,
+  breadItems,
+  lang,
+};
 
 class FieldsConfigController {
   // fieldsMainPath = "/admin/fields/";

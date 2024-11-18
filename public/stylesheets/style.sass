@@ -1,0 +1,46 @@
+// Variables de color
+$color-default: #000;
+$color-hover-blue: rgb(13, 110, 253);
+$color-hover-red: rgb(253, 13, 13);
+$color-hover-background: #f9f9f9;
+
+// Estilos
+.panel-admin
+  .padmin-option
+    a
+      color: $color-default;
+      text-decoration: none;
+      .item-container
+        padding: 10px 0px
+
+      &:hover
+        color: $color-hover-blue;
+        .item-container
+          background-color: $color-hover-background;
+          border-radius: 10px
+
+
+
+
+td
+  a
+    .fa
+      color: $color-default;
+
+      &:hover
+        color: $color-hover-blue;
+
+      &.fa-trash-o:hover
+        color: $color-hover-red;
+
+.btn-default
+  .fa.fa-trash-o:hover
+    color: $color-hover-red;
+
+.btn-removeField
+  &:hover
+    color: $color-hover-red;
+
+.info-btn
+  color: $color-default
+  cursor: pointer
