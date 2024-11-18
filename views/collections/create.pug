@@ -5,19 +5,19 @@ block content
   form(method="post" action=getRoute(basePath, "store"))
 
     div(class="mb-3")
-      label(class="form-label" for='title') Title
-      input(class="form-control" type='text' name="title" id="title" placeholder='User management' required)
+      label(class="form-label" for='title') #{lang.COLLECTIONS_COL_TITLE}
+      input(class="form-control" type='text' name="title" id="title" value=sessData.title?sessData.title:"" placeholder='User management' required)
 
     div(class="mb-3")
-      label(class="form-label" for='path_name') Path Name
-      input(class="form-control" type='text' name="path_name" id="path_name" placeholder='user-management' required)
+      label(class="form-label" for='path_name') #{lang.COLLECTIONS_PATH}
+      input(class="form-control" type='text' name="path_name" id="path_name" value=sessData.path_name?sessData.path_name:"" placeholder='user-management' required)
 
     div(class="mb-3")
-      label(class="form-label" for='collection_name') Collection Name
-      input(class="form-control" type='text' name="collection_name" id="collection_name" placeholder='custom_user_management' required)
+      label(class="form-label" for='collection_name') #{lang.COLLECTIONS_NAME}
+      input(class="form-control" type='text' name="collection_name" id="collection_name" value=sessData.collection_name?sessData.collection_name:"" placeholder='custom_user_management' required)
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") Cancel
-      button(class="btn btn-primary" type="submit") Save
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
+      button(class="btn btn-primary" type="submit") #{lang.BTN_SAVE}
 
 

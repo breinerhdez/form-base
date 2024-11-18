@@ -5,19 +5,19 @@ block content
 
   button(class="btn btn-primary float-end" id="btnAddField")
     span(class="fa fa-plus")
-    span  Add New
+    span  #{lang.BTN_CREATE}
 
   form(method="post" action=fieldsPath)
 
     table(class="table" id="fieldsTable")
       thead
         tr
-          th Name
-          th Label
-          th Type
-          th Default Value
-          th Projection
-          th Advanced
+          th #{lang.FIELDS_NAME}
+          th #{lang.FIELDS_LABEL}
+          th #{lang.FIELDS_TYPE}
+          th #{lang.FIELDS_DEFAULT_VALUE}
+          th #{lang.FIELDS_PROJECTION}
+          th #{lang.FIELDS_ADVANCED}
           th Actions
       tbody(id="rowFieldsSortable")
         each field in collection.form.fields
@@ -37,7 +37,7 @@ block content
               input(type="text" name="field[label][]" value=field.label required)
             td
               select(name="field[type][]" required)
-                option(value="") Select an option
+                option(value="") #{lang.FIELDS_SELECT_OPTION}
                 option(value="Checkbox" selected=field.type=="Checkbox") Checkbox
                 option(value="Email" selected=field.type=="Email") Email
                 option(value="Number" selected=field.type=="Number") Number
@@ -48,16 +48,17 @@ block content
             td
               input(type="text" name="field[default_value][]" value=field.default_value placeholder="Default value")
             td
-              input(type="checkbox" name="field[projection][]" checked=field.projection==true class="projectionCheckboxRow" value=field.name)
+              div(class="form-check form-switch")
+                input(type="checkbox" name="field[projection][]" role="switch" checked=field.projection==true class="projectionCheckboxRow form-check-input" value=field.name)
             td
               button(type="button" class="btn btn-primary buttonAdvancedModal" data-bs-toggle="modal" data-bs-target="#advancedModal") Advanced
             td
-              span(class="btn btn-default fa fa-trash-o fa-2x btn-removeField" title="Delete")
+              span(class="btn btn-default fa fa-trash-o fa-2x btn-removeField" title=lang.BTN_DELETE)
 
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") Cancel
-      button(type="submit" class="btn btn-primary") Save
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
+      button(type="submit" class="btn btn-primary") #{lang.BTN_SAVE}
 
   include modal.pug
 

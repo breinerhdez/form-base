@@ -18,7 +18,7 @@ $(".alert .btn-close").click(function () {
 
 // confirm alert for delete option
 $("a.delete-button").click(function () {
-  return confirm("Are you sure you want to delete this object?");
+  return confirm("¿Está seguro que quiere eliminar el objeto?");
 });
 
 // check all options for API services

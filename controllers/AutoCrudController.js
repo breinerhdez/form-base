@@ -10,7 +10,7 @@ const {
 
 const basePath = "/admin/crud";
 
-var viewData = { getAutocrudRoute, basePath };
+var viewData = { getAutocrudRoute, basePath, lang };
 
 class AutoCrudController {
   async index(req, res) {
@@ -67,7 +67,7 @@ class AutoCrudController {
       // set view
       let data = {
         ...viewData,
-        title: "Add",
+        title: lang.BTN_CREATE,
         collection,
         objForm: await objForm.dsp(),
         breadItems: getAutoCrudBreadItems(basePath, collection),
@@ -171,7 +171,7 @@ class AutoCrudController {
       // set view
       let data = {
         ...viewData,
-        title: "Edit",
+        title: lang.BTN_UPDATE,
         collection,
         objForm: await objForm.dsp(),
         breadItems: getAutoCrudBreadItems(basePath, collection),

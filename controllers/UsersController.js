@@ -6,11 +6,11 @@ const { getRoute } = require("../utils/helpers");
 const lang = require("../utils/lang");
 
 const basePath = "/admin/users";
-var viewData = { getRoute, basePath, title: "Users" };
+var viewData = { getRoute, basePath, title: lang.USERS_TITLE, lang };
 
 const breadItems = [
   {
-    title: "Users",
+    title: lang.USERS_TITLE,
     href: getRoute(basePath, "index"),
   },
 ];
@@ -28,7 +28,7 @@ class UserController {
   }
 
   create(req, res) {
-    let data = { ...viewData, title: `Add User`, breadItems };
+    let data = { ...viewData, title: lang.USERS_CREATE, breadItems };
     res.render(`users/create`, data);
   }
 
@@ -67,7 +67,7 @@ class UserController {
       }
       let data = {
         ...viewData,
-        title: `Edit User`,
+        title: lang.USERS_UPDATE,
         breadItems,
         item: objDb,
       };
