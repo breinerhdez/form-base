@@ -10,7 +10,7 @@ div(class="modal fade" id="advancedModal" tabindex="-1" aria-labelledby="example
         .row
 
           div(class="mb-3 col-md-3")
-            label(class="form-label" for='modalConf-database_type') Database Type
+            label(class="form-label" for='modalConf-database_type') Tipo en base de datos
             select(class="form-select" id="modalConf-database_type")
               option(value="String") String
               option(value="[String]") [String]
@@ -20,42 +20,47 @@ div(class="modal fade" id="advancedModal" tabindex="-1" aria-labelledby="example
               option(value="[Boolean]") [Boolean]
 
           div(class="mb-3 col-md-3")
-            label(class="form-label" for='modalConf-cols') Columns
+            label(class="form-label" for='modalConf-cols') Columnas
             select(class="form-select" id="modalConf-cols")
               option(value="col-md-12") 12
+              option(value="col-md-11") 11
+              option(value="col-md-10") 10
               option(value="col-md-9") 9
               option(value="col-md-8") 8
+              option(value="col-md-7") 7
               option(value="col-md-6") 6
+              option(value="col-md-5") 5
               option(value="col-md-4") 4
               option(value="col-md-3") 3
               option(value="col-md-2") 2
               option(value="col-md-1") 1
 
-          div(class="mb-3 col-md-3")
-            input(class="form-check-input" type="checkbox" id="modalConf-required")
-            label(class="form-check-label ps-1" for="modalConf-required") Required
+          div(class="mb-3 col-md-3 form-check form-switch")
+            input(class="form-check-input" type="checkbox" role="switch" id="modalConf-required")
+            label(class="form-check-label ps-1" for="modalConf-required") Requerido
 
         .options-section
-          h5 Options
+          h5 Opciones del campo
           .row
             div(class="mb-3 col-md-3")
-              label(class="form-label" for='modalConf-options_type') Type
+              label(class="form-label" for='modalConf-options_type') Tipo de configuración
               select(class="form-select" id="modalConf-options_type")
-                option(value="CUSTOM") CUSTOM
-                option(value="COLLECTION") COLLECTION
-
-            div(class="mb-3 col-md-3")
-              label(class="form-label" for='modalConf-options_values') Values
-              input(type="text" class="form-control" id="modalConf-options_values")
-
+                option(value="CUSTOM") Ingresar manualmente
+                option(value="COLLECTION") Desde una colección
             div(class="mb-3 col-md-3 collection_name_input_container")
-              label(class="form-label" for='modalConf-options_collection_name') Collection
+              label(class="form-label" for='modalConf-options_collection_name') Nombre de colección
               select(class="form-select" id="modalConf-options_collection_name")
-                option(value="") Select an option
+                option(value="") Seleccione una opción
                 each item in collectionList
                   option(value=item.collection_name)= item.collection_name
 
+            div(class="mb-3 col-md-3")
+              label(class="form-label" for='modalConf-options_values') Valores
+              input(type="text" class="form-control" id="modalConf-options_values")
+              span(class="fa fa-info-circle ml-2 info-btn" title="Información de ayuda para configurar las opciones del campo"  data-bs-toggle="collapse" data-bs-target="#collapseValuesHelpping" aria-expanded="false" aria-controls="collapseValuesHelpping")
+              div(class="collapse" id="collapseValuesHelpping")
+                div(class="card card-body-helpping")
 
       div(class="modal-footer")
-        button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
-        button(type="submit" class="btn btn-primary" id="modalSaveButton") Save
+        button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Cerrar
+        button(type="submit" class="btn btn-primary" id="modalSaveButton") Guardar

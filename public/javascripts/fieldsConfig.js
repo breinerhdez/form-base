@@ -16,7 +16,7 @@ const newFieldForm = `<tr>
   </td>
   <td>
     <select name="field[type][]" required>
-      <option value="">Select an option</option>
+      <option value="">Seleccione una opción</option>
       <option value="Checkbox">Checkbox</option>
       <option value="Email">Email</option>
       <option value="Number">Number</option>
@@ -30,13 +30,15 @@ const newFieldForm = `<tr>
     <input type="text" name="field[default_value][]" placeholder="Default value">
   </td>
   <td>
-    <input type="checkbox" name="field[projection][]" class="projectionCheckboxRow">
+    <div class="form-check form-switch">
+      <input type="checkbox" role="switch" name="field[projection][]" class="projectionCheckboxRow form-check-input">
+    </div>
   </td>
   <td>
-    <button type="button" class="btn btn-primary buttonAdvancedModal" data-bs-toggle="modal" data-bs-target="#advancedModal">Advanced</button>
+    <button type="button" class="btn btn-primary buttonAdvancedModal" data-bs-toggle="modal" data-bs-target="#advancedModal">Configurar</button>
   </td>
   <td>
-    <span class="btn btn-danger fa fa-trash btn-removeField" title="Delete"></span>
+    <span class="btn btn-default fa fa-trash-o btn-removeField" title="Eliminar"></span>
   </td>
 </tr>`;
 
@@ -104,8 +106,10 @@ function showOptionsSection() {
 $("#modalConf-options_type").change(function () {
   if ($(this).val() == "COLLECTION") {
     $(".collection_name_input_container").css("display", "block");
+    $(".card-body-helpping").text("Ingresar el nombre del atributo a guardar, luego una coma y finalmente el valor a mostrar. Ejemplo: 'id,username'");
   } else {
     $(".collection_name_input_container").css("display", "none");
+    $(".card-body-helpping").text("Ingresar valores separados por coma. Ejemplo: 'Verde,Rojo,Naranja,Blanco,Negro'");
   }
 });
 
@@ -114,9 +118,9 @@ function getValuesFromRow() {
   // name
   currentRow.name = currentRow.row.find('input[name="field[name][]"]').val();
   // title
-  currentRow.title = `Advanced configuration for ${currentRow.row
+  currentRow.title = `Configuración avanzada para: ${currentRow.row
     .find('input[name="field[name][]"]')
-    .val()}:${currentRow.row.find('input[name="field[label][]"]').val()}`;
+    .val()}::${currentRow.row.find('input[name="field[label][]"]').val()}`;
   // cols
   currentRow.cols = currentRow.row.find('input[name="field[cols][]"]').val();
   // required
