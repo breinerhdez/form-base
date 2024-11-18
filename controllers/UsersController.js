@@ -28,7 +28,7 @@ class UserController {
   }
 
   create(req, res) {
-    let data = { ...viewData, title: `Add User`, breadItems };
+    let data = { ...viewData, title: lang.USERS_CREATE, breadItems };
     res.render(`users/create`, data);
   }
 
@@ -67,7 +67,7 @@ class UserController {
       }
       let data = {
         ...viewData,
-        title: `Edit User`,
+        title: lang.USERS_UPDATE,
         breadItems,
         item: objDb,
       };

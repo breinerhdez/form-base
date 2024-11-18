@@ -37,7 +37,8 @@ module.exports = {
   COLLECTIONS_NAME: "Nombre de colección de datos",
   COLLECTIONS_PATH: "Ruta/Recurso",
   COLLECTIONS_PUBLIC_FORM: "Formulario público",
-  COLLECTIONS_SHOW_IN_PANELADMIN: "Mostrar en el grupo de colecciones dinámicas del sistema",
+  COLLECTIONS_SHOW_IN_PANELADMIN:
+    "Mostrar en el grupo de colecciones dinámicas del sistema",
   COLLECTIONS_TITLE: "Gestión de colecciones dinámicas",
   COLLECTIONS_URL_AFTER_CREATE: "URL de retorno después de crear un registro",
 
@@ -53,7 +54,14 @@ module.exports = {
   FIELDS_APIDOC: "Configuración de campos",
 
   // Users
+  USERS_CREATE: "Crear usuario",
+  USERS_DELETE: "Eliminar usuario",
+  USERS_EMAIL: "Correo electrónico",
+  USERS_FULLNAME: "Nombre completo",
+  USERS_PASSWORD: "Contraseña",
+  USERS_STATUS: "Estado",
   USERS_TITLE: "Gestión de usuarios",
+  USERS_UPDATE: "Modificar usuario",
 
   // Panel Admin
   PANELADMIN_TITLE: "Administración",
