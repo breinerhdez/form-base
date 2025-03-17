@@ -128,7 +128,13 @@ class ApiAutoCrudController {
       });
     } catch (error) {
       console.log(colors.inverse.red(error.message));
-      if (error.message == "404") {
+      if (error.name === "ValidationError") {
+        let errorList = getErrorsMap(error);
+        console.log(colors.red(errorList.join("\n")));
+        return res.status(400).json({
+          errors: errorList,
+        });
+      }if (error.message == "404") {
         return res.status(404).send(lang.ERROR_404);
       }
       res.status(500).send(lang.ERROR_500);
