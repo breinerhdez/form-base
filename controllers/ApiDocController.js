@@ -4,6 +4,7 @@ const swaggerUi = require("swagger-ui-express");
 const path = require("path");
 const { getObjectsAndModel } = require("../utils/dynamicResources");
 const { autoCrudAppPatterns } = require("../utils/helpers");
+const lang = require("../utils/lang");
 
 const basePath = "/api/crud/";
 
@@ -66,6 +67,15 @@ class ApiDocController {
               token:
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
             },
+            Response400: {
+              "errors":[
+                "Error description."
+              ]
+            },
+            Response401: lang.ERROR_401,
+            Response404: lang.ERROR_404,
+            Response500: lang.ERROR_500,
+            Response503: lang.ERROR_503,
           },
         },
       };
@@ -114,7 +124,7 @@ class ApiDocController {
         schema: { $ref: "#/components/schemas/LoginRequest"}
       }
       #swagger.responses[200] = {
-        description: 'OK',
+        description: '${lang.ERROR_200}',
         schema: { $ref: "#/components/schemas/LoginResponse"}
       }
       */
@@ -138,6 +148,18 @@ class ApiDocController {
         description: 'OK',
         schema: { $ref: "#/components/schemas/IndexResponse"}
       }
+      #swagger.responses[401] = {
+        description: '${lang.ERROR_401}',
+        schema: { $ref: "#/components/schemas/Response401"}
+      }
+      #swagger.responses[500] = {
+        description: '${lang.ERROR_500}',
+        schema: { $ref: "#/components/schemas/Response500"}
+      }
+      #swagger.responses[503] = {
+        description: '${lang.ERROR_503}',
+        schema: { $ref: "#/components/schemas/Response500"}
+      }
       */
       res.json([{ id: 1, name: 'John Doe' }]);
     });
@@ -159,9 +181,25 @@ class ApiDocController {
         required: true,
         schema: { $ref: "#/components/schemas/CreateRequest"}
       }
-      #swagger.responses[200] = {
-        description: 'OK',
+      #swagger.responses[201] = {
+        description: '${lang.ERROR_201}',
         schema: { $ref: "#/components/schemas/CreateResponse"}
+      }
+      #swagger.responses[401] = {
+        description: '${lang.ERROR_401}',
+        schema: { $ref: "#/components/schemas/Response401"}
+      }
+      #swagger.responses[400] = {
+        description: '${lang.ERROR_400}',
+        schema: { $ref: "#/components/schemas/Response400"}
+      }
+      #swagger.responses[500] = {
+        description: '${lang.ERROR_500}',
+        schema: { $ref: "#/components/schemas/Response500"}
+      }
+      #swagger.responses[503] = {
+        description: '${lang.ERROR_503}',
+        schema: { $ref: "#/components/schemas/Response500"}
       }
       */
       res.json({ message: 'Usuario creado' });
@@ -191,8 +229,28 @@ class ApiDocController {
         schema: { $ref: "#/components/schemas/UpdateRequest"}
       }
       #swagger.responses[200] = {
-        description: 'OK',
+        description: '${lang.ERROR_200}',
         schema: { $ref: "#/components/schemas/UpdateResponse"}
+      }
+      #swagger.responses[401] = {
+        description: '${lang.ERROR_401}',
+        schema: { $ref: "#/components/schemas/Response401"}
+      }
+      #swagger.responses[400] = {
+        description: '${lang.ERROR_400}',
+        schema: { $ref: "#/components/schemas/Response400"}
+      }
+      #swagger.responses[404] = {
+        description: '${lang.ERROR_404}',
+        schema: { $ref: "#/components/schemas/Response404"}
+      }
+      #swagger.responses[500] = {
+        description: '${lang.ERROR_500}',
+        schema: { $ref: "#/components/schemas/Response500"}
+      }
+      #swagger.responses[503] = {
+        description: '${lang.ERROR_503}',
+        schema: { $ref: "#/components/schemas/Response500"}
       }
       */
       res.json({ message: 'Usuario creado' });
@@ -218,8 +276,24 @@ class ApiDocController {
         example: "61fc9039c7452ebc81c72a17"
       }
       #swagger.responses[200] = {
-        description: 'OK',
+        description: '${lang.ERROR_200}',
         schema: { $ref: "#/components/schemas/ShowResponse"}
+      }
+      #swagger.responses[401] = {
+        description: '${lang.ERROR_401}',
+        schema: { $ref: "#/components/schemas/Response401"}
+      }
+      #swagger.responses[404] = {
+        description: '${lang.ERROR_404}',
+        schema: { $ref: "#/components/schemas/Response404"}
+      }
+      #swagger.responses[500] = {
+        description: '${lang.ERROR_500}',
+        schema: { $ref: "#/components/schemas/Response500"}
+      }
+      #swagger.responses[503] = {
+        description: '${lang.ERROR_503}',
+        schema: { $ref: "#/components/schemas/Response500"}
       }
       */
       res.json([{ id: 1, name: 'John Doe' }]);
@@ -245,8 +319,24 @@ class ApiDocController {
         example: "61fc9039c7452ebc81c72a17"
       }
       #swagger.responses[200] = {
-        description: 'OK',
+        description: '${lang.ERROR_200}',
         schema: { $ref: "#/components/schemas/DeleteResponse"}
+      }
+      #swagger.responses[401] = {
+        description: '${lang.ERROR_401}',
+        schema: { $ref: "#/components/schemas/Response401"}
+      }
+      #swagger.responses[404] = {
+        description: '${lang.ERROR_404}',
+        schema: { $ref: "#/components/schemas/Response404"}
+      }
+      #swagger.responses[500] = {
+        description: '${lang.ERROR_500}',
+        schema: { $ref: "#/components/schemas/Response500"}
+      }
+      #swagger.responses[503] = {
+        description: '${lang.ERROR_503}',
+        schema: { $ref: "#/components/schemas/Response500"}
       }
       */
       res.json([{ id: 1, name: 'John Doe' }]);
