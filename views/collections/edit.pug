@@ -2,6 +2,16 @@ extends ../layout
 
 block content
 
+  
+  div(class="option-buttons")
+    a(href=`/admin/fields/${item._id}` class="me-3 btn btn-primary float-end-" title=lang.FIELDS_APIDOC)
+      span(class="fa fa-list")
+      span  #{lang.FIELDS_APIDOC}
+    a(href=`/admin/api-doc/${item.path_name}` target="_blank" class="me-3 btn btn-primary float-end-" title=lang.COLLECTIONS_APIDOC)
+      span(class="fa fa-file-text-o" aria-hidden="true")
+      span  #{lang.COLLECTIONS_APIDOC}
+
+
   form(method="post" action=getRoute(basePath, "update", item._id))
     nav
       .nav.nav-tabs#nav-tab(role='tablist')

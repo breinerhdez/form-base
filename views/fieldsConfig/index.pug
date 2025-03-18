@@ -1,9 +1,14 @@
 extends ../layout
 
 block content
-  h2= collection.title
+  h2(class="h2-fieldsConf")
+    a(href=getRoute(basePathCollection, "edit", collection._id) title="Editar configuración general de la colección")
+      span(class="fa fa-pencil")
+      span #{collection.title}
+  
+  //- h2= collection.title
 
-  button(class="btn btn-primary float-end" id="btnAddField")
+  button(class="btn btn-primary float-end" id="btnAddField" title="Adicionar campo")
     span(class="fa fa-plus")
     span  #{lang.BTN_CREATE}
 
