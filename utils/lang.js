@@ -34,7 +34,7 @@ module.exports = {
   LOGIN_USER: "Correo electrónico",
 
   // Collections
-  COLLECTIONS_APIDOC: "Documentación de API",
+  COLLECTIONS_APIDOC: "Documentación",
   COLLECTIONS_COL_TITLE: "Título",
   COLLECTIONS_NAME: "Nombre de colección de datos",
   COLLECTIONS_PATH: "Ruta/Recurso",
@@ -55,13 +55,14 @@ module.exports = {
   // FieldsConfig
   FIELDS_ADVANCED: "Conf. Avanzada",
   FIELDS_CONFIGURE: "Configurar",
-  FIELDS_APIDOC: "Configuración de campos",
+  FIELDS_APIDOC: "Gestionar campos",
   FIELDS_DEFAULT_VALUE: "Valor por defecto",
   FIELDS_LABEL: "Nombre",
   FIELDS_NAME: "Nombre del campo",
   FIELDS_PROJECTION: "En listado",
   FIELDS_SELECT_OPTION: "Seleccione una opción",
   FIELDS_TYPE: "Tipo de entrada",
+  FIELDS_UPDATED: "Fields updated",
 
   // Users
   USERS_CREATE: "Crear usuario",

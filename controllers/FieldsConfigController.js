@@ -5,6 +5,7 @@ const lang = require("../utils/lang");
 
 var fieldsMainPath = "/admin/fields/";
 const basePath = "/admin/collections";
+const basePathCollection = "/admin/collections";
 const breadItems = [
   {
     title: lang.FIELDS_APIDOC,
@@ -17,6 +18,7 @@ var viewData = {
   title: lang.FIELDS_APIDOC,
   breadItems,
   lang,
+  basePathCollection,
 };
 
 class FieldsConfigController {
@@ -94,7 +96,7 @@ class FieldsConfigController {
       // delete dynamic model
       await deleteDynamicModel(objDb);
 
-      req.flash("info", "Fields updated");
+      req.flash("success", lang.FIELDS_UPDATED);
       res.redirect(fieldsPath);
     } catch (error) {
       if (error.name === "ValidationError") {
