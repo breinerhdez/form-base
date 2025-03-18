@@ -43,7 +43,6 @@ class FieldsConfigController {
     let { id } = req.params;
     let fieldsPath = fieldsMainPath + id;
     try {
-
       // validate object existence
       let objDb = await CoreCollectionsModel.findById(id);
       if (!objDb) {
@@ -71,6 +70,18 @@ class FieldsConfigController {
         if (fieldsProjection.includes(field.name)) {
           labels.push(field.label);
         }
+
+        // validate default
+        let reqValue = field.others.rules.required;
+        field.others.rules.required =
+          reqValue == null || reqValue == "" ? false : true;
+
+        let dbTypeVal = field.others.config.database_type;
+        field.others.config.database_type =
+          dbTypeVal == "" || dbTypeVal == null ? "String" : dbTypeVal;
+
+        let colsVal = field.cols;
+        field.cols = colsVal == "" || colsVal == null ? "col-md-12" : colsVal;
 
         objFields.push(field);
       }
