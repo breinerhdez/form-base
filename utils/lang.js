@@ -57,12 +57,15 @@ module.exports = {
   FIELDS_CONFIGURE: "Configurar",
   FIELDS_APIDOC: "Gestionar campos",
   FIELDS_DEFAULT_VALUE: "Valor por defecto",
-  FIELDS_LABEL: "Nombre",
+  FIELDS_LABEL: "Etiqueta",
   FIELDS_NAME: "Nombre del campo",
   FIELDS_PROJECTION: "En listado",
   FIELDS_SELECT_OPTION: "Seleccione una opción",
   FIELDS_TYPE: "Tipo de entrada",
   FIELDS_UPDATED: "Fields updated",
+  FIELDS_REQUIRED: "Campo requerido",
+  FIELDS_COLUMNS: "Columnas",
+  FIELDS_DATABASE_TYPE: "Tipo de dato",
 
   // Users
   USERS_CREATE: "Crear usuario",
