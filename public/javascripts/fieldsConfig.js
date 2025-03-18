@@ -106,10 +106,14 @@ function showOptionsSection() {
 $("#modalConf-options_type").change(function () {
   if ($(this).val() == "COLLECTION") {
     $(".collection_name_input_container").css("display", "block");
-    $(".card-body-helpping").text("Ingresar el nombre del atributo a guardar, luego una coma y finalmente el valor a mostrar. Ejemplo: 'id,username'");
+    $(".card-body-helpping").text(
+      "Ingresar el nombre del atributo a guardar, luego una coma y finalmente el valor a mostrar. Ejemplo: 'id,username'"
+    );
   } else {
     $(".collection_name_input_container").css("display", "none");
-    $(".card-body-helpping").text("Ingresar valores separados por coma. Ejemplo: 'Verde,Rojo,Naranja,Blanco,Negro'");
+    $(".card-body-helpping").text(
+      "Ingresar valores separados por coma. Ejemplo: 'Verde,Rojo,Naranja,Blanco,Negro'"
+    );
   }
 });
 
@@ -158,7 +162,9 @@ function setValuesForModal() {
   // required
   $("#modalConf-required").prop("checked", currentRow.rules.required);
   // database type
-  $("#modalConf-database_type").val(currentRow.config.database_type);
+  $("#modalConf-database_type").val(
+    currentRow.config.database_type || "String"
+  );
   // options type
   $("#modalConf-options_type").val(currentRow.options.type);
   $("#modalConf-options_type").change(); // trigger
