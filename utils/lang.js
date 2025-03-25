@@ -59,13 +59,13 @@ module.exports = {
   FIELDS_DEFAULT_VALUE: "Valor por defecto",
   FIELDS_LABEL: "Etiqueta",
   FIELDS_NAME: "Nombre del campo",
-  FIELDS_PROJECTION: "En listado",
+  FIELDS_PROJECTION: "Mostrar en lista",
   FIELDS_SELECT_OPTION: "Seleccione una opción",
   FIELDS_TYPE: "Tipo de entrada",
-  FIELDS_UPDATED: "Fields updated",
+  FIELDS_UPDATED: "Campos actualizados",
   FIELDS_REQUIRED: "Campo requerido",
   FIELDS_COLUMNS: "Columnas",
-  FIELDS_DATABASE_TYPE: "Tipo de dato",
+  FIELDS_DATABASE_TYPE: "Tipo de dato en base de datos",
 
   // Users
   USERS_CREATE: "Crear usuario",
@@ -76,6 +76,7 @@ module.exports = {
   USERS_STATUS: "Estado",
   USERS_TITLE: "Gestión de usuarios",
   USERS_UPDATE: "Modificar usuario",
+  USERS_ROLS: "Roles",
 
   // Panel Admin
   PANELADMIN_TITLE: "Administración",

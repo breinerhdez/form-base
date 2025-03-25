@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app",
-    "dev": "nodemon app-e js,pug,json"
+    "dev": "nodemon app -e js,pug,json"
   },
   "dependencies": {
     "async-local-storage": "^2.3.1",

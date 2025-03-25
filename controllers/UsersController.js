@@ -89,10 +89,11 @@ class UserController {
         return res.redirect(getRoute(basePath, "index"));
       }
       // update details
-      let body = _.pick(req.body, ["name", "email", "status"]);
+      let body = _.pick(req.body, ["name", "email", "status", "rols"]);
       objDb.name = body.name;
       objDb.email = body.email;
       objDb.status = body.status == "Y" ? true : false;
+      objDb.rols = body.rols;
 
       // save
       await CoreUsersModel.findByIdAndUpdate(id, objDb);

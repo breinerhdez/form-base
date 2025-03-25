@@ -38,7 +38,7 @@ class FieldsConfigController {
     let collectionList = await CoreCollectionsModel.find({});
 
     let data = { ...viewData, fieldsPath, collection: objDb, collectionList };
-    res.render(`fieldsConfig/index`, data);
+    res.render(`fieldsConfig/index2`, data);
   }
 
   async update(req, res) {

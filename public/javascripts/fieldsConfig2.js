@@ -3,21 +3,24 @@
 // form for new field
 const newFieldForm = `<tr>
   <td>
-    <input type="text" name="field[name][]" class="fieldNameRow" placeholder="name_field" required>
-    <div class="otherElements" style="display:nones">
+    <input type="text" name="field[name][]" class="form-control fieldNameRow" placeholder="name_field" required>
+    <div class="otherElements" style="display:none">
       <input type="text" name="field[label][]" placeholder="field.label" />
-      <input type="text" name="field[cols][]" placeholder="field.cols" />
+      <input type="text" name="field[type][]" placeholder="field.type" />
+      <input type="text" name="field[cols][]" placeholder="field.cols" value="col-md-6" />
+      <input type="checkbox" name="field[projection][]" />
       <input type="text" name="others[input_name][rules][required]" placeholder="others.rules.required" value="" />
       <input type="text" name="others[input_name][config][database_type]" placeholder="others.config.database_type" />
       <input type="text" name="others[input_name][options][type]" value="CUSTOM" placeholder="others.options.type" />
       <input type="text" name="others[input_name][options][values]" value="Option 1,Option 2,Option 3" placeholder="others.options.values" />
       <input type="text" name="others[input_name][options][collection_name]" value="" placeholder="others.options.collection_name" />
+      <input type="text" name="field[default_value][]" placeholder="Default value" />
     </div>
   </td>
   <!--<td>
      <input type="text" name="field[label][]" placeholder="Label field" required>
   </td>-->
-  <td>
+  <!--  <td>
     <select name="field[type][]" required>
       <option value="">Seleccione una opción</option>
       <option value="Checkbox">Checkbox</option>
@@ -28,26 +31,28 @@ const newFieldForm = `<tr>
       <option value="Select">Select</option>
       <option value="Text">Text</option>
     </select>
-  </td>
+  </td>-->
   <!--<td>
     <input type="text" name="field[default_value][]" placeholder="Default value">
   </td>-->
-  <td>
+  <!--<td>
     <div class="form-check form-switch">
       <input type="checkbox" role="switch" name="field[projection][]" class="projectionCheckboxRow form-check-input">
     </div>
-  </td>
+  </td>-->
   <!--<td>
     <button type="button" class="btn btn-primary buttonAdvancedModal" data-bs-toggle="modal" data-bs-target="#advancedModal">Configurar</button>
   </td>-->
   <td>
-    <span class="btn btn-default fa fa-trash-o btn-removeField" title="Eliminar"></span>
+    <span class="fa fa-trash-o fa-2x btn-removeField" title="Eliminar"></span>
   </td>
 </tr>`;
 
 $(document).ready(function () {
   // sortable for fields rows
   $("#rowFieldsSortable").sortable();
+  showOptionsSection();
+  setHelpMessageOptions();
 });
 
 // event handler for add field
@@ -97,16 +102,23 @@ $(document).on(
   ".buttonAdvancedModal, #rowFieldsSortable td",
   function () {
     currentRow.row = $(this).parents("tr");
-    showOptionsSection();
     getValuesFromRow();
     setValuesForModal();
+    setStyleCurrentFieldRow();
+    showOptionsSection();
+    setHelpMessageOptions();
   }
 );
+
+function setStyleCurrentFieldRow() {
+  $("#fieldsTable tr").removeClass("field-selected");
+  currentRow.row.addClass("field-selected");
+}
 
 // display or hide options section
 function showOptionsSection() {
   let allowTypes = ["Select", "Radio", "Checkbox"];
-  let fieldType = currentRow.row.find('select[name="field[type][]"]').val();
+  let fieldType = $("#field-type").val();
   if (allowTypes.includes(fieldType)) {
     $(".options-section").css("display", "block");
   } else {
@@ -114,20 +126,37 @@ function showOptionsSection() {
   }
 }
 
+$(document).on("change", "#field-type", showOptionsSection);
+
 // display or hide collection_name in options section
-$("#modalConf-options_type").change(function () {
-  if ($(this).val() == "COLLECTION") {
-    $(".collection_name_input_container").css("display", "block");
+function setHelpMessageOptions() {
+  if ($("#field-options_type").val() == "COLLECTION") {
+    $(".collection_name_input_container").removeClass("d-none");
     $(".card-body-helpping").text(
-      "Ingresar el nombre del atributo a guardar, luego una coma y finalmente el valor a mostrar. Ejemplo: 'id,username'"
+      "Ingresar el nombre del atributo a guardar, luego una coma y finalmente el valor a mostrar. Ejemplo: si quiere guardar 'id' y mostrar 'username' se ingresa 'id,username'"
     );
   } else {
-    $(".collection_name_input_container").css("display", "none");
+    $(".collection_name_input_container").addClass("d-none");
     $(".card-body-helpping").text(
       "Ingresar valores separados por coma. Ejemplo: 'Verde,Rojo,Naranja,Blanco,Negro'"
     );
   }
-});
+}
+$("#field-options_type").change(setHelpMessageOptions);
+
+// $("#field-options_type").change(function () {
+//   if ($(this).val() == "COLLECTION") {
+//     $(".collection_name_input_container").css("display", "block");
+//     $(".card-body-helpping").text(
+//       "Ingresar el nombre del atributo a guardar, luego una coma y finalmente el valor a mostrar. Ejemplo: 'id,username'"
+//     );
+//   } else {
+//     $(".collection_name_input_container").css("display", "none");
+//     $(".card-body-helpping").text(
+//       "Ingresar valores separados por coma. Ejemplo: 'Verde,Rojo,Naranja,Blanco,Negro'"
+//     );
+//   }
+// });
 
 // get values for modal
 function getValuesFromRow() {
@@ -136,7 +165,7 @@ function getValuesFromRow() {
   // label
   currentRow.label = currentRow.row.find('input[name="field[label][]"]').val();
   // type
-  currentRow.type = currentRow.row.find('select[name="field[type][]"]').val();
+  currentRow.type = currentRow.row.find('input[name="field[type][]"]').val();
   // projection
   currentRow.projection = currentRow.row
     .find('input[name="field[projection][]"]')
@@ -173,7 +202,6 @@ function getValuesFromRow() {
     .val();
 
   // currentItem = currentRow;
-  console.log(currentRow);
 }
 
 // set data for modal
@@ -195,14 +223,12 @@ function setValuesForModal() {
   // database type
   $("#field-database_type").val(currentRow.config.database_type || "String");
   // options type
-  $("#modalConf-options_type").val(currentRow.options.type);
-  $("#modalConf-options_type").change(); // trigger
+  $("#field-options_type").val(currentRow.options.type);
+  // $("#field-options_type").change(); // trigger
   // options values
-  $("#modalConf-options_values").val(currentRow.options.values);
+  $("#field-options_values").val(currentRow.options.values);
   // options collection_name
-  $("#modalConf-options_collection_name").val(
-    currentRow.options.collection_name
-  );
+  $("#field-options_collection_name").val(currentRow.options.collection_name);
 }
 
 // save changes
@@ -253,16 +279,16 @@ function changeDetails() {
   // console.log("#field-label", $("#field-label").val());
   // set type
   currentRow.row
-    .find('select[name="field[type][]"]')
+    .find('input[name="field[type][]"]')
     .val($("#field-type").val());
   // set projection
   currentRow.row
     .find('input[name="field[projection][]"]')
     .prop("checked", $("#field-projection").prop("checked"));
   // set cols
-  currentRow.row
-    .find('input[name="field[cols][]"]')
-    .val($("#field-cols").val());
+  // currentRow.row
+  //   .find('input[name="field[cols][]"]')
+  //   .val($("#field-cols").val());
   // required
   currentRow.row
     .find(`input[name="others[${currentRow.name}][rules][required]"]`)
@@ -275,20 +301,20 @@ function changeDetails() {
   // Options type
   currentRow.row
     .find(`input[name="others[${currentRow.name}][options][type]"]`)
-    .val($("#modalConf-options_type").val());
+    .val($("#field-options_type").val());
   // Options values
   currentRow.row
     .find(`input[name="others[${currentRow.name}][options][values]"]`)
-    .val($("#modalConf-options_values").val());
+    .val($("#field-options_values").val());
   // Options collection_name
   currentRow.row
     .find(`input[name="others[${currentRow.name}][options][collection_name]"]`)
-    .val($("#modalConf-options_collection_name").val());
+    .val($("#field-options_collection_name").val());
 }
 
 $(document).on(
-  "change",
-  "#fieldsTableDetail select, #fieldsTableDetail input, #fieldsTableDetail checkbox",
+  "change keyup",
+  "#fieldsTableDetail select, #fieldsTableDetail input, #fieldsTableDetail checkbox, #optionsTable select, #optionsTable input",
   changeDetails
 );
 
