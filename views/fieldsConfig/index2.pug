@@ -1,0 +1,189 @@
+extends ../layout
+
+block content
+  h2(class="h2-fieldsConf")
+    a(href=getRoute(basePathCollection, "edit", collection._id) title="Editar configuración general de la colección")
+      span(class="fa fa-pencil")
+      span #{collection.title}
+  
+  //- h2= collection.title
+
+  div(style="text-align: end")
+    button(class="btn btn-primary float-end-" id="btnAddField" title=lang.BTN_CREATE)
+      span(class="fa fa-plus")
+      span  #{lang.BTN_CREATE}
+
+  form(method="post" action=fieldsPath)
+    div(class="row")
+      div(class="col-md-6")
+        table(class="table" id="fieldsTable")
+          thead
+            tr
+              th #{lang.FIELDS_NAME}
+              //- th #{lang.FIELDS_LABEL}
+              //- th #{lang.FIELDS_TYPE}
+              //- th #{lang.FIELDS_DEFAULT_VALUE}
+              //- th #{lang.FIELDS_PROJECTION}
+              //- th #{lang.FIELDS_ADVANCED}
+              th #{lang.TEXT_ACTIONS}
+          tbody(id="rowFieldsSortable")
+            each field in collection.form.fields
+              tr
+                td
+                  input(type="text" name="field[name][]" class="form-control fieldNameRow" value=field.name required)
+
+                  div(class="otherElements" style="display:none")
+                    input(type="text" name="field[label][]" value=field.label placeholder="field.label")
+                    input(type="text" name="field[type][]" value=field.type placeholder="field.type")
+                    input(type="text" name=`field[cols][]` value=`${value=field.cols}` placeholder="field.cols")
+                    input(type="checkbox" name="field[projection][]" role="switch" checked=field.projection==true class="projectionCheckboxRow form-check-input" value=field.name)
+                    input(type="text" name=`others[${field.name}][rules][required]` value=`${field.others.rules.required}` placeholder="others.rules.required")
+                    input(type="text" name=`others[${field.name}][config][database_type]` value=`${field.others.config.database_type}` placeholder="others.config.database_type")
+                    input(type="text" name=`others[${field.name}][options][type]` value=`${field.others.options.type}` placeholder="others.options.type")
+                    input(type="text" name=`others[${field.name}][options][values]` value=`${field.others.options.values}` placeholder="others.options.values")
+                    input(type="text" name=`others[${field.name}][options][collection_name]` value=`${field.others.options.collection_name}` placeholder="others.options.collection_name")
+                    input(type="text" name="field[default_value][]" value=field.default_value placeholder="Default value")
+
+                //- td
+                  //- input(type="text" name="field[label][]" value=field.label required)
+                //- td
+                //-   select(name="field[type][]" class="form-control" required)
+                //-     option(value="") #{lang.FIELDS_SELECT_OPTION}
+                //-     option(value="Checkbox" selected=field.type=="Checkbox") Checkbox
+                //-     option(value="Email" selected=field.type=="Email") Email
+                //-     option(value="Number" selected=field.type=="Number") Number
+                //-     option(value="Password" selected=field.type=="Password") Password
+                //-     option(value="Radio" selected=field.type=="Radio") Radio
+                //-     option(value="Select" selected=field.type=="Select") Select
+                //-     option(value="Text" selected=field.type=="Text") Text
+                //- td
+                //-   input(type="text" name="field[default_value][]" value=field.default_value placeholder="Default value")
+                //- td
+                //-   div(class="form-check form-switch")
+                //-     input(type="checkbox" name="field[projection][]" role="switch" checked=field.projection==true class="projectionCheckboxRow form-check-input" value=field.name)
+                //- td
+                //-   button(type="button" class="btn btn-primary buttonAdvancedModal" data-bs-toggle="modal" data-bs-target="#advancedModal") #{lang.FIELDS_CONFIGURE}
+                td
+                  span(class="fa fa-trash-o fa-2x btn-removeField" title=lang.BTN_DELETE)
+    
+    
+      div(class="col-md-6" style="border-left: 1px solid")
+        h3 Detalles del campo
+        table(class="table" id="fieldsTableDetail")
+          tr 
+            th(class="col-md-5") #{lang.FIELDS_NAME}
+            td
+              input(type="string" class="form-control" id="field-name" placeholder=lang.FIELDS_NAME readonly)
+          tr
+            th #{lang.FIELDS_LABEL}
+            td
+              input(type="string" class="form-control" id="field-label" placeholder=lang.FIELDS_LABEL)
+          tr
+            th #{lang.FIELDS_TYPE}
+            td
+              select(class="form-select" id="field-type" required)
+                option(value="") Seleccione una opción
+                option(value="Checkbox") Checkbox
+                option(value="Email") Email
+                option(value="Number") Number
+                option(value="Password") Password
+                option(value="Radio") Radio
+                option(value="Select") Select
+                option(value="Text") Text
+          tr
+            th #{lang.FIELDS_PROJECTION}
+            td
+              div(class="form-check form-switch")
+                input(type="checkbox" id="field-projection" role="switch" class="projectionCheckboxRow form-check-input")
+          tr
+            th #{lang.FIELDS_REQUIRED}
+            td
+              div(class="form-check form-switch")
+                input(type="checkbox" id="field-required" value=true role="switch" class="requiredCheckboxRow form-check-input")
+          //- tr
+          //-   th #{lang.FIELDS_COLUMNS}
+          //-   td
+          //-     select(class="form-control" id="field-cols" required)
+          //-       option(value="col-md-12") 12
+          //-       option(value="col-md-11") 11
+          //-       option(value="col-md-10") 10
+          //-       option(value="col-md-9") 9
+          //-       option(value="col-md-8") 8
+          //-       option(value="col-md-7") 7
+          //-       option(value="col-md-6") 6
+          //-       option(value="col-md-5") 5
+          //-       option(value="col-md-4") 4
+          //-       option(value="col-md-3") 3
+          //-       option(value="col-md-2") 2
+          //-       option(value="col-md-1") 1
+          tr
+            th #{lang.FIELDS_DATABASE_TYPE}
+            td
+              select(class="form-select" id="field-database_type" required)
+                option(value="String") String
+                option(value="[String]") [String]
+                option(value="Number") Number
+                option(value="[Number]") [Number]
+                option(value="Boolean") Boolean
+                option(value="[Boolean]") [Boolean]
+          
+          
+        .options-section
+          h5 Opciones del campo
+
+          table(class="table" id="optionsTable")
+            tr
+              th(class="col-md-5") Tipo de configuración
+              td
+                select(class="form-select" id="field-options_type")
+                  option(value="CUSTOM") Ingresar manualmente
+                  option(value="COLLECTION") Desde una colección
+            tr(class="collection_name_input_container")
+              th Nombre de colección
+              td
+                select(class="form-select" id="field-options_collection_name")
+                  option(value="") Seleccione una opción
+                  each item in collectionList
+                    option(value=item.collection_name)= item.collection_name
+            tr
+              th(class="col-md-5") Valores
+              td
+                input(type="text" class="form-control" id="field-options_values")
+                span(class="fa fa-info-circle ml-2 info-btn" title="Información de ayuda para configurar las opciones del campo"  data-bs-toggle="collapse" data-bs-target="#collapseValuesHelpping" aria-expanded="false" aria-controls="collapseValuesHelpping")
+                div(class="collapse" id="collapseValuesHelpping")
+                  div(class="card card-body-helpping")
+
+          //- .row
+            //- div(class="mb-3 col-md-3")
+            //-   label(class="form-label" for='modalConf-options_type') Tipo de configuración
+            //-   select(class="form-select" id="modalConf-options_type")
+            //-     option(value="CUSTOM") Ingresar manualmente
+            //-     option(value="COLLECTION") Desde una colección
+            //- div(class="mb-3 col-md-3 collection_name_input_container")
+            //-   label(class="form-label" for='modalConf-options_collection_name') Nombre de colección
+            //-   select(class="form-select" id="modalConf-options_collection_name")
+            //-     option(value="") Seleccione una opción
+            //-     each item in collectionList
+            //-       option(value=item.collection_name)= item.collection_name
+
+            //- div(class="mb-3 col-md-3")
+            //-   label(class="form-label" for='modalConf-options_values') Valores
+            //-   input(type="text" class="form-control" id="modalConf-options_values")
+            //-   span(class="fa fa-info-circle ml-2 info-btn" title="Información de ayuda para configurar las opciones del campo"  data-bs-toggle="collapse" data-bs-target="#collapseValuesHelpping" aria-expanded="false" aria-controls="collapseValuesHelpping")
+            //-   div(class="collapse" id="collapseValuesHelpping")
+            //-     div(class="card card-body-helpping")
+
+
+
+    div(class="text-end")
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
+      button(type="submit" class="btn btn-primary") #{lang.BTN_SAVE}
+
+  include modal.pug
+
+block scriptsJs
+  script(src="/libs/jquery-ui-1.13.0.custom/jquery-ui.min.js") 
+  script(src="/javascripts/fieldsConfig2.js") 
+
+block stylesheetsCss
+  link(rel="stylesheet" href="/libs/jquery-ui-1.13.0.custom/jquery-ui.min.css")

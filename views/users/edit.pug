@@ -16,6 +16,13 @@ block content
       input(class="form-check-input" type='checkbox' role="switch" name="status" id="status" value="Y" checked=item.status)
       label(class="form-check-label ps-1" for='status') #{lang.USERS_STATUS}
 
+    div(class="mb-3")
+      label(class="form-label") #{lang.USERS_ROLS}
+      each rol in ["ADMIN","API","CITDEV","CRUD"]
+        .form-check
+          input(class="form-check-input" type="checkbox", name="rols[]" id=`rol${rol}` value=rol checked=item.rols.includes(rol))
+          label(class="form-check-label" for=`rol${rol}`) #{rol}
+
     div(class="text-end")
       a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
       button(class="btn btn-primary" type="submit") #{lang.BTN_SAVE}

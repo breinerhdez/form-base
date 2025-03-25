@@ -37,6 +37,10 @@ let coreUserSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    rols: {
+      type: [String],
+      required: [true, "Rols is required"],
+    },
     // google: {
     //   type: Boolean,
     //   default: false,

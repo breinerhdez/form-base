@@ -12,6 +12,7 @@ block content
         th(class="col-md-1") #
         th(class="col-md-433") #{lang.USERS_FULLNAME}
         th(class="col-md-233") #{lang.USERS_EMAIL}
+        th(class="col-md-233") #{lang.USERS_ROLS}
         th(class="col-md-233") #{lang.USERS_STATUS}
         th(class="col-md-22") #{lang.TEXT_ACTIONS}
     tbody
@@ -20,6 +21,7 @@ block content
           td #{++counter}
           td #{item.name}
           td #{item.email}
+          td #{item.rols}
           td #{item.status ? "Active": "Inactive"}
           td
             a(href=getRoute(basePath, "edit", item._id) class="text-warning me-3" title=lang.USERS_UPDATE)

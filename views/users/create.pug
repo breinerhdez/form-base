@@ -16,6 +16,13 @@ block content
       label(class="form-label" for='password') #{lang.USERS_PASSWORD}
       input(class="form-control" type='password' name="password" id="password" placeholder='Hm*fBj-IzyDB' required)
 
+    div(class="mb-3")
+      label(class="form-label") #{lang.USERS_ROLS}
+      each rol in ["ADMIN","API","CITDEV","CRUD"]
+        .form-check
+          input(class="form-check-input" type="checkbox", name="rols[]" id=`rol${rol}` value=rol)
+          label(class="form-check-label" for=`rol${rol}`) #{rol}
+
     div(class="text-end")
       a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
       button(class="btn btn-primary" type="submit") #{lang.BTN_SAVE}
