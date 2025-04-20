@@ -10,6 +10,7 @@ const AuthMiddleware = require("../middlewares/authMiddleware");
 const { crudAppPatterns, autoCrudAppPatterns } = require("../utils/helpers");
 const ApiDocController = require("../controllers/ApiDocController");
 const swaggerUi = require("swagger-ui-express");
+const RolsMiddleware = require("../middlewares/rolsMiddleware");
 
 class Router {
   router = express.Router();
@@ -26,13 +27,26 @@ class Router {
     let router = express.Router();
 
     router.use("/", this.getPanelAdminRoutes());
-    router.use("/users", this.getUsersRoutes());
-    router.use("/collections", this.getCollectionRoutes());
-    router.use("/fields", this.getFieldsRoutes());
-    router.use("/crud", this.getAutoCrudRoutes());
+    router.use("/users", [RolsMiddleware.checkIsAdmin], this.getUsersRoutes());
+    router.use(
+      "/collections",
+      [RolsMiddleware.checkIsCitdev],
+      this.getCollectionRoutes()
+    );
+    router.use(
+      "/fields",
+      [RolsMiddleware.checkIsCitdev],
+      this.getFieldsRoutes()
+    );
+    router.use("/crud", [RolsMiddleware.checkIsCrud], this.getAutoCrudRoutes());
 
     let apiDocController = new ApiDocController();
-    router.use("/api-doc/:path_name", swaggerUi.serve, apiDocController.index);
+    router.use(
+      "/api-doc/:path_name",
+      //[RolsMiddleware.checkIsCrud],
+      swaggerUi.serve,
+      apiDocController.index
+    );
 
     // set /admin routes
     this.router.use("/admin", [AuthMiddleware.checkSession], router);
@@ -62,7 +76,11 @@ class Router {
   getApiRoutes() {
     let router = express.Router();
 
-    router.use("/crud", this.getApiAutoCrudRoutes());
+    router.use(
+      "/crud",
+      [RolsMiddleware.checkIsApi],
+      this.getApiAutoCrudRoutes()
+    );
     // set /api secure routes
     this.router.use("/api", [AuthMiddleware.checkJWT], router);
   }
