@@ -93,7 +93,7 @@ class UserController {
       objDb.name = body.name;
       objDb.email = body.email;
       objDb.status = body.status == "Y" ? true : false;
-      objDb.rols = body.rols;
+      objDb.rols = !body.rols ? [] : body.rols;
 
       // save
       await CoreUsersModel.findByIdAndUpdate(id, objDb);

@@ -143,7 +143,9 @@ const saveAuditLog = (req, collectionName, originalData, updated, action) => {
   }
 };
 
+// datos que están en objA que no están en objB
 const diffObjects = (objA, objB) => {
+  if (!objB || objB == "undefined") return objA;
   let diff = Array.isArray(objA) ? [] : {};
   for (const key in objA) {
     if (!(key in objB)) {

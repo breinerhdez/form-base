@@ -2,18 +2,20 @@ extends ../layout
 
 block content
   div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
-    div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
-      a(href="/admin/users")
-        div(class="item-container")
-          span(class="fa fa-users fa-2x")
-          br
-          span #{lang.USERS_TITLE}
-    div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
-      a(href="/admin/collections")
-        div(class="item-container")
-          span(class="fa fa-cubes fa-2x")
-          br
-          span #{lang.COLLECTIONS_TITLE}
+    if rols.includes("ADMIN")
+      div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
+        a(href="/admin/users")
+          div(class="item-container")
+            span(class="fa fa-users fa-2x")
+            br
+            span #{lang.USERS_TITLE}
+    if rols.includes("CITDEV")
+      div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
+        a(href="/admin/collections")
+          div(class="item-container")
+            span(class="fa fa-cubes fa-2x")
+            br
+            span #{lang.COLLECTIONS_TITLE}
     div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
       a(href="/auth/logout")
         div(class="item-container")
@@ -21,14 +23,15 @@ block content
           br
           span #{lang.LOGIN_OUT}
 
-  h2 Entidades dinámicas del sistema
-  div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
-    each collection in collections
-      if collection.showAdmin
-        div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
-          a(href=`/admin/crud/${collection.path_name}`)
-            div(class="item-container")
-              span(class="fa fa-cogs fa-2x")
-              br
-              span #{collection.title}
+  if rols.includes("CRUD")
+    h2 Entidades dinámicas del sistema
+    div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
+      each collection in collections
+        if collection.showAdmin
+          div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
+            a(href=`/admin/crud/${collection.path_name}`)
+              div(class="item-container")
+                span(class="fa fa-cogs fa-2x")
+                br
+                span #{collection.title}
 

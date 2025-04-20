@@ -8,9 +8,9 @@ class AuthMiddleware {
   static async checkSession(req, res, next) {
     // let isPublic = await AuthMiddleware.validatePublicCrud(req);
     // console.log("isPublic: [" + isPublic + "]");
-    if (isPublic) {
-      return next();
-    }
+    // if (isPublic) {
+    //   return next();
+    // }
 
     if (!req.session.isLoggedIn) {
       return res.redirect("/auth/login");
