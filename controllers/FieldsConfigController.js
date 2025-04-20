@@ -1,6 +1,6 @@
 const CoreCollectionsModel = require("../models/CoreCollectionsModel");
 const { deleteDynamicModel } = require("../utils/dynamicResources");
-const { getRoute } = require("../utils/helpers");
+const { getRoute, saveAuditLog } = require("../utils/helpers");
 const lang = require("../utils/lang");
 
 var fieldsMainPath = "/admin/fields/";
@@ -52,6 +52,8 @@ class FieldsConfigController {
         return res.redirect(getRoute(basePath, "index"));
       }
 
+      let originalData = { ...objDb.toObject() };
+
       let reqFields = req.body.field;
       let objFields = [];
       let labels = [];
@@ -96,6 +98,14 @@ class FieldsConfigController {
       // delete dynamic model
       await deleteDynamicModel(objDb);
 
+      saveAuditLog(
+        req,
+        CoreCollectionsModel.collection.name,
+        originalData,
+        objDb,
+        "UPDATE"
+      );
+
       req.flash("success", lang.FIELDS_UPDATED);
       res.redirect(fieldsPath);
     } catch (error) {
@@ -108,6 +118,7 @@ class FieldsConfigController {
         );
         res.redirect(fieldsPath);
       } else {
+        console.log(error.message);
         req.flash("warning", lang.ERROR_500);
         res.redirect(getRoute(basePath, "index"));
       }

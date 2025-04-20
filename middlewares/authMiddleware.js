@@ -6,8 +6,8 @@ const { getObjectsAndModel } = require("../utils/dynamicResources");
 class AuthMiddleware {
   // session validator
   static async checkSession(req, res, next) {
-    let isPublic = await AuthMiddleware.validatePublicCrud(req);
-    console.log("isPublic: ["+ isPublic+"]");
+    // let isPublic = await AuthMiddleware.validatePublicCrud(req);
+    // console.log("isPublic: [" + isPublic + "]");
     if (isPublic) {
       return next();
     }

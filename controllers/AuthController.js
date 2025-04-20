@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 
 const lang = require("../utils/lang");
 const CoreUsersModel = require("../models/CoreUsersModel");
+const { saveAuditLog } = require("../utils/helpers");
+const e = require("express");
 
 class AuthController {
   login(req, res) {
@@ -39,11 +41,15 @@ class AuthController {
         _id: user._id,
         email: user.email,
         name: user.name,
+        rols: user.rols,
       };
       // set user session data
       req.session.user = sessionData;
       req.session.isLoggedIn = true;
       req.session.originAction = "GUI";
+
+      saveAuditLog(req, CoreUsersModel.collection.name, {}, {}, "LOGIN");
+
       res.redirect("/admin");
     } catch (error) {
       console.log(error);
@@ -79,11 +85,18 @@ class AuthController {
       let token = jwt.sign({ user }, process.env.JWT_SIGN_SECRET, {
         expiresIn: parseInt(process.env.JWT_EXPIRES_IN),
       });
+
+      req.session.user = user;
+      req.session.originAction = "API";
+
+      saveAuditLog(req, CoreUsersModel.collection.name, {}, {}, "LOGIN");
+
       // response
       res.json({
         token,
       });
     } catch (error) {
+      console.log(error.message);
       return res.status(500).send(lang.ERROR_500);
     }
   }

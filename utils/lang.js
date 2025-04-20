@@ -40,8 +40,8 @@ module.exports = {
   COLLECTIONS_PATH: "Ruta/Recurso",
   COLLECTIONS_PUBLIC_FORM: "Formulario público",
   COLLECTIONS_SHOW_IN_PANELADMIN:
-    "Mostrar en el grupo de colecciones dinámicas del sistema",
-  COLLECTIONS_TITLE: "Gestión de colecciones dinámicas",
+    "Mostrar en el grupo de entidades dinámicas del sistema",
+  COLLECTIONS_TITLE: "Gestión de entidades dinámicas",
   COLLECTIONS_URL_AFTER_CREATE: "URL de retorno después de crear un registro",
 
   // API allowed

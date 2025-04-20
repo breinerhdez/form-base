@@ -15,6 +15,9 @@ let userSchema = new Schema({
     type: String,
     required: true,
   },
+  rols: {
+    type: [String],
+  },
 });
 
 let detailSchema = new Schema({
@@ -28,7 +31,8 @@ let detailSchema = new Schema({
   },
   updated: {
     type: [Schema.Types.Mixed],
-    required: true,
+    default: "",
+    required: false,
   },
 });
 

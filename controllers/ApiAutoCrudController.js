@@ -58,20 +58,14 @@ class ApiAutoCrudController {
       // save data
       await newObj.save();
 
-      saveAuditLog(
-        req,
-        collection.collection_name,
-        {},
-        newObj,
-        "CREATE"
-      );
+      saveAuditLog(req, collection.collection_name, {}, newObj, "CREATE");
 
       // response
       res.status(201).json({
         item: newObj,
       });
     } catch (error) {
-      console.log(colors.inverse.red(error._message));
+      console.log(colors.inverse.red(error.message));
       if (error.name === "ValidationError") {
         let errorList = getErrorsMap(error);
         console.log(colors.red(errorList.join("\n")));
@@ -134,7 +128,8 @@ class ApiAutoCrudController {
         return res.status(400).json({
           errors: errorList,
         });
-      }if (error.message == "404") {
+      }
+      if (error.message == "404") {
         return res.status(404).send(lang.ERROR_404);
       }
       res.status(500).send(lang.ERROR_500);

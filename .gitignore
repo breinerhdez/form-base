@@ -59,3 +59,6 @@ typings/
 
 # next.js build output
 .next
+
+routes/swagger_output.json
+routes/apidoc.js

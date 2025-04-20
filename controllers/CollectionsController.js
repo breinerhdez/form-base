@@ -1,5 +1,5 @@
 const CoreCollectionsModel = require("../models/CoreCollectionsModel");
-const { getRoute } = require("../utils/helpers");
+const { getRoute, saveAuditLog } = require("../utils/helpers");
 const lang = require("../utils/lang");
 
 const basePath = "/admin/collections";
@@ -32,7 +32,7 @@ class CollectionsController {
 
   create(req, res) {
     let sessData = req.session.reqData;
-    let data = { ...viewData, title: `Add Collection`, breadItems, sessData };
+    let data = { ...viewData, title: `Crear Entidad`, breadItems, sessData };
     res.render(`collections/create`, data);
   }
 
@@ -43,6 +43,14 @@ class CollectionsController {
       let newObj = new CoreCollectionsModel(req.body);
       await newObj.save();
       req.flash("success", lang.CRUD_CREATED);
+
+      saveAuditLog(
+        req,
+        CoreCollectionsModel.collection.name,
+        {},
+        newObj,
+        "CREATE"
+      );
 
       // clean session data
       req.session.reqData = {};
@@ -80,7 +88,7 @@ class CollectionsController {
       }
       let data = {
         ...viewData,
-        title: `Edit Collection`,
+        title: `Modificar Entidad`,
         breadItems,
         item: objDb,
       };
@@ -101,6 +109,8 @@ class CollectionsController {
         req.flash("info", lang.CRUD_NOT_EXIST);
         return res.redirect(getRoute(basePath, "index"));
       }
+      let originalData = { ...objDb.toObject() };
+
       // update details
       objDb.title = req.body.title;
       objDb.path_name = req.body.path_name;
@@ -118,6 +128,15 @@ class CollectionsController {
       objDb.publicForm = req.body.publicForm ? true : false;
       // save
       await objDb.save();
+
+      saveAuditLog(
+        req,
+        CoreCollectionsModel.collection.name,
+        originalData,
+        objDb,
+        "UPDATE"
+      );
+
       req.flash("success", lang.CRUD_UPDATED);
       res.redirect(getRoute(basePath, "index"));
     } catch (error) {
@@ -144,6 +163,15 @@ class CollectionsController {
       }
       // delete object
       await CoreCollectionsModel.findByIdAndDelete(id);
+
+      saveAuditLog(
+        req,
+        CoreCollectionsModel.collection.name,
+        {},
+        objDb,
+        "DELETE"
+      );
+
       req.flash("success", lang.CRUD_DELETED);
       res.redirect(getRoute(basePath, "index"));
     } catch (error) {
