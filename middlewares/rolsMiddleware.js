@@ -41,8 +41,7 @@ class RolsMiddleware {
   }
 
   static async errorResponse(req, res) {
-    console.log("errorResponse");
-    let message = "No tiene permiso para acceder a la funcionalidad";
+    let message = "Acceso restringido";
     req.flash("warning", message);
     if (req.session.originAction == "GUI") return res.redirect("/admin");
     else return res.status(401).send(lang.ERROR_401);
