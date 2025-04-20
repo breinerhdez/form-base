@@ -43,8 +43,7 @@ class Router {
     let apiDocController = new ApiDocController();
     router.use(
       "/api-doc/:path_name",
-      //[RolsMiddleware.checkIsCrud],
-      swaggerUi.serve,
+      [RolsMiddleware.checkIsApiOrCitdev, swaggerUi.serve],
       apiDocController.index
     );
 

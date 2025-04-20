@@ -1,7 +1,4 @@
-const fs = require("fs");
-const swaggerAutogen = require("swagger-autogen")({ openapi: "3.0.0" });
 const swaggerUi = require("swagger-ui-express");
-const path = require("path");
 const { getObjectsAndModel } = require("../utils/dynamicResources");
 const { autoCrudAppPatterns } = require("../utils/helpers");
 const lang = require("../utils/lang");
@@ -30,327 +27,552 @@ class ApiDocController {
           delete ret._id;
         },
       });
-      
+
       const doc = {
+        openapi: "3.0.0",
         info: {
           title: `API - ${collection.title}`,
           description: `Documentación generada automáticamente para la colección ${collection.title}`,
         },
-        host: "localhost:3000",
-        schemes: ["http"],
+        // host: "localhost:3000",
+        // schemes: ["http"],
+        servers: [
+          {
+            url: "http://localhost:3000",
+          },
+        ],
         components: {
           schemas: {
-            IndexResponse: {
+            IndexResponse: generateSwaggerSchemaFromObject({
               data: {
                 items: [dynamicObjectId],
               },
-            },
-            CreateRequest: dynamicObject,
-            CreateResponse: {
+            }),
+            CreateRequest: generateSwaggerSchemaFromObject(dynamicObject),
+            CreateResponse: generateSwaggerSchemaFromObject({
               item: dynamicObjectId,
-            },
-            UpdateRequest: dynamicObject,
-            UpdateResponse: {
+            }),
+            UpdateRequest: generateSwaggerSchemaFromObject(dynamicObject),
+            UpdateResponse: generateSwaggerSchemaFromObject({
               item: dynamicObjectId,
-            },
-            ShowResponse: {
+            }),
+            ShowResponse: generateSwaggerSchemaFromObject({
               item: dynamicObjectId,
-            },
-            DeleteResponse: {
+            }),
+            DeleteResponse: generateSwaggerSchemaFromObject({
               item: dynamicObjectId,
-            },
-            LoginRequest: {
+            }),
+            LoginRequest: generateSwaggerSchemaFromObject({
               email: "example@citdev-express.com",
               password: "@1!aS85*",
-            },
-            LoginResponse: {
+            }),
+            LoginResponse: generateSwaggerSchemaFromObject({
               token:
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-            },
+            }),
             Response400: {
-              "errors":[
-                "Error description."
-              ]
+              type: "object",
+              properties: {
+                errors: {
+                  type: "array",
+                  items: {
+                    type: "string",
+                    example: "Detalle del error",
+                  },
+                },
+              },
             },
-            Response401: lang.ERROR_401,
-            Response404: lang.ERROR_404,
-            Response500: lang.ERROR_500,
-            Response503: lang.ERROR_503,
+            Response401: {
+              type: "string",
+              example: lang.ERROR_401,
+            },
+            Response404: {
+              type: "string",
+              example: lang.ERROR_404,
+            },
+            Response500: {
+              type: "string",
+              example: lang.ERROR_500,
+            },
+            Response503: {
+              type: "string",
+              example: lang.ERROR_503,
+            },
           },
         },
+        paths: getSwaggerPathObject(path_name),
       };
 
-      const outputFile = path.join(
-        __dirname,
-        "./../routes/swagger_output.json"
-      );
+      console.log(JSON.stringify(doc));
 
-      let apiRouterFile = path.join(__dirname, "./../routes/apidoc.js");
-      fs.writeFileSync(apiRouterFile, getFileRouteContent(path_name), "utf8");
-
-
-      const endpointsFiles = [apiRouterFile]; // Aquí especificas los archivos de tus rutas
-
-      await swaggerAutogen(outputFile, endpointsFiles, doc);
-
-      // Verificar si el archivo existe
-      if (fs.existsSync(outputFile)) {
-        const swaggerFile = require(outputFile);
-        swaggerUi.setup(swaggerFile)(req, res);
-      } else {
-        res.status(404).send("Documentación no generada aún");
-      }
-
+      swaggerUi.setup(doc)(req, res);
     } catch (error) {
       req.flash("warning", lang.ERROR_500);
       res.redirect("/admin");
     }
   }
-
 }
 
+const replacePathName = (path, pathName) => {
+  let route = path.replace("/:path_name", `${basePath}${pathName}`);
+  return route;
+};
 
- const getFileRouteContent = (pathName) => {
-    return `
-    const express = require('express');
-    const router = express.Router();
+const getSwaggerPathObject = (pathName) => {
+  const paths = {};
 
-    router.post('/api/auth/login', (req, res) => {
-      /*
-      #swagger.tags = ['Authorization']
-      #swagger.description = 'Endpoint para iniciar sesión o generar un JWT'
-      #swagger.requestBody = {
-        required: true,
-        schema: { $ref: "#/components/schemas/LoginRequest"}
-      }
-      #swagger.responses[200] = {
-        description: '${lang.ERROR_200}',
-        schema: { $ref: "#/components/schemas/LoginResponse"}
-      }
-      */
-      res.json({ message: 'Usuario creado' });
-    });
+  const routes = [
+    {
+      method: "post",
+      path: "/api/auth/login",
+      operation: {
+        tags: ["Authorization"],
+        description: "Endpoint para iniciar sesión o generar un JWT",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/LoginRequest" },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: lang.ERROR_200,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/LoginResponse" },
+              },
+            },
+          },
+          400: {
+            description: lang.ERROR_400,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response400" },
+              },
+            },
+          },
+          500: {
+            description: lang.ERROR_500,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response500" },
+              },
+            },
+          },
+          503: {
+            description: lang.ERROR_503,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response503" },
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      method: "get",
+      path: replacePathName(autoCrudAppPatterns.index, pathName),
+      operation: {
+        tags: [pathName],
+        description: "Endpoint para obtener todos los registros",
+        parameters: [
+          {
+            name: "Authorization",
+            in: "header",
+            required: true,
+            schema: {
+              type: "string",
+            },
+            example: "Bearer <JWT>",
+          },
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/IndexResponse" },
+              },
+            },
+          },
+          401: {
+            description: lang.ERROR_401,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response401" },
+              },
+            },
+          },
+          500: {
+            description: lang.ERROR_500,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response500" },
+              },
+            },
+          },
+          503: {
+            description: lang.ERROR_503,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response503" },
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      method: "post",
+      path: replacePathName(autoCrudAppPatterns.store, pathName),
+      operation: {
+        tags: [pathName],
+        description: "Endpoint para crear un nuevo registro",
+        parameters: [
+          {
+            name: "Authorization",
+            in: "header",
+            required: true,
+            schema: {
+              type: "string",
+            },
+            example: "Bearer <JWT>",
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/CreateRequest" },
+            },
+          },
+        },
+        responses: {
+          201: {
+            description: lang.ERROR_201,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/CreateResponse" },
+              },
+            },
+          },
+          400: {
+            description: lang.ERROR_400,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response400" },
+              },
+            },
+          },
+          401: {
+            description: lang.ERROR_401,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response401" },
+              },
+            },
+          },
+          500: {
+            description: lang.ERROR_500,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response500" },
+              },
+            },
+          },
+          503: {
+            description: lang.ERROR_503,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response503" },
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      method: "put",
+      path: replacePathName(autoCrudAppPatterns.update, pathName),
+      operation: {
+        tags: [pathName],
+        description: "Endpoint para editar un registro por id",
+        parameters: [
+          {
+            name: "Authorization",
+            in: "header",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+            example: "123",
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/UpdateRequest" },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: lang.ERROR_200,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/UpdateResponse" },
+              },
+            },
+          },
+          400: {
+            description: lang.ERROR_400,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response400" },
+              },
+            },
+          },
+          401: {
+            description: lang.ERROR_401,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response401" },
+              },
+            },
+          },
+          404: {
+            description: lang.ERROR_404,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response404" },
+              },
+            },
+          },
+          500: {
+            description: lang.ERROR_500,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response500" },
+              },
+            },
+          },
+          503: {
+            description: lang.ERROR_503,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response503" },
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      method: "get",
+      path: replacePathName(autoCrudAppPatterns.show, pathName),
+      operation: {
+        tags: [pathName],
+        description: "Endpoint para obtener un registro por id",
+        parameters: [
+          {
+            name: "Authorization",
+            in: "header",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: lang.ERROR_200,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/ShowResponse" },
+              },
+            },
+          },
+          401: {
+            description: lang.ERROR_401,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response401" },
+              },
+            },
+          },
+          404: {
+            description: lang.ERROR_404,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response404" },
+              },
+            },
+          },
+          500: {
+            description: lang.ERROR_500,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response500" },
+              },
+            },
+          },
+          503: {
+            description: lang.ERROR_503,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response503" },
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      method: "delete",
+      path: replacePathName(autoCrudAppPatterns.show, pathName),
+      operation: {
+        tags: [pathName],
+        description: "Endpoint para eliminar un registro por id",
+        parameters: [
+          {
+            name: "Authorization",
+            in: "header",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: lang.ERROR_200,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/DeleteResponse" },
+              },
+            },
+          },
+          401: {
+            description: lang.ERROR_401,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response401" },
+              },
+            },
+          },
+          404: {
+            description: lang.ERROR_404,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response404" },
+              },
+            },
+          },
+          500: {
+            description: lang.ERROR_500,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response500" },
+              },
+            },
+          },
+          503: {
+            description: lang.ERROR_503,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Response503" },
+              },
+            },
+          },
+        },
+      },
+    },
+  ];
 
-    router.get('${replacePathName(
-      autoCrudAppPatterns.index,
-      pathName
-    )}', (req, res) => {
-      /*
-      #swagger.tags = ['${pathName}']
-      #swagger.description = 'Endpoint para obtener todos los registros'
-      #swagger.parameters['Authorization'] = {
-        in: "header",
-        required: true,
-        type: "string",
-        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-      }
-      #swagger.responses[200] = {
-        description: 'OK',
-        schema: { $ref: "#/components/schemas/IndexResponse"}
-      }
-      #swagger.responses[401] = {
-        description: '${lang.ERROR_401}',
-        schema: { $ref: "#/components/schemas/Response401"}
-      }
-      #swagger.responses[500] = {
-        description: '${lang.ERROR_500}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      #swagger.responses[503] = {
-        description: '${lang.ERROR_503}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      */
-      res.json([{ id: 1, name: 'John Doe' }]);
-    });
+  // Generar estructura Swagger
+  routes.forEach(({ path, method, operation }) => {
+    if (!paths[path]) paths[path] = {};
+    paths[path][method] = operation;
+  });
 
-    router.post('${replacePathName(
-      autoCrudAppPatterns.store,
-      pathName
-    )}', (req, res) => {
-      /*
-      #swagger.tags = ['${pathName}']
-      #swagger.description = 'Endpoint para crear un nuevo registro'
-      #swagger.parameters['Authorization'] = {
-        in: "header",
-        required: true,
-        type: "string",
-        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-      }
-      #swagger.requestBody = {
-        required: true,
-        schema: { $ref: "#/components/schemas/CreateRequest"}
-      }
-      #swagger.responses[201] = {
-        description: '${lang.ERROR_201}',
-        schema: { $ref: "#/components/schemas/CreateResponse"}
-      }
-      #swagger.responses[401] = {
-        description: '${lang.ERROR_401}',
-        schema: { $ref: "#/components/schemas/Response401"}
-      }
-      #swagger.responses[400] = {
-        description: '${lang.ERROR_400}',
-        schema: { $ref: "#/components/schemas/Response400"}
-      }
-      #swagger.responses[500] = {
-        description: '${lang.ERROR_500}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      #swagger.responses[503] = {
-        description: '${lang.ERROR_503}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      */
-      res.json({ message: 'Usuario creado' });
-    });
+  return paths;
+};
 
-    router.put('${replacePathName(
-      autoCrudAppPatterns.update,
-      pathName
-    )}', (req, res) => {
-      /*
-      #swagger.tags = ['${pathName}']
-      #swagger.description = 'Endpoint para editar un registro por id'
-      #swagger.parameters['Authorization'] = {
-        in: "header",
-        required: true,
-        type: "string",
-        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-      }
-      #swagger.parameters['id'] = {
-        in: "path",
-        required: true,
-        type: "string",
-        example: "61fc9039c7452ebc81c72a17"
-      }
-      #swagger.requestBody = {
-        required: true,
-        schema: { $ref: "#/components/schemas/UpdateRequest"}
-      }
-      #swagger.responses[200] = {
-        description: '${lang.ERROR_200}',
-        schema: { $ref: "#/components/schemas/UpdateResponse"}
-      }
-      #swagger.responses[401] = {
-        description: '${lang.ERROR_401}',
-        schema: { $ref: "#/components/schemas/Response401"}
-      }
-      #swagger.responses[400] = {
-        description: '${lang.ERROR_400}',
-        schema: { $ref: "#/components/schemas/Response400"}
-      }
-      #swagger.responses[404] = {
-        description: '${lang.ERROR_404}',
-        schema: { $ref: "#/components/schemas/Response404"}
-      }
-      #swagger.responses[500] = {
-        description: '${lang.ERROR_500}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      #swagger.responses[503] = {
-        description: '${lang.ERROR_503}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      */
-      res.json({ message: 'Usuario creado' });
-    });
-    
-    router.get('${replacePathName(
-      autoCrudAppPatterns.show,
-      pathName
-    )}', (req, res) => {
-      /*
-      #swagger.tags = ['${pathName}']
-      #swagger.description = 'Endpoint para obtener un registro por id'
-      #swagger.parameters['Authorization'] = {
-        in: "header",
-        required: true,
-        type: "string",
-        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-      }
-      #swagger.parameters['id'] = {
-        in: "path",
-        required: true,
-        type: "string",
-        example: "61fc9039c7452ebc81c72a17"
-      }
-      #swagger.responses[200] = {
-        description: '${lang.ERROR_200}',
-        schema: { $ref: "#/components/schemas/ShowResponse"}
-      }
-      #swagger.responses[401] = {
-        description: '${lang.ERROR_401}',
-        schema: { $ref: "#/components/schemas/Response401"}
-      }
-      #swagger.responses[404] = {
-        description: '${lang.ERROR_404}',
-        schema: { $ref: "#/components/schemas/Response404"}
-      }
-      #swagger.responses[500] = {
-        description: '${lang.ERROR_500}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      #swagger.responses[503] = {
-        description: '${lang.ERROR_503}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      */
-      res.json([{ id: 1, name: 'John Doe' }]);
-    });
-    
-    router.delete('${replacePathName(
-      autoCrudAppPatterns.show,
-      pathName
-    )}', (req, res) => {
-      /*
-      #swagger.tags = ['${pathName}']
-      #swagger.description = 'Endpoint para eliminar un registro por id'
-      #swagger.parameters['Authorization'] = {
-        in: "header",
-        required: true,
-        type: "string",
-        example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-      }
-      #swagger.parameters['id'] = {
-        in: "path",
-        required: true,
-        type: "string",
-        example: "61fc9039c7452ebc81c72a17"
-      }
-      #swagger.responses[200] = {
-        description: '${lang.ERROR_200}',
-        schema: { $ref: "#/components/schemas/DeleteResponse"}
-      }
-      #swagger.responses[401] = {
-        description: '${lang.ERROR_401}',
-        schema: { $ref: "#/components/schemas/Response401"}
-      }
-      #swagger.responses[404] = {
-        description: '${lang.ERROR_404}',
-        schema: { $ref: "#/components/schemas/Response404"}
-      }
-      #swagger.responses[500] = {
-        description: '${lang.ERROR_500}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      #swagger.responses[503] = {
-        description: '${lang.ERROR_503}',
-        schema: { $ref: "#/components/schemas/Response500"}
-      }
-      */
-      res.json([{ id: 1, name: 'John Doe' }]);
-    });
+function generateSwaggerSchemaFromObject(obj) {
+  if (obj.hasOwnProperty("_id")) {
+    obj._id = "string";
+  }
+  const detectType = (value) => {
+    if (Array.isArray(value)) return "array";
+    if (value === null) return "string"; // Swagger no tiene "null" como tipo
+    return typeof value;
+  };
 
-    module.exports = router;
-    `;
+  const buildSchema = (value) => {
+    const type = detectType(value);
+
+    switch (type) {
+      case "string":
+      case "number":
+      case "boolean":
+        return { type };
+
+      case "array":
+        return {
+          type: "array",
+          items: buildSchema(value[0] ?? {}), // asume el primer elemento como ejemplo
+        };
+
+      case "object":
+        return {
+          type: "object",
+          properties: generateSwaggerSchemaFromObject(value).properties,
+        };
+
+      default:
+        return { type: "string" };
+    }
+  };
+
+  const properties = {};
+
+  for (const key in obj) {
+    properties[key] = buildSchema(obj[key]);
+    properties[key]["example"] = obj[key];
   }
 
-  const replacePathName = (path, pathName) => {
-    console.log(path, pathName);
-    let route = path.replace("/:path_name", `${basePath}${pathName}`);
-    return route;
-  }
-
+  return {
+    type: "object",
+    properties,
+  };
+}
 
 module.exports = ApiDocController;

@@ -22,6 +22,17 @@ class RolsMiddleware {
     next();
   }
 
+  static async checkIsApiOrCitdev(req, res, next) {
+    if (
+      req.session.user.rols.includes("API") ||
+      req.session.user.rols.includes("CITDEV")
+    ) {
+      next();
+    } else {
+      return await RolsMiddleware.errorResponse(req, res);
+    }
+  }
+
   static async checkIsCrud(req, res, next) {
     if (!req.session.user.rols.includes("CRUD")) {
       return await RolsMiddleware.errorResponse(req, res);
