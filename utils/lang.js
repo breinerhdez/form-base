@@ -34,7 +34,7 @@ module.exports = {
   LOGIN_USER: "Correo electrónico",
 
   // Collections
-  COLLECTIONS_APIDOC: "Documentación",
+  COLLECTIONS_APIDOC: "Ver documentación de la API",
   COLLECTIONS_COL_TITLE: "Título",
   COLLECTIONS_NAME: "Nombre de colección de datos",
   COLLECTIONS_PATH: "Ruta/Recurso",

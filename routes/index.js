@@ -41,9 +41,13 @@ class Router {
     router.use("/crud", [RolsMiddleware.checkIsCrud], this.getAutoCrudRoutes());
 
     let apiDocController = new ApiDocController();
-    router.use(
-      "/api-doc/:path_name",
-      [RolsMiddleware.checkIsApiOrCitdev, swaggerUi.serve],
+    this.router.use(
+      "/admin/api-doc/:path_name",
+      [
+        AuthMiddleware.checkSession,
+        RolsMiddleware.checkIsApiOrCitdev,
+        swaggerUi.serve,
+      ],
       apiDocController.index
     );
 

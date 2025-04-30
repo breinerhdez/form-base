@@ -8,7 +8,7 @@ const basePath = "/admin/collections";
 const basePathCollection = "/admin/collections";
 const breadItems = [
   {
-    title: lang.FIELDS_APIDOC,
+    title: lang.COLLECTIONS_TITLE,
     href: getRoute(basePath, "index"),
   },
 ];

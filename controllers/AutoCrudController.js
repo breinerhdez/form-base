@@ -76,7 +76,7 @@ class AutoCrudController {
       req.session.reqData = {};
       res.render("autoCrud/form", data);
     } catch (error) {
-      console.log("ERROR: ================================> ",error.message);
+      console.log("ERROR: ================================> ", error.message);
       req.flash("warning", lang.ERROR_500);
       res.redirect("/admin");
     }
@@ -109,18 +109,18 @@ class AutoCrudController {
       // clean session data
       req.session.reqData = {};
 
-      if(collection.urlToAfterCreate != ""){
-        console.log(
-          "=".repeat(30) +
-            ">>> " +
-            "Redirect to external URL: " +
-            collection.urlToAfterCreate
-        );
-        res.redirect(collection.urlToAfterCreate);
-      }else{
-        req.flash("success", lang.CRUD_CREATED);
-        res.redirect(getAutocrudRoute(basePath, "index", collection.path_name));
-      }
+      // if(collection.urlToAfterCreate != ""){
+      //   console.log(
+      //     "=".repeat(30) +
+      //       ">>> " +
+      //       "Redirect to external URL: " +
+      //       collection.urlToAfterCreate
+      //   );
+      //   res.redirect(collection.urlToAfterCreate);
+      // }else{
+      req.flash("success", lang.CRUD_CREATED);
+      res.redirect(getAutocrudRoute(basePath, "index", collection.path_name));
+      // }
     } catch (error) {
       if (error.name === "ValidationError") {
         setFlashErrors(req, error);
@@ -271,7 +271,7 @@ class AutoCrudController {
       }
       // delete object
       await dynamicModel.findByIdAndDelete(id);
-      
+
       saveAuditLog(req, collection.collection_name, {}, objDb, "DELETE");
 
       req.flash("success", lang.CRUD_DELETED);
