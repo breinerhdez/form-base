@@ -34,14 +34,19 @@ class ApiDocController {
           title: `API - ${collection.title}`,
           description: `Documentación generada automáticamente para la colección ${collection.title}`,
         },
-        // host: "localhost:3000",
-        // schemes: ["http"],
         servers: [
           {
-            url: "http://localhost:3000",
+            url: req.protocol + "://" + req.get("host"),
           },
         ],
         components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT",
+            },
+          },
           schemas: {
             IndexResponse: generateSwaggerSchemaFromObject({
               data: {
@@ -100,6 +105,11 @@ class ApiDocController {
             },
           },
         },
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
         paths: getSwaggerPathObject(path_name),
       };
 
@@ -114,7 +124,9 @@ class ApiDocController {
 }
 
 const replacePathName = (path, pathName) => {
-  let route = path.replace("/:path_name", `${basePath}${pathName}`);
+  let route = path
+    .replace("/:path_name", `${basePath}${pathName}`)
+    .replace("/:id", "/{id}");
   return route;
 };
 
