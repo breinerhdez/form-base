@@ -36,7 +36,10 @@ class ApiDocController {
         },
         servers: [
           {
-            url: req.protocol + "://" + req.get("host"),
+            url: "https://" + req.get("host"),
+          },
+          {
+            url: "http://" + req.get("host"),
           },
         ],
         components: {
