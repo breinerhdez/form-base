@@ -53,6 +53,7 @@ $(document).ready(function () {
   $("#rowFieldsSortable").sortable();
   showOptionsSection();
   setHelpMessageOptions();
+  $(".fieldNameRow").first().click();
 });
 
 // event handler for add field
