@@ -16,6 +16,7 @@ block content
   form(method="post" action=fieldsPath)
     div(class="row")
       div(class="col-md-6")
+        label(id="field[name][]-error" for="field[name][]" class="error")
         table(class="table" id="fieldsTable")
           thead
             tr
@@ -30,7 +31,7 @@ block content
             each field in collection.form.fields
               tr
                 td
-                  input(type="text" name="field[name][]" class="form-control fieldNameRow" value=field.name required)
+                  input(type="text" name="field[name][]" class="form-control fieldNameRow" value=field.name required data-rule-required="true" title="Todos los nombres de campo son obligatorios")
 
                   div(class="otherElements" style="display:none")
                     input(type="text" name="field[label][]" value=field.label placeholder="field.label")
@@ -73,11 +74,11 @@ block content
           tr 
             th(class="col-md-5") #{lang.FIELDS_NAME}
             td
-              input(type="string" class="form-control" id="field-name" placeholder=lang.FIELDS_NAME readonly)
+              input(type="string" class="form-control ignore" id="field-name" placeholder=lang.FIELDS_NAME readonly)
           tr
             th #{lang.FIELDS_LABEL}
             td
-              input(type="string" class="form-control" id="field-label" placeholder=lang.FIELDS_LABEL)
+              input(type="string" class="form-control ignore" id="field-label" placeholder=lang.FIELDS_LABEL required)
           tr
             th #{lang.FIELDS_TYPE}
             td

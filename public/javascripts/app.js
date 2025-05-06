@@ -2,10 +2,32 @@ $(document).ready(function () {
   // alert flash message auto hide
   setTimeout(() => {
     $(".alert .btn-close").click();
-  }, 15000);
+  }, 30000);
+
+  $("#app-table").dataTable({
+    language: {
+      url: "/libs/es-ES.json",
+    },
+    responsive: true,
+  });
 
   // verify if check all options for API services
   checkOptions();
+
+  var MULTI_OPTIONS_FIELDS = ["checkbox", "radio"];
+  $("form").validate({
+    ignore: ".ignore",
+    highlight: function (element) {
+      if (!MULTI_OPTIONS_FIELDS.includes(element.type)) {
+        $(element).addClass("is-invalid").removeClass("is-valid");
+      }
+    },
+    unhighlight: function (element) {
+      if (!MULTI_OPTIONS_FIELDS.includes(element.type)) {
+        $(element).removeClass("is-invalid").addClass("is-valid");
+      }
+    },
+  });
 });
 
 // event click for close flash message

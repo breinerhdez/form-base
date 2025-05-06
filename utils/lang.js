@@ -11,10 +11,10 @@ module.exports = {
   // Auth Messages
   AUTH_INCORRECT_CREDENTIALS: "Las credenciales son incorrectas",
   // CRUD Messages
-  CRUD_CREATED: "El objeto ha sido creado",
-  CRUD_DELETED: "El objeto ha sido eliminado",
-  CRUD_NOT_EXIST: "El objeto no existe",
-  CRUD_UPDATED: "El objeto ha sido modificado",
+  CRUD_CREATED: "El registro ha sido creado",
+  CRUD_DELETED: "El registro ha sido eliminado",
+  CRUD_NOT_EXIST: "El registro no existe",
+  CRUD_UPDATED: "El registro ha sido modificado",
 
   // Generals
   BTN_CANCEL: "Cancelar",
@@ -22,6 +22,7 @@ module.exports = {
   BTN_DELETE: "Eliminar",
   BTN_SAVE: "Guardar",
   BTN_UPDATE: "Modificar",
+  BTN_DETAILS: "Ver detalles",
   TEXT_ACTIONS: "Acciones",
   TEXT_DETAILS: "Detalles",
   TEXT_API: "API",
@@ -35,6 +36,7 @@ module.exports = {
 
   // Collections
   COLLECTIONS_APIDOC: "Ver documentación de la API",
+  COLLECTIONS_APIDOC_BTN: "Swagger",
   COLLECTIONS_COL_TITLE: "Título",
   COLLECTIONS_NAME: "Nombre de colección de datos",
   COLLECTIONS_PATH: "Ruta/Recurso",
@@ -56,6 +58,7 @@ module.exports = {
   FIELDS_ADVANCED: "Conf. Avanzada",
   FIELDS_CONFIGURE: "Configurar",
   FIELDS_APIDOC: "Gestionar campos",
+  FIELDS_APIDOC_BTN: "Campos",
   FIELDS_DEFAULT_VALUE: "Valor por defecto",
   FIELDS_LABEL: "Etiqueta",
   FIELDS_NAME: "Nombre del campo",

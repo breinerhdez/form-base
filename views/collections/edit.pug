@@ -6,10 +6,10 @@ block content
   div(class="option-buttons")
     a(href=`/admin/fields/${item._id}` class="me-3 btn btn-primary float-end-" title=lang.FIELDS_APIDOC)
       span(class="fa fa-list")
-      span  #{lang.FIELDS_APIDOC}
+      span  #{lang.FIELDS_APIDOC_BTN}
     a(href=`/admin/api-doc/${item.path_name}` target="_blank" class="me-3 btn btn-primary float-end-" title=lang.COLLECTIONS_APIDOC)
       span(class="fa fa-file-text-o" aria-hidden="true")
-      span  #{lang.COLLECTIONS_APIDOC}
+      span  #{lang.COLLECTIONS_APIDOC_BTN}
 
 
   form(method="post" action=getRoute(basePath, "update", item._id))
@@ -60,5 +60,5 @@ block content
           label(class="form-check-label ps-1" for="opt-get-by-id") #{lang.GET_BY_ID}
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
-      button(class="btn btn-primary" type="submit") #{lang.BTN_SAVE}
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.BTN_CANCEL) #{lang.BTN_CANCEL}
+      button(class="btn btn-primary" type="submit" title=lang.BTN_SAVE) #{lang.BTN_SAVE}

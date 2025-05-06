@@ -19,7 +19,7 @@ const autoCrudAppPatterns = {
   edit: "/:path_name/:id/edit", // GET
   update: "/:path_name/:id", // POST
   destroy: "/:path_name/:id", // GET
-  show: "/:path_name/:id", // GET
+  show: "/:path_name/:id/show", // GET
 };
 
 // Application routes for web application

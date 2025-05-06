@@ -17,7 +17,7 @@ block content
       input(class="form-control" type='text' name="collection_name" id="collection_name" value=sessData.collection_name?sessData.collection_name:"" placeholder='custom_user_management' required)
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
-      button(class="btn btn-primary" type="submit") #{lang.BTN_SAVE}
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.BTN_CANCEL) #{lang.BTN_CANCEL}
+      button(class="btn btn-primary" type="submit" title=lang.BTN_SAVE) #{lang.BTN_SAVE}
 
 

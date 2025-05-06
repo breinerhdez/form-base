@@ -1,34 +1,39 @@
 extends ../layout
 
 block content
+  div.btn-tops
+    a(href=getRoute(basePath, "create") class="btn btn-primary")
+      span(class="fa fa-plus")
+      span  #{lang.BTN_CREATE}
 
-  a(href=getRoute(basePath, "create") class="btn btn-primary float-end")
-    span(class="fa fa-plus")
-    span  #{lang.BTN_CREATE}
-
-  table(class="table") 
-    thead
-      tr 
-        th(class="col-md-1") #
-        th(class="col-md-433") #{lang.COLLECTIONS_COL_TITLE}
-        th(class="col-md-233") #{lang.COLLECTIONS_NAME}
-        th(class="col-md-233") #{lang.COLLECTIONS_PATH}
-        th(class="col-md-22") #{lang.TEXT_ACTIONS}
-    tbody
-      each item in listObjects
-        tr
-          td #{++counter}
-          td #{item.title}
-          td #{item.collection_name}
-          td #{item.path_name}
-          td
-            a(href=getRoute(basePath, "edit", item._id) class="me-3" title=lang.BTN_UPDATE)
-              span(class="fa fa-pencil fa-2x")
-            a(href=getRoute(basePath, "destroy", item._id) class="me-3 delete-button" title=lang.BTN_DELETE)
-              span(class="fa fa-trash-o fa-2x")
-            a(href=`/admin/fields/${item._id}` class="me-3" title=lang.FIELDS_APIDOC)
-              span(class="fa fa-list fa-2x")
-            a(href=`/admin/api-doc/${item.path_name}` target="_blank" class="me-3" title=lang.COLLECTIONS_APIDOC)
-              span(class="fa fa-file-text-o fa-2x" aria-hidden="true")
+  .table-responsive
+    table#app-table.table.table-striped
+      thead
+        tr 
+          th(class="col-md-1") #
+          th(class="col-md-433") #{lang.COLLECTIONS_COL_TITLE}
+          th(class="col-md-233") #{lang.COLLECTIONS_NAME}
+          th(class="col-md-233") #{lang.COLLECTIONS_PATH}
+          th(class="col-md-22") #{lang.TEXT_ACTIONS}
+      tbody
+        each item in listObjects
+          tr
+            td #{++counter}
+            td #{item.title}
+            td #{item.collection_name}
+            td #{item.path_name}
+            td.col-md-5
+              a(href=getRoute(basePath, "edit", item._id) class="btn btn-primary me-1" title=lang.BTN_UPDATE)
+                span(class="fa fa-pencil")
+                span  #{lang.BTN_UPDATE}
+              a(href=getRoute(basePath, "destroy", item._id) class="btn btn-danger me-1 delete-button" title=lang.BTN_DELETE)
+                span(class="fa fa-trash-o")
+                span  #{lang.BTN_DELETE}
+              a(href=`/admin/fields/${item._id}` class="btn btn-primary me-1" title=lang.FIELDS_APIDOC)
+                span(class="fa fa-list")
+                span  #{lang.FIELDS_APIDOC_BTN}
+              a(href=`/admin/api-doc/${item.path_name}` target="_blank" class="btn btn-primary me-1" title=lang.COLLECTIONS_APIDOC)
+                span(class="fa fa-file-text-o" aria-hidden="true")
+                span  #{lang.COLLECTIONS_APIDOC_BTN}
 
 

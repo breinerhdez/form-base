@@ -1,7 +1,7 @@
 // Variables de color
 $color-default: #000;
-$color-hover-blue: rgb(13, 110, 253);
-$color-hover-red: rgb(253, 13, 13);
+$color-hover-blue: #0d6efd
+$color-hover-red: #dc3545
 $color-hover-background: #f9f9f9;
 
 // Estilos
@@ -22,16 +22,7 @@ $color-hover-background: #f9f9f9;
 
 
 
-td
-  a
-    .fa
-      color: $color-default;
 
-      &:hover
-        color: $color-hover-blue;
-
-      &.fa-trash-o:hover
-        color: $color-hover-red;
 
 .btn-default
   .fa.fa-trash-o:hover
@@ -64,3 +55,11 @@ td
 #fieldsTableDetail, #optionsTable
   th
     text-align: right;
+
+label
+  &.error
+    display: block !important;
+    color: #dc3545
+
+.btn-tops
+  text-align: right;

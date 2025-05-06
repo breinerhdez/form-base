@@ -67,7 +67,14 @@ class CollectionsController {
         res.redirect(getRoute(basePath, "create"));
       } else if (error.name === "MongoServerError") {
         console.log(error);
-        req.flash("danger", error.message);
+        let messageReturn = error.message;
+        if (messageReturn.includes("duplicate key error collection")) {
+          if (messageReturn.includes("collection_name:"))
+            messageReturn = `El nombre de la colección de datos ya existe. Debe usar otro nombre.`;
+          else if (messageReturn.includes("path_name:"))
+            messageReturn = `El nombre de la ruta/recurso ya existe. Debe usar otro nombre.`;
+        }
+        req.flash("danger", messageReturn);
         res.redirect(getRoute(basePath, "create"));
       } else {
         req.flash("warning", lang.ERROR_500);
@@ -142,7 +149,14 @@ class CollectionsController {
     } catch (error) {
       if (error.name === "MongoServerError") {
         console.log(error);
-        req.flash("danger", error.message);
+        let messageReturn = error.message;
+        if (messageReturn.includes("duplicate key error collection")) {
+          if (messageReturn.includes("collection_name:"))
+            messageReturn = `El nombre de la colección de datos ya existe. Debe usar otro nombre.`;
+          else if (messageReturn.includes("path_name:"))
+            messageReturn = `El nombre de la ruta/recurso ya existe. Debe usar otro nombre.`;
+        }
+        req.flash("danger", messageReturn);
         res.redirect(getRoute(basePath, "index"));
       } else {
         req.flash("warning", lang.ERROR_500);

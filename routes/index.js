@@ -136,6 +136,7 @@ class Router {
     router.get(autoCrudAppPatterns.edit, controller.edit);
     router.post(autoCrudAppPatterns.update, controller.update);
     router.get(autoCrudAppPatterns.destroy, controller.destroy);
+    router.get(autoCrudAppPatterns.show, controller.show);
     return router;
   }
 

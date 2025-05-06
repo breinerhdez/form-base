@@ -3,7 +3,7 @@
 // form for new field
 const newFieldForm = `<tr>
   <td>
-    <input type="text" name="field[name][]" class="form-control fieldNameRow" placeholder="name_field" required>
+    <input type="text" name="field[name][]" class="form-control fieldNameRow" placeholder="Nombre del campo" required data-rule-required="true" title="Todos los nombres de campo son obligatorios">
     <div class="otherElements" style="display:none">
       <input type="text" name="field[label][]" placeholder="field.label" />
       <input type="text" name="field[type][]" placeholder="field.type" />
@@ -54,6 +54,11 @@ $(document).ready(function () {
   showOptionsSection();
   setHelpMessageOptions();
   $(".fieldNameRow").first().click();
+  aplicarValidacionCamposDinamicos();
+
+  // $("form").validate().destroy();
+
+  $("form").valid();
 });
 
 // event handler for add field
@@ -64,12 +69,14 @@ $("#btnAddField").on("click", function () {
     .find('input[name="field[name][]"]')
     .click()
     .focus();
+  aplicarValidacionCamposDinamicos();
 });
 
 // event handler for remove field
 $(document).on("click", ".btn-removeField", function () {
   if (confirm("¿Está seguro que quiere eliminar el objeto?")) {
     let row = $(this).parents("tr");
+    row.find(".fieldNameRow").rules("remove");
     row.hide(800, function () {
       $(this).remove();
     });
@@ -320,3 +327,33 @@ $(document).on(
 );
 
 $(document).on("keyup", "#fieldsTableDetail input", changeDetails);
+
+// Esta función puedes llamarla cada vez que agregues elementos nuevos
+function aplicarValidacionCamposDinamicos() {
+  $(".fieldNameRow").each(function () {
+    $(this).change();
+    // Evita aplicar dos veces la misma regla
+    // if (!$(this).data("validated")) {
+    //   console.log($(this).val());
+    //   $(this).rules("add", {
+    //     required: true,
+    //   });
+    //   //$(this).data("validated", true); // Marca el campo como ya validado
+    // }
+  });
+}
+
+$(document).on(
+  "change keyup focus click",
+  ".fieldNameRow",
+  aplicarValidacionCamposDinamicosOnChangeItem
+);
+function aplicarValidacionCamposDinamicosOnChangeItem() {
+  console.log("onChange", $(this).val());
+  if (!$(this).val().length) {
+    $(this).data("validated", false);
+  } else {
+    $(this).data("validated", true);
+  }
+  $("form").valid();
+}

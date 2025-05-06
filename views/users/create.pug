@@ -5,15 +5,15 @@ block content
   form(method="post" action=getRoute(basePath, "store"))
 
     div(class="mb-3")
-      label(class="form-label" for='name') #{lang.USERS_FULLNAME}
+      label(class="form-label" for='name') #{lang.USERS_FULLNAME} *
       input(class="form-control" type='text' name="name" id="name" placeholder='Mark Webber' required)
 
     div(class="mb-3")
-      label(class="form-label" for='email') #{lang.USERS_EMAIL}
+      label(class="form-label" for='email') #{lang.USERS_EMAIL} *
       input(class="form-control" type='email' name="email" id="email" placeholder='mark.webber@example.com' required)
 
     div(class="mb-3")
-      label(class="form-label" for='password') #{lang.USERS_PASSWORD}
+      label(class="form-label" for='password') #{lang.USERS_PASSWORD} *
       input(class="form-control" type='password' name="password" id="password" placeholder='Hm*fBj-IzyDB' required)
 
     div(class="mb-3")
@@ -24,7 +24,7 @@ block content
           label(class="form-check-label" for=`rol${rol}`) #{rol}
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2") #{lang.BTN_CANCEL}
-      button(class="btn btn-primary" type="submit") #{lang.BTN_SAVE}
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.BTN_CANCEL) #{lang.BTN_CANCEL}
+      button(class="btn btn-primary" type="submit" title=lang.BTN_SAVE) #{lang.BTN_SAVE}
 
 

@@ -281,5 +281,57 @@ class AutoCrudController {
       res.redirect("/admin");
     }
   }
+
+  async show(req, res) {
+    try {
+      // get path_name
+      let { path_name, id } = req.params;
+      // get main information for colletion by path_name
+      let result = await getObjectsAndModel(path_name, req);
+      if (!result) {
+        return res.redirect("/admin");
+      }
+      // destructure result query into variables
+      let { collection, dynamicModel } = result;
+
+      // check if object exists
+      let objDb = await dynamicModel.findById(id);
+      if (!objDb) {
+        req.flash("warning", lang.CRUD_NOT_EXIST);
+        return res.redirect(
+          getAutocrudRoute(basePath, "index", collection.path_name)
+        );
+      }
+
+      let objToForm = objDb;
+      if (JSON.stringify(req.session.reqData) != JSON.stringify({})) {
+        objToForm = req.session.reqData;
+      }
+
+      // generate form object
+      let objForm = new Form(
+        "#", //getAutocrudRoute(basePath, "update", collection.path_name, objDb._id),
+        collection.form.fields,
+        getAutocrudRoute(basePath, "index", collection.path_name),
+        objToForm
+      );
+      // set view
+      let data = {
+        ...viewData,
+        title: lang.BTN_DETAILS,
+        collection,
+        objForm: await objForm.dsp(),
+        breadItems: getAutoCrudBreadItems(basePath, collection),
+      };
+
+      // clean session data
+      //req.session.reqData = {};
+
+      res.render("autoCrud/show", data);
+    } catch (error) {
+      req.flash("warning", lang.ERROR_500);
+      res.redirect("/admin");
+    }
+  }
 }
 module.exports = AutoCrudController;

@@ -42,6 +42,15 @@ app.use(
 app.use("/static", express.static(__dirname + "/node_modules/bootstrap/dist"));
 app.use("/static", express.static(__dirname + "/node_modules/font-awesome"));
 app.use("/static", express.static(__dirname + "/node_modules/jquery/dist"));
+app.use(
+  "/static",
+  express.static(__dirname + "/node_modules/jquery-validation/dist")
+);
+app.use("/static", express.static(__dirname + "/node_modules/datatables.net"));
+app.use(
+  "/static",
+  express.static(__dirname + "/node_modules/datatables.net-bs5")
+);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(new Router().getRoutes());
@@ -72,6 +81,5 @@ mongoose.connect(process.env.URLDB, (err, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`Application running on port ${process.env.PORT}`);
 });
-
 
 // module.exports = app;
