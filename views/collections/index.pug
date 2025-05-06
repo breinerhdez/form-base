@@ -10,7 +10,7 @@ block content
     table#app-table.table.table-striped
       thead
         tr 
-          th(class="col-md-1") #
+          //- th(class="col-md-1") #
           th(class="col-md-433") #{lang.COLLECTIONS_COL_TITLE}
           th(class="col-md-233") #{lang.COLLECTIONS_NAME}
           th(class="col-md-233") #{lang.COLLECTIONS_PATH}
@@ -18,7 +18,7 @@ block content
       tbody
         each item in listObjects
           tr
-            td #{++counter}
+            //- td #{++counter}
             td #{item.title}
             td #{item.collection_name}
             td #{item.path_name}

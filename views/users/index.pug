@@ -10,7 +10,7 @@ block content
     table#app-table.table.table-striped
       thead
         tr 
-          th(class="col-md-1") #
+          //- th(class="col-md-1") #
           th(class="col-md-433") #{lang.USERS_FULLNAME}
           th(class="col-md-233") #{lang.USERS_EMAIL}
           th(class="col-md-233") #{lang.USERS_ROLS}
@@ -19,7 +19,7 @@ block content
       tbody
         each item in listObjects
           tr
-            td #{++counter}
+            //- td #{++counter}
             td #{item.name}
             td #{item.email}
             td #{item.rols}
