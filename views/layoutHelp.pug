@@ -19,7 +19,7 @@ html
 
     .container
       if showBread != "hide"
-        nav(aria-label='breadcrumb')
+        nav(aria-label='breadcrumb' data-intro='Te muestra la ruta de navegación actual dentro del sistema, indicando en qué sección estás y cómo llegaste allí. Puedes hacer clic en los elementos anteriores para volver rápidamente a esas secciones sin perder el contexto.')
           ol.breadcrumb
             if title != "Admin"
               li.breadcrumb-item
@@ -30,7 +30,7 @@ html
                   a(href=breadItem.href)= breadItem.title
             li.breadcrumb-item.active(aria-current='page') #{title}
 
-      h1.mt-3.mb-3= title
+      h1.mt-3.mb-3(data-intro="El título indica en qué sección del sistema se encuentra.")= title
 
       while message = flash.shift()
         svg(xmlns='http://www.w3.org/2000/svg' style='display: none;')

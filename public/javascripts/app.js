@@ -28,6 +28,23 @@ $(document).ready(function () {
       }
     },
   });
+
+  $("[title]").each(function () {
+    $(this).prop("data-bs-toggle", "tooltip");
+    new bootstrap.Tooltip(this);
+  });
+});
+
+$(document).on("click", ".btn-help-app", function () {
+  introJs()
+    .setOptions({
+      nextLabel: "Siguiente",
+      prevLabel: "Anterior",
+      doneLabel: "Finalizar",
+      // skipLabel: "Saltar",
+      // tooltipClass: "customTooltip", // opcional para estilos personalizados
+    })
+    .start();
 });
 
 // event click for close flash message
@@ -41,6 +58,11 @@ $(".alert .btn-close").click(function () {
 // confirm alert for delete option
 $("a.delete-button").click(function () {
   return confirm("¿Está seguro que quiere eliminar el objeto?");
+});
+$("a.delete-button-user").click(function () {
+  return confirm(
+    "¿Desea eliminar este usuario? Esta acción es permanente. También puede inactivarlo mediante la modificación."
+  );
 });
 
 // check all options for API services

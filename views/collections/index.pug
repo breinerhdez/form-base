@@ -2,9 +2,9 @@ extends ../layout
 
 block content
   div.btn-tops
-    a(href=getRoute(basePath, "create") class="btn btn-primary")
+    a(href=getRoute(basePath, "create") class="btn btn-primary" title=lang.BTN_CREATE)
       span(class="fa fa-plus")
-      span  #{lang.BTN_CREATE}
+      //- span  #{lang.BTN_CREATE}
 
   .table-responsive
     table#app-table.table.table-striped
@@ -22,18 +22,18 @@ block content
             td #{item.title}
             td #{item.collection_name}
             td #{item.path_name}
-            td.col-md-5
+            td
               a(href=getRoute(basePath, "edit", item._id) class="btn btn-primary me-1" title=lang.BTN_UPDATE)
                 span(class="fa fa-pencil")
-                span  #{lang.BTN_UPDATE}
-              a(href=getRoute(basePath, "destroy", item._id) class="btn btn-danger me-1 delete-button" title=lang.BTN_DELETE)
-                span(class="fa fa-trash-o")
-                span  #{lang.BTN_DELETE}
+                //- span  #{lang.BTN_UPDATE}
               a(href=`/admin/fields/${item._id}` class="btn btn-primary me-1" title=lang.FIELDS_APIDOC)
                 span(class="fa fa-list")
-                span  #{lang.FIELDS_APIDOC_BTN}
+                //- span  #{lang.FIELDS_APIDOC_BTN}
               a(href=`/admin/api-doc/${item.path_name}` target="_blank" class="btn btn-primary me-1" title=lang.COLLECTIONS_APIDOC)
                 span(class="fa fa-file-text-o" aria-hidden="true")
-                span  #{lang.COLLECTIONS_APIDOC_BTN}
+                //- span  #{lang.COLLECTIONS_APIDOC_BTN}
+              a(href=getRoute(basePath, "destroy", item._id) class="btn btn-danger me-1 delete-button" title=lang.BTN_DELETE)
+                span(class="fa fa-trash-o")
+                //- span  #{lang.BTN_DELETE}
 
 

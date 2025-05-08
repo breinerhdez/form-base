@@ -1,22 +1,22 @@
 extends ../layout
 
 block content
-  div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
+  div(class="d-flex flex-row bd-highlight mb-3 row panel-admin" data-intro=lang.HELP_MSG_PADMIN_CORE_FEATURES)
     if rols.includes("ADMIN")
-      div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
+      div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option" data-intro=lang.HELP_MSG_PADMIN_USERS)
         a(href="/admin/users")
           div(class="item-container")
             span(class="fa fa-users fa-2x")
             br
             span #{lang.USERS_TITLE}
     if rols.includes("CITDEV")
-      div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
+      div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option" data-intro=lang.HELP_MSG_PADMIN_COLLECTIONS)
         a(href="/admin/collections")
           div(class="item-container")
             span(class="fa fa-cubes fa-2x")
             br
             span #{lang.COLLECTIONS_TITLE}
-    div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
+    div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option" data-intro=lang.HELP_MSG_PADMIN_LOGOUT)
       a(href="/auth/logout")
         div(class="item-container")
           span(class="fa fa-sign-out fa-2x")
@@ -25,7 +25,7 @@ block content
 
   if rols.includes("CRUD")
     h2 Entidades dinámicas del sistema
-    div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
+    div(class="d-flex flex-row bd-highlight mb-3 row panel-admin" data-intro=lang.HELP_MSG_PADMIN_DYNAMIC_FEATURES)
       each collection in collections
         if collection.showAdmin
           div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")

@@ -12,16 +12,16 @@ let coreUserSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Name is required."],
+      required: [true, "El Nombre completo es requerido."],
     },
     email: {
       type: String,
       unique: true,
-      required: [true, "Email is required."],
+      required: [true, "El Correo electrónico es requerido."],
     },
     password: {
       type: String,
-      required: [true, "Password is required."],
+      required: [true, "El Contraseña es requerido."],
     },
     // img: {
     //   type: String,
@@ -39,7 +39,7 @@ let coreUserSchema = new Schema(
     },
     rols: {
       type: [String],
-      required: [true, "Rols is required"],
+      required: [true, "Debe seleccionar al menos un rol."],
     },
     // google: {
     //   type: Boolean,
@@ -58,6 +58,8 @@ coreUserSchema.methods.toJSON = function () {
   return objUser;
 };
 
-coreUserSchema.plugin(uniqueValidator, { message: "{PATH} must be unique." });
+coreUserSchema.plugin(uniqueValidator, {
+  message: "El Correo electrónico debe ser único.",
+});
 
 module.exports = mongoose.model("CoreUsers", coreUserSchema, "core_users");

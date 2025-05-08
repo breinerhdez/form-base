@@ -11,16 +11,16 @@ let modelSchema = new mongoose.Schema(
     path_name: {
       type: String,
       unique: true,
-      required: [true, "Path name required."],
+      required: [true, "La Ruta/Recurso es requerido."],
     },
     collection_name: {
       type: String,
       unique: true,
-      required: [true, "Collection name required."],
+      required: [true, "El Nombre de colección de datos es requerido."],
     },
     title: {
       type: String,
-      required: [true, "Title required."],
+      required: [true, "El Título es requerido."],
     },
     allow_services: {
       type: allowServiceSchema,

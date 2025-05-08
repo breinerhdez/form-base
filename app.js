@@ -42,6 +42,11 @@ app.use(
 app.use("/static", express.static(__dirname + "/node_modules/bootstrap/dist"));
 app.use("/static", express.static(__dirname + "/node_modules/font-awesome"));
 app.use("/static", express.static(__dirname + "/node_modules/jquery/dist"));
+app.use("/static", express.static(__dirname + "/node_modules/intro.js"));
+app.use(
+  "/static",
+  express.static(__dirname + "/node_modules/@popperjs/core/dist")
+);
 app.use(
   "/static",
   express.static(__dirname + "/node_modules/jquery-validation/dist")

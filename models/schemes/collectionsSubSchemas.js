@@ -26,11 +26,11 @@ let allowServiceSchema = new mongoose.Schema({
 let collectionConfig = new mongoose.Schema({
   projection: {
     type: String,
-    default: "nameField",
+    default: "titulo",
   },
   labels: {
     type: Array,
-    default: ["Label field"],
+    default: ["Título"],
   },
 });
 
@@ -41,7 +41,7 @@ let optionsSchema = new mongoose.Schema({
   },
   values: {
     type: String,
-    default: "OPTION 1,OPTION 2,OPTION 3",
+    default: "OPTION 1,OPTION 2",
   },
   collection_name: {
     type: String,
@@ -81,7 +81,7 @@ let othersSchema = new mongoose.Schema({
 let fieldSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: "name_field",
+    default: "titulo",
   },
   type: {
     type: String,
@@ -89,7 +89,7 @@ let fieldSchema = new mongoose.Schema({
   },
   label: {
     type: String,
-    default: "Label field",
+    default: "Título",
   },
   cols: {
     type: String,

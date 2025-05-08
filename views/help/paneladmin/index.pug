@@ -1,0 +1,36 @@
+extends ../../layoutHelp
+
+block content
+  div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
+
+    div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option" data-intro=lang.HELP_MSG_PADMIN_USERS)
+        a(href="#")
+            div(class="item-container")
+            span(class="fa fa-users fa-2x")
+            br
+            span #{lang.USERS_TITLE}
+
+    div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option" data-intro=lang.HELP_MSG_PADMIN_COLLECTIONS)
+        a(href="#")
+            div(class="item-container")
+            span(class="fa fa-cubes fa-2x")
+            br
+            span #{lang.COLLECTIONS_TITLE}
+
+    div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option" data-intro=lang.HELP_MSG_PADMIN_LOGOUT)
+      a(href="#")
+        div(class="item-container")
+          span(class="fa fa-sign-out fa-2x")
+          br
+          span #{lang.LOGIN_OUT}
+
+    h2 Entidades dinámicas del sistema
+    div(class="d-flex flex-row bd-highlight mb-3 row panel-admin")
+        each collection in ["Ciudades", "Productos"]
+            div(class="p-2 bd-highlight col-md-2 col-xs-6 col-sm-6 text-center padmin-option")
+                a(href=`#`)
+                    div(class="item-container")
+                    span(class="fa fa-cogs fa-2x")
+                    br
+                    span #{collection}
+

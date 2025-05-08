@@ -6,21 +6,26 @@ block content
 
     div(class="mb-3")
       label(class="form-label" for='name') #{lang.USERS_FULLNAME} *
-      input(class="form-control" type='text' name="name" id="name" placeholder='Mark Webber' required)
+      input(class="form-control" type='text' name="name" id="name" placeholder='Mark Webber' autocomplete="off" required value=`${dataSession.name ? dataSession.name : ""}`)
 
     div(class="mb-3")
       label(class="form-label" for='email') #{lang.USERS_EMAIL} *
-      input(class="form-control" type='email' name="email" id="email" placeholder='mark.webber@example.com' required)
+      input(class="form-control" type='text' name="email" id="email" placeholder='mark.webber@example.com' autocomplete="off" required value=`${dataSession.email ? dataSession.email : ""}`)
 
     div(class="mb-3")
       label(class="form-label" for='password') #{lang.USERS_PASSWORD} *
-      input(class="form-control" type='password' name="password" id="password" placeholder='Hm*fBj-IzyDB' required)
+      input(class="form-control" type='password' name="password" id="password" placeholder='Hm*fBj-IzyDB' autocomplete="off" required value=`${dataSession.password ? dataSession.password : ""}`)
+
+    div(class="mb-3 form-check form-switch")
+      input(class="form-check-input" type='checkbox' role="switch" name="status" id="status" value="Y" checked=(dataSession && dataSession.status=="Y"))
+      label(class="form-check-label ps-1" for='status') #{lang.USERS_STATUS_ACTIVE}
 
     div(class="mb-3")
-      label(class="form-label") #{lang.USERS_ROLS}
+      label(class="form-label") #{lang.USERS_ROLS} *
+      label(id="rols-error" class="error" for="rols")
       each rol in ["ADMIN","API","CITDEV","CRUD"]
         .form-check
-          input(class="form-check-input" type="checkbox", name="rols[]" id=`rol${rol}` value=rol)
+          input(class="form-check-input" type="checkbox", name="rols" id=`rol${rol}` value=rol required checked=(dataSession && dataSession.rols && dataSession.rols.includes(rol)) ? true : false)
           label(class="form-check-label" for=`rol${rol}`) #{rol}
 
     div(class="text-end")

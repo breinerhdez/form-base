@@ -2,17 +2,22 @@ extends ../layout
 
 block content
 
-  form(method="post" action="/auth/login")
+  form(method="post" action="/auth/login" autocomplete="off" id="loginForm" data-intro=lang.HELP_MSG_LOGIN_FORM)
 
     div(class="mb-3")
       label(class="form-label" for='email') #{lang.LOGIN_USER} *
-      input(class="form-control" type='email' name="email" id="email" placeholder='mark.webber@example.com' title=lang.LOGIN_USER required)
+      input(type="text" style="display:none")
+      input(class="form-control" type='email' name="email" id="email" placeholder='mark.webber@example.com' title=lang.LOGIN_USER autocomplete="off" required data-intro=lang.HELP_MSG_LOGIN_EMAIL)
 
     div(class="mb-3")
       label(class="form-label" for='password') #{lang.LOGIN_PASSWORD} *
-      input(class="form-control" type='password' name="password" id="password" placeholder='Hm*fBj-IzyDB' title=lang.LOGIN_PASSWORD required)
+      input(class="form-control" type='password' name="password" id="password" placeholder='Hm*fBj-IzyDB' title=lang.LOGIN_PASSWORD autocomplete="off" required data-intro=lang.HELP_MSG_LOGIN_PASSWORD)
 
     div(class="text-end")
-      button(class="btn btn-primary" type="submit") #{lang.LOGIN_BTN}
+      button(class="btn btn-primary" type="submit" title=lang.BTN_SUBMIT_ACTION data-intro=lang.HELP_MSG_LOGIN_SUBMIT) #{lang.LOGIN_BTN}
+
+    
+block scriptsJs
+  script(src="/javascripts/users.js")
 
 

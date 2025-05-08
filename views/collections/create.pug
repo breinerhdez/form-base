@@ -5,15 +5,15 @@ block content
   form(method="post" action=getRoute(basePath, "store"))
 
     div(class="mb-3")
-      label(class="form-label" for='title') #{lang.COLLECTIONS_COL_TITLE}
+      label(class="form-label" for='title') #{lang.COLLECTIONS_COL_TITLE} *
       input(class="form-control" type='text' name="title" id="title" value=sessData.title?sessData.title:"" placeholder='User management' required)
 
     div(class="mb-3")
-      label(class="form-label" for='path_name') #{lang.COLLECTIONS_PATH}
+      label(class="form-label" for='path_name') #{lang.COLLECTIONS_PATH} *
       input(class="form-control" type='text' name="path_name" id="path_name" value=sessData.path_name?sessData.path_name:"" placeholder='user-management' required)
 
     div(class="mb-3")
-      label(class="form-label" for='collection_name') #{lang.COLLECTIONS_NAME}
+      label(class="form-label" for='collection_name') #{lang.COLLECTIONS_NAME} *
       input(class="form-control" type='text' name="collection_name" id="collection_name" value=sessData.collection_name?sessData.collection_name:"" placeholder='custom_user_management' required)
 
     div(class="text-end")

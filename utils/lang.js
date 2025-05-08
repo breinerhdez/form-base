@@ -9,12 +9,13 @@ module.exports = {
   ERROR_500: "Internal Server Error",
   ERROR_503: "Service Unavailable",
   // Auth Messages
-  AUTH_INCORRECT_CREDENTIALS: "Las credenciales son incorrectas",
+  AUTH_INCORRECT_CREDENTIALS:
+    "Usuario o contraseña incorrecta. Verifica los datos e intenta nuevamente.",
   // CRUD Messages
-  CRUD_CREATED: "El registro ha sido creado",
-  CRUD_DELETED: "El registro ha sido eliminado",
-  CRUD_NOT_EXIST: "El registro no existe",
-  CRUD_UPDATED: "El registro ha sido modificado",
+  CRUD_CREATED: "El registro ha sido creado.",
+  CRUD_DELETED: "El registro ha sido eliminado.",
+  CRUD_NOT_EXIST: "El registro no existe.",
+  CRUD_UPDATED: "El registro ha sido modificado.",
 
   // Generals
   BTN_CANCEL: "Cancelar",
@@ -22,7 +23,9 @@ module.exports = {
   BTN_DELETE: "Eliminar",
   BTN_SAVE: "Guardar",
   BTN_UPDATE: "Modificar",
-  BTN_DETAILS: "Ver detalles",
+  BTN_DETAILS: "Ver",
+  BTN_SUBMIT_ACTION: "Enviar el formulario",
+  BTN_CANCEL_ACTION: "Cancelar acción y volver atrás",
   TEXT_ACTIONS: "Acciones",
   TEXT_DETAILS: "Detalles",
   TEXT_API: "API",
@@ -77,10 +80,34 @@ module.exports = {
   USERS_FULLNAME: "Nombre completo",
   USERS_PASSWORD: "Contraseña",
   USERS_STATUS: "Estado",
+  USERS_STATUS_ACTIVE: "Activo",
   USERS_TITLE: "Gestión de usuarios",
   USERS_UPDATE: "Modificar usuario",
   USERS_ROLS: "Roles",
 
   // Panel Admin
   PANELADMIN_TITLE: "Administración",
+
+  HELP_MSG_LOGIN_FORM:
+    "Debe ingresar todos los datos de este formulario para que el sistema genere una sesión.",
+  HELP_MSG_LOGIN_EMAIL:
+    "Debe ingresar un correo electrónico válido y que se encuentre activo en el sistema.",
+  HELP_MSG_LOGIN_PASSWORD:
+    "Debe ingresar la contraseña correspondiente al usuario del sistema.",
+  HELP_MSG_LOGIN_SUBMIT:
+    "Debe presionar el botón para enviar los datos y que el sistema genere la sesión de usuario.",
+
+  HELP_MSG_PADMIN_CORE_FEATURES: "Gestiones principales del sistema",
+  HELP_MSG_PADMIN_USERS: "Gestionar los usuarios del sistema y asignar roles.",
+  HELP_MSG_PADMIN_COLLECTIONS:
+    "Gestionar las entidades dinámicas y sus campos.",
+  HELP_MSG_PADMIN_LOGOUT: "Cerrar la sesión del usuario.",
+  HELP_MSG_PADMIN_DYNAMIC_FEATURES:
+    "Opciones para gestionar registros de las entidades dinámicas configuradas y habilitadas.",
+
+  HELP_MSG_USERS_BTN_CREATE:
+    "Botón para visualizar el formulario de crear un nuevo usuario.",
+  HELP_MSG_USERS_BTN_EDIT:
+    "Botón para visualizar el formulario de modifica la información de un usuario.",
+  HELP_MSG_USERS_BTN_DELETE: "Botón para eliminar un usuarios.",
 };
