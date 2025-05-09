@@ -57,7 +57,7 @@ const newFieldForm = `<tr class="row-move-class">
     <button type="button" class="btn btn-primary buttonAdvancedModal" data-bs-toggle="modal" data-bs-target="#advancedModal">Configurar</button>
   </td>-->
   <td class="col-md-1 center-item">
-    <span class="fa fa-trash-o btn-removeField" title="Eliminar"></span>
+    <span class="fa fa-trash-o btn-removeField btn btn-danger" title="Eliminar"></span>
   </td>
 </tr>`;
 
