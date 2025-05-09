@@ -1,20 +1,33 @@
 // var currentItem = {};
 
+// <input type="text" name="others[input_name][rules][required]" placeholder="others.rules.required" value="" />
+// <input type="text" name="others[input_name][config][database_type]" placeholder="others.config.database_type" />
+// <input type="text" name="others[input_name][options][type]" value="CUSTOM" placeholder="others.options.type" />
+// <input type="text" name="others[input_name][options][values]" value="Option 1,Option 2,Option 3" placeholder="others.options.values" />
+// <input type="text" name="others[input_name][options][collection_name]" value="" placeholder="others.options.collection_name" />
+
 // form for new field
-const newFieldForm = `<tr>
-  <td>
-    <input type="text" name="field[name][]" class="form-control fieldNameRow" placeholder="Nombre del campo" required data-rule-required="true" title="Todos los nombres de campo son obligatorios">
-    <div class="otherElements" style="display:none">
-      <input type="text" name="field[label][]" placeholder="field.label" />
-      <input type="text" name="field[type][]" placeholder="field.type" />
-      <input type="text" name="field[cols][]" placeholder="field.cols" value="col-md-6" />
-      <input type="checkbox" name="field[projection][]" />
-      <input type="text" name="others[input_name][rules][required]" placeholder="others.rules.required" value="" />
-      <input type="text" name="others[input_name][config][database_type]" placeholder="others.config.database_type" />
-      <input type="text" name="others[input_name][options][type]" value="CUSTOM" placeholder="others.options.type" />
-      <input type="text" name="others[input_name][options][values]" value="Option 1,Option 2,Option 3" placeholder="others.options.values" />
-      <input type="text" name="others[input_name][options][collection_name]" value="" placeholder="others.options.collection_name" />
-      <input type="text" name="field[default_value][]" placeholder="Default value" />
+const newFieldForm = `<tr class="row-move-class">
+  <td class="row">
+    <div class="col-md-1 center-item">
+      <span class="fa fa-arrows"></span>
+    </div>
+    <div class="col-md-11">
+      <input type="text" name="field[name][]" class="form-control fieldNameRow" placeholder="Nombre del campo" required data-rule-required="true" title="Todos los nombres de campo son obligatorios" autocomplete="off" value="">
+      <div class="otherElements" style="display:none">
+        <input type="text" name="field[label][]" placeholder="field.label" />
+        <input type="text" name="field[type][]" placeholder="field.type" />
+        <input type="text" name="field[cols][]" placeholder="field.cols" value="col-md-6" />
+        <input type="checkbox" name="field[projection][]" />
+        
+        <input type="text" name="others_rules_required[]" placeholder="others.rules.required" />
+        <input type="text" name="others_config_database_type[]" placeholder="others.config.database_type" />
+        <input type="text" name="others_options_type[]" placeholder="others.options.type" />
+        <input type="text" name="others_options_values[]" placeholder="others.options.values" />
+        <input type="text" name="others_options_collection_name[]" placeholder="others.options.collection_name" />
+             
+        <input type="text" name="field[default_value][]" placeholder="Default value" />
+      </div>
     </div>
   </td>
   <!--<td>
@@ -43,8 +56,8 @@ const newFieldForm = `<tr>
   <!--<td>
     <button type="button" class="btn btn-primary buttonAdvancedModal" data-bs-toggle="modal" data-bs-target="#advancedModal">Configurar</button>
   </td>-->
-  <td>
-    <span class="fa fa-trash-o fa-2x btn-removeField" title="Eliminar"></span>
+  <td class="col-md-1 center-item">
+    <span class="fa fa-trash-o btn-removeField" title="Eliminar"></span>
   </td>
 </tr>`;
 
@@ -56,29 +69,74 @@ $(document).ready(function () {
   $(".fieldNameRow").first().click();
   aplicarValidacionCamposDinamicos();
 
-  // $("form").validate().destroy();
+  $("form").validate().destroy();
+
+  var MULTI_OPTIONS_FIELDS = ["checkbox", "radio"];
+  $("form").validate({
+    ignore: [],
+    rules: {
+      "field[name][]": {
+        required: true,
+      },
+    },
+    highlight: function (element) {
+      if (!MULTI_OPTIONS_FIELDS.includes(element.type)) {
+        $(element).addClass("is-invalid").removeClass("is-valid");
+      }
+    },
+    unhighlight: function (element) {
+      if (!MULTI_OPTIONS_FIELDS.includes(element.type)) {
+        $(element).removeClass("is-invalid").addClass("is-valid");
+      }
+    },
+  });
 
   $("form").valid();
 });
 
 // event handler for add field
 $("#btnAddField").on("click", function () {
-  $("#fieldsTable tbody").append(newFieldForm);
+  let nuevoCampo = $(newFieldForm);
+  $("#fieldsTable tbody").append(nuevoCampo);
+
+  nuevoCampo.rules("add", {
+    required: true,
+  });
+
+  // nuevoCampo.val("");
+
+  // $("input[name='field[name][]']").each(function () {
+  //   if ($(this).val() == null || $(this).val() == "") {
+  //     $(this).valid(false);
+  //   } else {
+  //     $(this).valid(true);
+  //   }
+  // });
+
+  // $("#fieldsTable tbody").append(newFieldForm);
   $("#fieldsTable tbody tr")
     .last()
     .find('input[name="field[name][]"]')
     .click()
     .focus();
   aplicarValidacionCamposDinamicos();
+  $("[title]").each(function () {
+    const tooltip = bootstrap.Tooltip.getInstance(this);
+    if (tooltip) {
+      tooltip.dispose(); // elimina la instancia
+    }
+  });
+  loadTooltips();
 });
 
 // event handler for remove field
 $(document).on("click", ".btn-removeField", function () {
-  if (confirm("¿Está seguro que quiere eliminar el objeto?")) {
+  if (confirm("¿Está seguro que quiere eliminar el campo?")) {
     let row = $(this).parents("tr");
     row.find(".fieldNameRow").rules("remove");
     row.hide(800, function () {
       $(this).remove();
+      aplicarValidacionCamposDinamicos();
     });
   }
 });
@@ -166,7 +224,7 @@ $("#field-options_type").change(setHelpMessageOptions);
 //   }
 // });
 
-// get values for modal
+// get values from hide form
 function getValuesFromRow() {
   // name
   currentRow.name = currentRow.row.find('input[name="field[name][]"]').val();
@@ -186,34 +244,33 @@ function getValuesFromRow() {
   currentRow.cols = currentRow.row.find('input[name="field[cols][]"]').val();
   // required
   currentRow.rules.required =
-    currentRow.row
-      .find(`input[name="others[${currentRow.name}][rules][required]"]`)
-      .val() == "true"
+    currentRow.row.find(`input[name="others_rules_required[]"]`).val() == "true"
       ? true
       : false;
   // database type
   currentRow.config.database_type = currentRow.row
-    .find(`input[name="others[${currentRow.name}][config][database_type]"]`)
+    .find(`input[name="others_config_database_type[]"]`)
     .val();
   // Options config
   // options type
   currentRow.options.type = currentRow.row
-    .find(`input[name="others[${currentRow.name}][options][type]"]`)
+    .find(`input[name="others_options_type[]"]`)
     .val();
   // options values
   currentRow.options.values = currentRow.row
-    .find(`input[name="others[${currentRow.name}][options][values]"]`)
+    .find(`input[name="others_options_values[]"]`)
     .val();
   // options collection_name
   currentRow.options.collection_name = currentRow.row
-    .find(`input[name="others[${currentRow.name}][options][collection_name]"]`)
+    .find(`input[name="others_options_collection_name[]"]`)
     .val();
 
   // currentItem = currentRow;
 }
 
-// set data for modal
+// set data to right form
 function setValuesForModal() {
+  console.log("Asignando valores a formulario visible");
   // title
   // $("#advancedConfModalTitle").text(currentRow.title);
   // name
@@ -239,40 +296,9 @@ function setValuesForModal() {
   $("#field-options_collection_name").val(currentRow.options.collection_name);
 }
 
-// save changes
-// $("#modalSaveButton").click(submitConfAdvance);
-// function submitConfAdvance() {
-//   // close modal
-//   $(".btn-close-modal").click();
-//   // set cols
-//   currentRow.row
-//     .find('input[name="field[cols][]"]')
-//     .val($("#modalConf-cols").val());
-//   // required
-//   currentRow.row
-//     .find(`input[name="others[${currentRow.name}][rules][required]"]`)
-//     .val($("#modalConf-required").prop("checked"));
-//   // database type
-//   currentRow.row
-//     .find(`input[name="others[${currentRow.name}][config][database_type]"]`)
-//     .val($("#modalConf-database_type").val());
-//   // Options config
-//   // Options type
-//   currentRow.row
-//     .find(`input[name="others[${currentRow.name}][options][type]"]`)
-//     .val($("#modalConf-options_type").val());
-//   // Options values
-//   currentRow.row
-//     .find(`input[name="others[${currentRow.name}][options][values]"]`)
-//     .val($("#modalConf-options_values").val());
-//   // Options collection_name
-//   currentRow.row
-//     .find(`input[name="others[${currentRow.name}][options][collection_name]"]`)
-//     .val($("#modalConf-options_collection_name").val());
-// }
-
 function changeDetails() {
-  console.log("Ejecutado");
+  console.log("Asignando valores a campos ocultos");
+
   // close modal
   // $(".btn-close-modal").click();
 
@@ -299,25 +325,27 @@ function changeDetails() {
   //   .val($("#field-cols").val());
   // required
   currentRow.row
-    .find(`input[name="others[${currentRow.name}][rules][required]"]`)
+    .find(`input[name="others_rules_required[]"]`)
     .val($("#field-required").prop("checked") == true ? "true" : "");
   // database type
   currentRow.row
-    .find(`input[name="others[${currentRow.name}][config][database_type]"]`)
+    .find(`input[name="others_config_database_type[]"]`)
     .val($("#field-database_type").val());
   // Options config
   // Options type
   currentRow.row
-    .find(`input[name="others[${currentRow.name}][options][type]"]`)
+    .find(`input[name="others_options_type[]"]`)
     .val($("#field-options_type").val());
   // Options values
   currentRow.row
-    .find(`input[name="others[${currentRow.name}][options][values]"]`)
+    .find(`input[name="others_options_values[]"]`)
     .val($("#field-options_values").val());
   // Options collection_name
   currentRow.row
-    .find(`input[name="others[${currentRow.name}][options][collection_name]"]`)
+    .find(`input[name="others_options_collection_name[]"]`)
     .val($("#field-options_collection_name").val());
+
+  console.log(currentRow);
 }
 
 $(document).on(
@@ -330,30 +358,31 @@ $(document).on("keyup", "#fieldsTableDetail input", changeDetails);
 
 // Esta función puedes llamarla cada vez que agregues elementos nuevos
 function aplicarValidacionCamposDinamicos() {
-  $(".fieldNameRow").each(function () {
-    $(this).change();
-    // Evita aplicar dos veces la misma regla
-    // if (!$(this).data("validated")) {
-    //   console.log($(this).val());
-    //   $(this).rules("add", {
-    //     required: true,
-    //   });
-    //   //$(this).data("validated", true); // Marca el campo como ya validado
-    // }
+  let flag = true;
+  let submitButton = $("button[type='submit']");
+  $("input[name='field[name][]']").each(function () {
+    if ($(this).val() == null || $(this).val() == "") {
+      $(this).valid(false);
+      flag = false;
+      submitButton.prop("disabled", true);
+    } else {
+      $(this).valid(true);
+    }
   });
+  if (flag) submitButton.prop("disabled", false);
 }
 
 $(document).on(
   "change keyup focus click",
   ".fieldNameRow",
-  aplicarValidacionCamposDinamicosOnChangeItem
+  aplicarValidacionCamposDinamicos
 );
-function aplicarValidacionCamposDinamicosOnChangeItem() {
-  console.log("onChange", $(this).val());
-  if (!$(this).val().length) {
-    $(this).data("validated", false);
-  } else {
-    $(this).data("validated", true);
-  }
-  $("form").valid();
-}
+// function aplicarValidacionCamposDinamicosOnChangeItem() {
+//   console.log("onChange", $(this).val());
+//   // if (!$(this).val().length) {
+//   //   $(this).data("validated", false);
+//   // } else {
+//   //   $(this).data("validated", true);
+//   // }
+//   $("form").valid();
+// }

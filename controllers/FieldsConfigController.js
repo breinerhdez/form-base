@@ -57,7 +57,7 @@ class FieldsConfigController {
       let reqFields = req.body.field;
       let objFields = [];
       let labels = [];
-      let others = req.body.others;
+      let body = req.body;
       let fieldsProjection = reqFields.projection ? reqFields.projection : [];
 
       for (let i = 0; i < reqFields.name.length; i++) {
@@ -68,25 +68,35 @@ class FieldsConfigController {
           cols: reqFields.cols[i],
           default_value: reqFields.default_value[i],
           projection: fieldsProjection.includes(reqFields.name[i]),
-          others: others[reqFields.name[i]],
         };
 
         if (fieldsProjection.includes(field.name)) {
           labels.push(field.label);
         }
 
-        // validate default
-        let reqValue = field.others.rules.required;
-        field.others.rules.required =
-          reqValue == null || reqValue == "" ? false : true;
+        field.others = {
+          rules: {
+            required:
+              body.others_rules_required[i] == null ||
+              body.others_rules_required[i] == ""
+                ? false
+                : true,
+          },
+          config: {
+            database_type:
+              body.others_config_database_type[i] == null ||
+              body.others_config_database_type[i] == ""
+                ? "String"
+                : body.others_config_database_type[i],
+          },
+          options: {
+            type: body.others_options_type[i],
+            values: body.others_options_values[i],
+            collection_name: body.others_options_collection_name[i],
+          },
+        };
 
-        let dbTypeVal = field.others.config.database_type;
-        field.others.config.database_type =
-          dbTypeVal == "" || dbTypeVal == null ? "String" : dbTypeVal;
-
-        let colsVal = field.cols;
-        field.cols = colsVal == "" || colsVal == null ? "col-md-12" : colsVal;
-
+        field.cols = "col-md-6";
         objFields.push(field);
       }
       // set attributes
@@ -98,13 +108,13 @@ class FieldsConfigController {
       // delete dynamic model
       await deleteDynamicModel(objDb);
 
-      saveAuditLog(
-        req,
-        CoreCollectionsModel.collection.name,
-        originalData,
-        objDb,
-        "UPDATE"
-      );
+      // saveAuditLog(
+      //   req,
+      //   CoreCollectionsModel.collection.name,
+      //   originalData,
+      //   objDb,
+      //   "UPDATE"
+      // );
 
       req.flash("success", lang.FIELDS_UPDATED);
       res.redirect(fieldsPath);

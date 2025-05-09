@@ -1,3 +1,5 @@
+//TODO: pasar al app.js y que sea genérico para evitar reescrituras
+
 $("#app-table").on("draw.dt", function () {
   let primerTr = $(".table-users tbody tr").first();
   let editBtn = primerTr.find(".edit-button-user");

@@ -122,12 +122,10 @@ class UserController {
       let originalData = { ...objDb.toObject() };
       // update details
       let body = _.pick(req.body, ["name", "email", "status", "rols"]);
-      console.log("\n\n", body, "\n"); // TODO
       objDb.name = body.name;
       objDb.email = body.email;
       objDb.status = body.status == "Y" ? true : false;
       objDb.rols = !body.rols ? [] : body.rols;
-      console.log("\n\n", objDb, "\n"); // TODO
 
       // save
       await CoreUsersModel.findByIdAndUpdate(id, objDb);
@@ -148,8 +146,6 @@ class UserController {
       // req.flash("warning", lang.ERROR_500);
       // res.redirect(getRoute(basePath, "index"));
       if (error.name === "MongoServerError") {
-        console.log(req.params);
-        console.log(error);
         let messageReturn = error.message;
         if (messageReturn.includes("duplicate key error collection")) {
           messageReturn = `El correo electrónico ya existe. Debe usar otro correo electrónico.`;

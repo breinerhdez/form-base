@@ -11,6 +11,7 @@ const { crudAppPatterns, autoCrudAppPatterns } = require("../utils/helpers");
 const ApiDocController = require("../controllers/ApiDocController");
 const swaggerUi = require("swagger-ui-express");
 const RolsMiddleware = require("../middlewares/rolsMiddleware");
+const HelpController = require("../controllers/HelpController");
 
 class Router {
   router = express.Router();
@@ -50,6 +51,8 @@ class Router {
       ],
       apiDocController.index
     );
+
+    router.use("/help", this.getHelpRoutes());
 
     // set /admin routes
     this.router.use("/admin", [AuthMiddleware.checkSession], router);
@@ -155,6 +158,13 @@ class Router {
     let router = express.Router();
     let controller = new AuthController();
     router.post("/login", controller.getJWT);
+    return router;
+  }
+
+  getHelpRoutes() {
+    let router = express.Router();
+    let controller = new HelpController();
+    router.get("/paneladmin", controller.paneladmin);
     return router;
   }
 }

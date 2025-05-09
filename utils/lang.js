@@ -68,7 +68,7 @@ module.exports = {
   FIELDS_PROJECTION: "Mostrar en lista",
   FIELDS_SELECT_OPTION: "Seleccione una opción",
   FIELDS_TYPE: "Tipo de entrada",
-  FIELDS_UPDATED: "Campos actualizados",
+  FIELDS_UPDATED: "Los campos han sido actualizados.",
   FIELDS_REQUIRED: "Campo requerido",
   FIELDS_COLUMNS: "Columnas",
   FIELDS_DATABASE_TYPE: "Tipo de dato en base de datos",

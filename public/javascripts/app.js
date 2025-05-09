@@ -16,7 +16,7 @@ $(document).ready(function () {
 
   var MULTI_OPTIONS_FIELDS = ["checkbox", "radio"];
   $("form").validate({
-    ignore: ".ignore",
+    ignore: [],
     highlight: function (element) {
       if (!MULTI_OPTIONS_FIELDS.includes(element.type)) {
         $(element).addClass("is-invalid").removeClass("is-valid");
@@ -29,11 +29,15 @@ $(document).ready(function () {
     },
   });
 
+  loadTooltips();
+});
+
+function loadTooltips() {
   $("[title]").each(function () {
     $(this).prop("data-bs-toggle", "tooltip");
     new bootstrap.Tooltip(this);
   });
-});
+}
 
 $(document).on("click", ".btn-help-app", function () {
   introJs()
