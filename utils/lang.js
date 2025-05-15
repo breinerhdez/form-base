@@ -28,6 +28,7 @@ module.exports = {
   BTN_CANCEL_ACTION: "Cancelar acción y volver atrás",
   TEXT_ACTIONS: "Acciones",
   TEXT_DETAILS: "Detalles",
+  TEXT_ENTITY: "Entidad",
   TEXT_API: "API",
 
   // Sign In
@@ -88,6 +89,9 @@ module.exports = {
   // Panel Admin
   PANELADMIN_TITLE: "Administración",
 
+  HELP_MSG_CANCEL: "Botón para cancelar la acción actual y volver al listado.",
+  HELP_MSG_SAVE: "Botón para enviar el formulario y guardar los datos.",
+
   HELP_MSG_LOGIN_FORM:
     "Debe ingresar todos los datos de este formulario para que el sistema genere una sesión.",
   HELP_MSG_LOGIN_EMAIL:
@@ -108,6 +112,40 @@ module.exports = {
   HELP_MSG_USERS_BTN_CREATE:
     "Botón para visualizar el formulario de crear un nuevo usuario.",
   HELP_MSG_USERS_BTN_EDIT:
-    "Botón para visualizar el formulario de modifica la información de un usuario.",
-  HELP_MSG_USERS_BTN_DELETE: "Botón para eliminar un usuarios.",
+    "Botón para visualizar el formulario de modificar la información de un usuario.",
+  HELP_MSG_USERS_BTN_DELETE: "Botón para eliminar un usuario.",
+
+  HELP_MSG_COLLECTION_BTN_CREATE:
+    "Botón para visualizar el formulario de crear una entidad dinámica.",
+  HELP_MSG_COLLECTION_BTN_EDIT:
+    "Botón para visualizar el formulario de modificar la información de una entidad dinámica.",
+  HELP_MSG_COLLECTION_BTN_DELETE: "Botón para eliminar una entidad dinámica.",
+  HELP_MSG_COLLECTION_BTN_FIELDS:
+    "Botón para gestionar los campos de una entidad dinámica.",
+  HELP_MSG_COLLECTION_BTN_APIDOC:
+    "Botón para visualizar la documentación de la API de una entidad dinámica.",
+  HELP_MSG_COLLECTION_TAB_ENTITY:
+    "Botón para visualizar los datos generales de una entidad dinámica.",
+  // HELP_MSG_COLLECTION_TAB_ENTITY_FORM:
+  //   "Formulario para modificar los datos generales de una entidad dinámica.",
+  HELP_MSG_COLLECTION_TAB_API:
+    "Botón para visualizar las operaciones de la API que se pueden habilitar.",
+  // HELP_MSG_COLLECTION_TAB_API_FORM:
+  //   "Formulario con las operaciones de la API que se pueden habilitar.",
+  HELP_MSG_COLLECTIONS_TITLE:
+    "Descripción que identifica la gestión de datos dinámicos.",
+  HELP_MSG_COLLECTIONS_PATH: "Descripción que identifica el recurso en la URL.",
+  HELP_MSG_COLLECTIONS_NAME:
+    "Nombre del recurso en la base de datos que almacena los registros gestionados de una entidad dinámica.",
+  HELP_MSG_COLLECTIONS_SHOW_IN_PANELADMIN:
+    "Si se activa, la gestión de registros de una entidad dinámica se puede visualizar en el panel de administración.",
+
+  HELP_MSG_FIELDS_TO_EDIT_COLLECTION:
+    "Editar configuración general de la colección",
+  HELP_MSG_FIELDS_BTN_DELETE:
+    "Botón para eliminar el campo de la configuración.",
+  HELP_MSG_FIELDS_MOVE: "Arrastrar arriba o abajo para ordenar los campos.",
+  HELP_MSG_FIELDS_NAME:
+    "Nombre con el cual se almacena el valor del campo en la base de datos.",
+  HELP_MSG_FIELDS_CREATE: "Botón para agregar un nuevo campo.",
 };

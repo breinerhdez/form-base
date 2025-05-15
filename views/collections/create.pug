@@ -4,20 +4,20 @@ block content
 
   form(method="post" action=getRoute(basePath, "store"))
 
-    div(class="mb-3")
+    div(class="mb-3" data-intro=lang.HELP_MSG_COLLECTIONS_TITLE)
       label(class="form-label" for='title') #{lang.COLLECTIONS_COL_TITLE} *
-      input(class="form-control" type='text' name="title" id="title" value=sessData.title?sessData.title:"" placeholder='User management' required)
+      input(class="form-control" type='text' name="title" id="title" value=sessData.title?sessData.title:"" placeholder='User management' title=lang.HELP_MSG_COLLECTIONS_TITLE required)
 
-    div(class="mb-3")
+    div(class="mb-3" data-intro=lang.HELP_MSG_COLLECTIONS_PATH)
       label(class="form-label" for='path_name') #{lang.COLLECTIONS_PATH} *
-      input(class="form-control" type='text' name="path_name" id="path_name" value=sessData.path_name?sessData.path_name:"" placeholder='user-management' required)
+      input(class="form-control" type='text' name="path_name" id="path_name" value=sessData.path_name?sessData.path_name:"" placeholder='user-management' title=lang.HELP_MSG_COLLECTIONS_PATH required)
 
-    div(class="mb-3")
+    div(class="mb-3" data-intro=lang.HELP_MSG_COLLECTIONS_NAME)
       label(class="form-label" for='collection_name') #{lang.COLLECTIONS_NAME} *
-      input(class="form-control" type='text' name="collection_name" id="collection_name" value=sessData.collection_name?sessData.collection_name:"" placeholder='custom_user_management' required)
+      input(class="form-control" type='text' name="collection_name" id="collection_name" value=sessData.collection_name?sessData.collection_name:"" placeholder='custom_user_management' title=lang.HELP_MSG_COLLECTIONS_NAME required)
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.BTN_CANCEL) #{lang.BTN_CANCEL}
-      button(class="btn btn-primary" type="submit" title=lang.BTN_SAVE) #{lang.BTN_SAVE}
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.HELP_MSG_CANCEL data-intro=lang.HELP_MSG_CANCEL) #{lang.BTN_CANCEL}
+      button(class="btn btn-primary" type="submit" title=lang.HELP_MSG_SAVE data-intro=lang.HELP_MSG_SAVE) #{lang.BTN_SAVE}
 
 

@@ -4,10 +4,10 @@ block content
 
   
   div(class="option-buttons")
-    a(href=`/admin/fields/${item._id}` class="me-3 btn btn-primary float-end-" title=lang.FIELDS_APIDOC)
+    a(href=`/admin/fields/${item._id}` class="me-3 btn btn-primary float-end-" title=lang.FIELDS_APIDOC data-intro=lang.HELP_MSG_COLLECTION_BTN_FIELDS)
       span(class="fa fa-list")
       span  #{lang.FIELDS_APIDOC_BTN}
-    a(href=`/admin/api-doc/${item.path_name}` target="_blank" class="me-3 btn btn-primary float-end-" title=lang.COLLECTIONS_APIDOC)
+    a(href=`/admin/api-doc/${item.path_name}` target="_blank" class="me-3 btn btn-primary float-end-" title=lang.COLLECTIONS_APIDOC data-intro=lang.HELP_MSG_COLLECTION_BTN_APIDOC)
       span(class="fa fa-file-text-o" aria-hidden="true")
       span  #{lang.COLLECTIONS_APIDOC_BTN}
 
@@ -15,31 +15,31 @@ block content
   form(method="post" action=getRoute(basePath, "update", item._id))
     nav
       .nav.nav-tabs#nav-tab(role='tablist')
-        button.nav-link.active#nav-details-tab(data-bs-toggle='tab' data-bs-target='#nav-details' type='button' role='tab' aria-controls='nav-details' aria-selected='true') #{lang.TEXT_DETAILS}
-        button.nav-link#nav-api-tab(data-bs-toggle='tab' data-bs-target='#nav-api' type='button' role='tab' aria-controls='nav-api' aria-selected='false') #{lang.TEXT_API}
+        button.nav-link.active#nav-details-tab(data-bs-toggle='tab' data-bs-target='#nav-details' type='button' role='tab' aria-controls='nav-details' aria-selected='true' data-intro=lang.HELP_MSG_COLLECTION_TAB_ENTITY) #{lang.TEXT_ENTITY}
+        button.nav-link#nav-api-tab(data-bs-toggle='tab' data-bs-target='#nav-api' type='button' role='tab' aria-controls='nav-api' aria-selected='false' data-intro=lang.HELP_MSG_COLLECTION_TAB_API) #{lang.TEXT_API}
 
     .tab-content#nav-tabContent
-      .tab-pane.fade.show.active.pt-3#nav-details(role='tabpanel' aria-labelledby='nav-details-tab')
-        div(class="mb-3")
+      .tab-pane.fade.show.active.pt-3#nav-details(role='tabpanel' aria-labelledby='nav-details-tab' data-intro=lang.HELP_MSG_COLLECTION_TAB_ENTITY_FORM)
+        div(class="mb-3" data-intro=lang.HELP_MSG_COLLECTIONS_TITLE)
           label(class="form-label" for='title') #{lang.COLLECTIONS_COL_TITLE}
-          input(class="form-control" type='text' name="title" id="title" placeholder='User management' value=item.title required)
-        div(class="mb-3")
+          input(class="form-control" type='text' name="title" id="title" placeholder='User management'  title=lang.HELP_MSG_COLLECTIONS_TITLE value=item.title required) 
+        div(class="mb-3" data-intro=lang.HELP_MSG_COLLECTIONS_PATH)
           label(class="form-label" for='path_name') #{lang.COLLECTIONS_PATH}
-          input(class="form-control" type='text' name="path_name" id="path_name" placeholder='user-management' value=item.path_name required)
-        div(class="mb-3")
+          input(class="form-control" type='text' name="path_name" id="path_name" placeholder='user-management'  title=lang.HELP_MSG_COLLECTIONS_PATH value=item.path_name required) 
+        div(class="mb-3" data-intro=lang.HELP_MSG_COLLECTIONS_NAME)
           label(class="form-label" for='collection_name') #{lang.COLLECTIONS_NAME}
-          span(class="form-control")= item.collection_name
+          span(class="form-control"  title=lang.HELP_MSG_COLLECTIONS_NAME)= item.collection_name
         //- div(class="mb-3")
         //-   label(class="form-label" for='urlToAfterCreate') #{lang.COLLECTIONS_URL_AFTER_CREATE}
         //-   input(class="form-control" type='text' name="urlToAfterCreate" id="urlToAfterCreate" placeholder='https://www.google.com' value=item.urlToAfterCreate)
-        div(class="mb-3 form-check form-switch")
-          input(class="form-check-input" type="checkbox" role="switch" id="showAdmin" name="showAdmin" checked=item.showAdmin)
+        div(class="mb-3 form-check form-switch" data-intro=lang.HELP_MSG_COLLECTIONS_SHOW_IN_PANELADMIN)
+          input(class="form-check-input" type="checkbox" role="switch" id="showAdmin" name="showAdmin" checked=item.showAdmin title=lang.HELP_MSG_COLLECTIONS_SHOW_IN_PANELADMIN)
           label(class="form-check-label ps-1" for="showAdmin") #{lang.COLLECTIONS_SHOW_IN_PANELADMIN}
         //- div(class="mb-3 form-check form-switch")
         //-   input(class="form-check-input" type="checkbox" role="switch" id="publicForm" name="publicForm" checked=item.publicForm)
         //-   label(class="form-check-label ps-1" for="publicForm") #{lang.COLLECTIONS_PUBLIC_FORM}
 
-      .tab-pane.fade.pt-3#nav-api(role='tabpanel' aria-labelledby='nav-api-tab')
+      .tab-pane.fade.pt-3#nav-api(role='tabpanel' aria-labelledby='nav-api-tab' data-intro=lang.HELP_MSG_COLLECTION_TAB_API_FORM)
         div(class="mb-3 form-check form-switch")
           input(class="form-check-input" type="checkbox" role="switch" id="opt-all")
           label(class="form-check-label ps-1" for="opt-all") #{lang.ALL_OPTIONS}
@@ -60,5 +60,5 @@ block content
           label(class="form-check-label ps-1" for="opt-get-by-id") #{lang.GET_BY_ID}
 
     div(class="text-end")
-      a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.BTN_CANCEL) #{lang.BTN_CANCEL}
-      button(class="btn btn-primary" type="submit" title=lang.BTN_SAVE) #{lang.BTN_SAVE}
+      a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.HELP_MSG_CANCEL data-intro=lang.HELP_MSG_CANCEL) #{lang.BTN_CANCEL}
+      button(class="btn btn-primary" type="submit" title=lang.HELP_MSG_SAVE data-intro=lang.HELP_MSG_SAVE) #{lang.BTN_SAVE}

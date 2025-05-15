@@ -2,23 +2,25 @@ extends ../layout
 
 block content
   h2(class="h2-fieldsConf")
-    a(href=getRoute(basePathCollection, "edit", collection._id) title="Editar configuración general de la colección")
+    a(href=getRoute(basePathCollection, "edit", collection._id) title=lang.HELP_MSG_FIELDS_TO_EDIT_COLLECTION data-intro=lang.HELP_MSG_FIELDS_TO_EDIT_COLLECTION)
       span(class="fa fa-pencil")
       span #{collection.title}
   
   //- h2= collection.title
 
   div(style="text-align: end")
-    button(class="btn btn-primary float-end-" id="btnAddField" title=lang.BTN_CREATE)
+    button(class="btn btn-primary float-end-" id="btnAddField" title=lang.BTN_CREATE data-intro=lang.HELP_MSG_FIELDS_CREATE)
       span(class="fa fa-plus")
       //- span  #{lang.BTN_CREATE}
+    
+  #dataLang(data-btn-attr-name=lang.HELP_MSG_FIELDS_NAME, data-btn-attr-move=lang.HELP_MSG_FIELDS_MOVE, data-btn-attr-delete=lang.HELP_MSG_FIELDS_BTN_DELETE)
 
     div(class="row")
       div(class="col-md-6")
         form(method="post" action=fieldsPath)
           .msg-errors.text-left
             label(id="field[name][]-error" for="field[name][]" class="error")
-          table(class="table" id="fieldsTable")
+          table(class="table table-fields" id="fieldsTable")
             thead
               tr
                 th(class="text-left") #{lang.FIELDS_NAME}
@@ -34,9 +36,9 @@ block content
                 tr.row-move-class
                   td.row
                     .col-md-1.center-item
-                      span(class="fa fa-arrows")
+                      span(class="fa fa-arrows btn-move" title=lang.HELP_MSG_FIELDS_MOVE)
                     .col-md-11
-                      input(type="text" name="field[name][]" class="form-control fieldNameRow" value=field.name required data-rule-required="true" title="Todos los nombres de campo son obligatorios" autocomplete="off")
+                      input(type="text" name="field[name][]" class="form-control fieldNameRow" value=field.name required data-rule-required="true" title=lang.HELP_MSG_FIELDS_NAME autocomplete="off")
                     div(class="otherElements" style="display:none")
                       input(type="text" name="field[label][]" value=field.label placeholder="field.label")
                       input(type="text" name="field[type][]" value=field.type placeholder="field.type")
@@ -52,11 +54,11 @@ block content
                       input(type="text" name="field[default_value][]" value=field.default_value placeholder="Default value")
 
                   td.col-md-1.center-item
-                    span(class="fa fa-trash-o btn-removeField btn btn-danger" title=lang.BTN_DELETE)
+                    span(class="fa fa-trash-o btn-removeField btn btn-danger" title=lang.HELP_MSG_FIELDS_BTN_DELETE)
       
           div(class="text-end")
-            a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.BTN_CANCEL) #{lang.BTN_CANCEL}
-            button(type="submit" class="btn btn-primary" title=lang.BTN_SAVE) #{lang.BTN_SAVE}
+            a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.HELP_MSG_CANCEL data-intro=lang.HELP_MSG_CANCEL) #{lang.BTN_CANCEL}
+            button(type="submit" class="btn btn-primary" title=lang.HELP_MSG_SAVE data-intro=lang.HELP_MSG_SAVE) #{lang.BTN_SAVE}
 
       
       div(class="col-md-6" style="border-left: 1px solid")
