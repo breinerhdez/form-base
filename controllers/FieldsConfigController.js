@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const CoreCollectionsModel = require("../models/CoreCollectionsModel");
 const { deleteDynamicModel } = require("../utils/dynamicResources");
 const { getRoute, saveAuditLog } = require("../utils/helpers");
@@ -35,7 +36,21 @@ class FieldsConfigController {
       return res.redirect(getRoute(basePath, "index"));
     }
 
-    let collectionList = await CoreCollectionsModel.find({});
+    let collectionList = [];
+    if (req.session.user.rols.includes("ADMIN")) {
+      collectionList = await CoreCollectionsModel.find({});
+    } else {
+      collectionList = await CoreCollectionsModel.find({
+        $and: [
+          {
+            $or: [{ allowForAllUsers: true }, { userId: req.session.user._id }],
+          },
+          {
+            _id: { $ne: mongoose.Types.ObjectId(id) },
+          },
+        ],
+      });
+    }
 
     let data = { ...viewData, fieldsPath, collection: objDb, collectionList };
     res.render(`fieldsConfig/index2`, data);
@@ -108,13 +123,13 @@ class FieldsConfigController {
       // delete dynamic model
       await deleteDynamicModel(objDb);
 
-      // saveAuditLog(
-      //   req,
-      //   CoreCollectionsModel.collection.name,
-      //   originalData,
-      //   objDb,
-      //   "UPDATE"
-      // );
+      saveAuditLog(
+        req,
+        CoreCollectionsModel.collection.name,
+        originalData,
+        objDb,
+        "UPDATE"
+      );
 
       req.flash("success", lang.FIELDS_UPDATED);
       res.redirect(fieldsPath);

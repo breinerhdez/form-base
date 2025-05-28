@@ -17,11 +17,21 @@ class CollectionsController {
     try {
       // clean session data
       req.session.reqData = {};
-      let listObjects = await CoreCollectionsModel.find({}, [
-        "title",
-        "path_name",
-        "collection_name",
-      ]);
+      let listObjects = [];
+
+      if (req.session.user.rols.includes("ADMIN")) {
+        listObjects = await CoreCollectionsModel.find({}, [
+          "title",
+          "path_name",
+          "collection_name",
+        ]);
+      } else {
+        listObjects = await CoreCollectionsModel.find(
+          { userId: req.session.user._id },
+          ["title", "path_name", "collection_name"]
+        );
+      }
+
       let data = { ...viewData, listObjects, counter: 0 };
       res.render(`collections/index`, data);
     } catch (error) {
@@ -38,9 +48,12 @@ class CollectionsController {
 
   async store(req, res) {
     try {
+      let bodyData = req.body;
+      bodyData.userId = req.session.user._id;
+
       // set session data
-      req.session.reqData = req.body;
-      let newObj = new CoreCollectionsModel(req.body);
+      req.session.reqData = bodyData;
+      let newObj = new CoreCollectionsModel(bodyData);
       await newObj.save();
       req.flash("success", lang.CRUD_CREATED);
 
@@ -147,8 +160,16 @@ class CollectionsController {
       req.flash("success", lang.CRUD_UPDATED);
       res.redirect(getRoute(basePath, "index"));
     } catch (error) {
-      if (error.name === "MongoServerError") {
-        console.log(error);
+      console.log(error);
+      if (error.name === "ValidationError") {
+        req.flash(
+          "danger",
+          Object.values(error.errors)
+            .map((val) => val.message)
+            .join("<br>")
+        );
+        res.redirect(getRoute(basePath, "edit", req.params.id));
+      } else if (error.name === "MongoServerError") {
         let messageReturn = error.message;
         if (messageReturn.includes("duplicate key error collection")) {
           if (messageReturn.includes("collection_name:"))

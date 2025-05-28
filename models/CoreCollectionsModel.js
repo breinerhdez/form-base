@@ -12,15 +12,27 @@ let modelSchema = new mongoose.Schema(
       type: String,
       unique: true,
       required: [true, "La Ruta/Recurso es requerido."],
+      match: [
+        /^[a-z0-9\-]+$/,
+        "La Ruta/Recurso solo puede contener letras minúsculas, números o guiones.",
+      ],
     },
     collection_name: {
       type: String,
       unique: true,
       required: [true, "El Nombre de colección de datos es requerido."],
+      match: [
+        /^[a-z0-9_]+$/,
+        "El Nombre de colección de datos solo puede contener letras minúsculas, números o guiones bajos.",
+      ],
     },
     title: {
       type: String,
       required: [true, "El Título es requerido."],
+      match: [
+        /^[a-zA-Z0-9]+$/,
+        "El Título solo puede contener letras y números.",
+      ],
     },
     allow_services: {
       type: allowServiceSchema,
@@ -36,6 +48,14 @@ let modelSchema = new mongoose.Schema(
       default: {},
     },
     showAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    userId: {
+      type: String,
+      default: null,
+    },
+    allowForAllUsers: {
       type: Boolean,
       default: false,
     },
