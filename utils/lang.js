@@ -148,4 +148,22 @@ module.exports = {
   HELP_MSG_FIELDS_NAME:
     "Nombre con el cual se almacena el valor del campo en la base de datos.",
   HELP_MSG_FIELDS_CREATE: "Botón para agregar un nuevo campo.",
+  HELP_MSG_FIELDS_LABEL:
+    "Nombre con el cual se muestra la información del campo en las vistas.",
+  HELP_MSG_FIELDS_ENTRY_TYPE:
+    "Es el tipo de campo HTML que se utiliza para mostrarlo en el formulario.",
+  HELP_MSG_FIELDS_SHOW_IN_LIST:
+    "Si se habilita el campo se mostrará en la vista index de la gestión de los registros del CRUD.",
+  HELP_MSG_FIELDS_REQUIRED:
+    "Si se habilita el campo será requerido en el formulario.",
+  HELP_MSG_FIELDS_DATABASE_TYPE:
+    "Tipo de dato con el cual se almacenará el dato en la base de datos.",
+  HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE_TITLE: `Indica cómo desea configurar las opciones del campo.`,
+  HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE: `Indica cómo desea configurar las opciones del campo: <ul><li><b>Ingresar manualmente:</b> al seleccionar esta opción, se deben escribir todas las opciones de selección separadas por coma en el campo <i>Valores</i>.</li><li><b>Desde una colección:</b> al seleccionar esta opción, se habilita otro campo para seleccionar el nombre de la colección desde la cual se obtendrán los datos.</li></ul>`,
+  HELP_MSG_FIELDS_OPTIONS_COLLECTION:
+    "Seleccione la colección de datos de la cual obtendrá los datos.",
+  HELP_MSG_FIELDS_OPTIONS_COLLECTION_TITLE:
+    "Seleccione la colección de datos de la cual obtendrá los datos.",
+  HELP_MSG_FIELDS_OPTIONS_VALUES:
+    "Tipo de dato con el cual se almacenará el dato en la base de datos.",
 };

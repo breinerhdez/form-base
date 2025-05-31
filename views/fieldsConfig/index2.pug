@@ -68,33 +68,33 @@ block content
             tr 
               th(class="col-md-5") #{lang.FIELDS_NAME}
               td
-                input(type="string" class="form-control ignore" id="field-name" placeholder=lang.FIELDS_NAME readonly)
+                input(type="string" class="form-control ignore" id="field-name" placeholder=lang.FIELDS_NAME readonly data-intro=lang.HELP_MSG_FIELDS_NAME title=lang.HELP_MSG_FIELDS_NAME)
             tr
               th #{lang.FIELDS_LABEL}
               td
-                input(type="string" class="form-control ignore" id="field-label" placeholder=lang.FIELDS_LABEL required)
+                input(type="string" class="form-control ignore" id="field-label" placeholder=lang.FIELDS_LABEL required data-intro=lang.HELP_MSG_FIELDS_LABEL title=lang.HELP_MSG_FIELDS_LABEL)
             tr
               th #{lang.FIELDS_TYPE}
               td
-                select(class="form-select" id="field-type" required)
+                select(class="form-select" id="field-type" required data-intro=lang.HELP_MSG_FIELDS_ENTRY_TYPE title=lang.HELP_MSG_FIELDS_ENTRY_TYPE)
                   option(value="") Seleccione una opción
-                  option(value="Checkbox") Checkbox
-                  option(value="Email") Email
-                  option(value="Number") Number
-                  option(value="Password") Password
-                  option(value="Radio") Radio
-                  option(value="Select") Select
-                  option(value="Text") Text
+                  option(value="Checkbox") Casillas de selección
+                  option(value="Password") Contraseña
+                  option(value="Email") Correo electrónico
+                  option(value="Select") Lista desplegable
+                  option(value="Number") Numérico
+                  option(value="Text") Texto
+                  option(value="Radio") Varias opciones
             tr
               th #{lang.FIELDS_PROJECTION}
               td
                 div(class="form-check form-switch")
-                  input(type="checkbox" id="field-projection" role="switch" class="projectionCheckboxRow form-check-input")
+                  input(type="checkbox" id="field-projection" role="switch" class="projectionCheckboxRow form-check-input" data-intro=lang.HELP_MSG_FIELDS_SHOW_IN_LIST title=lang.HELP_MSG_FIELDS_SHOW_IN_LIST)
             tr
               th #{lang.FIELDS_REQUIRED}
               td
                 div(class="form-check form-switch")
-                  input(type="checkbox" id="field-required" value=true role="switch" class="requiredCheckboxRow form-check-input")
+                  input(type="checkbox" id="field-required" value=true role="switch" class="requiredCheckboxRow form-check-input" data-intro=lang.HELP_MSG_FIELDS_REQUIRED title=lang.HELP_MSG_FIELDS_REQUIRED)
             //- tr
             //-   th #{lang.FIELDS_COLUMNS}
             //-   td
@@ -114,11 +114,11 @@ block content
             tr
               th #{lang.FIELDS_DATABASE_TYPE}
               td
-                select(class="form-select" id="field-database_type" required)
-                  option(value="String") String
-                  option(value="[String]") [String]
-                  option(value="Number") Number
-                  option(value="[Number]") [Number]
+                select(class="form-select" id="field-database_type" required data-intro=lang.HELP_MSG_FIELDS_DATABASE_TYPE title=lang.HELP_MSG_FIELDS_DATABASE_TYPE)
+                  option(value="String") Cadena de texto
+                  //- option(value="[String]") [String]
+                  option(value="Number") Numérico
+                  //- option(value="[Number]") [Number]
                   //- option(value="Boolean") Boolean
                   //- option(value="[Boolean]") [Boolean]
             
@@ -130,20 +130,20 @@ block content
               tr
                 th(class="col-md-5") Tipo de configuración
                 td
-                  select(class="form-select" id="field-options_type")
+                  select(class="form-select" id="field-options_type" data-intro=lang.HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE title=lang.HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE_TITLE)
                     option(value="CUSTOM") Ingresar manualmente
                     option(value="COLLECTION") Desde una colección
               tr(class="collection_name_input_container")
                 th Nombre de colección
                 td
-                  select(class="form-select" id="field-options_collection_name")
+                  select(class="form-select" id="field-options_collection_name" data-intro=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION title=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION_TITLE)
                     option(value="") Seleccione una opción
                     each item in collectionList
                       option(value=item.collection_name)= item.collection_name
               tr
                 th(class="col-md-5") Valores
                 td
-                  input(type="text" class="form-control" id="field-options_values")
+                  input(type="text" class="form-control" id="field-options_values" data-intro=lang.HELP_MSG_FIELDS_OPTIONS_VALUES title=lang.HELP_MSG_FIELDS_OPTIONS_VALUES)
                   span(class="fa fa-info-circle ml-2 info-btn" title="Información de ayuda para configurar las opciones del campo"  data-bs-toggle="collapse" data-bs-target="#collapseValuesHelpping" aria-expanded="false" aria-controls="collapseValuesHelpping")
                   div(class="collapse" id="collapseValuesHelpping")
                     div(class="card card-body-helpping")
