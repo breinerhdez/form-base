@@ -15,7 +15,11 @@ block content
     div(class="mb-3" data-intro=lang.HELP_MSG_COLLECTIONS_NAME)
       label(class="form-label" for='collection_name') #{lang.COLLECTIONS_NAME} *
       input(class="form-control" type='text' name="collection_name" id="collection_name" value=sessData.collection_name?sessData.collection_name:"" placeholder='custom_user_management' title=lang.HELP_MSG_COLLECTIONS_NAME required)
-
+    
+    div(class="mb-3 form-check form-switch" data-intro=lang.HELP_MSG_COLLECTIONS_SHOW_IN_PANELADMIN)
+      input(class="form-check-input" type="checkbox" role="switch" id="showAdmin" name="showAdmin" checked=true title=lang.HELP_MSG_COLLECTIONS_SHOW_IN_PANELADMIN)
+      label(class="form-check-label ps-1" for="showAdmin") #{lang.COLLECTIONS_SHOW_IN_PANELADMIN}
+    
     div(class="text-end")
       a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.HELP_MSG_CANCEL data-intro=lang.HELP_MSG_CANCEL) #{lang.BTN_CANCEL}
       button(class="btn btn-primary" type="submit" title=lang.HELP_MSG_SAVE data-intro=lang.HELP_MSG_SAVE) #{lang.BTN_SAVE}
