@@ -38,14 +38,14 @@ block content
                     .col-md-1.center-item
                       span(class="fa fa-arrows btn-move" title=lang.HELP_MSG_FIELDS_MOVE)
                     .col-md-11
-                      input(type="text" name="field[name][]" class="form-control fieldNameRow" value=field.name required data-rule-required="true" title=lang.HELP_MSG_FIELDS_NAME autocomplete="off")
-                    div(class="otherElements" style="display:none")
-                      input(type="text" name="field[label][]" value=field.label placeholder="field.label")
+                      input(type="text" name="field[label][]" class="form-control fieldNameRow" value=field.label required data-rule-required="true" title=lang.HELP_MSG_FIELDS_LABEL autocomplete="off")
+                    div(class="otherElements" style="display:nones")
+                      input(type="text" name="field[name][]" value=field.name placeholder="field.name")
                       input(type="text" name="field[type][]" value=field.type placeholder="field.type")
                       input(type="text" name=`field[cols][]` value=`${value=field.cols}` placeholder="field.cols")
                       input(type="checkbox" name="field[projection][]" role="switch" checked=field.projection==true class="projectionCheckboxRow form-check-input" value=field.name)
                       
-                      input(type="text" name=`others_rules_required[]` value=`${field.others.rules.required}` placeholder="others.rules.required---")
+                      input(type="text" name=`others_rules_required[]` value=`${field.others.rules.required}` placeholder="others.rules.required")
                       input(type="text" name=`others_config_database_type[]` value=`${field.others.config.database_type}` placeholder="others.config.database_type")
                       input(type="text" name=`others_options_type[]` value=`${field.others.options.type}` placeholder="others.options.type")
                       input(type="text" name=`others_options_values[]` value=`${field.others.options.values}` placeholder="others.options.values")
@@ -66,13 +66,13 @@ block content
         form(id="formDetails")
           table(class="table" id="fieldsTableDetail")
             tr 
-              th(class="col-md-5") #{lang.FIELDS_NAME}
+              th(class="col-md-5") #{lang.FIELDS_LABEL}
               td
-                input(type="string" class="form-control ignore" id="field-name" placeholder=lang.FIELDS_NAME readonly data-intro=lang.HELP_MSG_FIELDS_NAME title=lang.HELP_MSG_FIELDS_NAME)
+                input(type="string" class="form-control ignore" id="field-label" placeholder=lang.FIELDS_LABEL readonly data-intro=lang.HELP_MSG_FIELDS_LABEL title=lang.HELP_MSG_FIELDS_LABEL)
             tr
-              th #{lang.FIELDS_LABEL}
+              th #{lang.FIELDS_NAME}
               td
-                input(type="string" class="form-control ignore" id="field-label" placeholder=lang.FIELDS_LABEL required data-intro=lang.HELP_MSG_FIELDS_LABEL title=lang.HELP_MSG_FIELDS_LABEL)
+                input(type="string" class="form-control ignore" id="field-name" placeholder=lang.FIELDS_NAME required data-intro=lang.HELP_MSG_FIELDS_NAME title=lang.HELP_MSG_FIELDS_NAME)
             tr
               th #{lang.FIELDS_TYPE}
               td
@@ -116,9 +116,9 @@ block content
               td
                 select(class="form-select" id="field-database_type" required data-intro=lang.HELP_MSG_FIELDS_DATABASE_TYPE title=lang.HELP_MSG_FIELDS_DATABASE_TYPE)
                   option(value="String") Cadena de texto
-                  //- option(value="[String]") [String]
+                  option(value="[String]") Lista de cadenas de texto
+                  option(value="[Number]") Lista de numéricos
                   option(value="Number") Numérico
-                  //- option(value="[Number]") [Number]
                   //- option(value="Boolean") Boolean
                   //- option(value="[Boolean]") [Boolean]
             

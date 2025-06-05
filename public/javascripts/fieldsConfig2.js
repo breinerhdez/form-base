@@ -13,9 +13,9 @@ const newFieldForm = `<tr class="row-move-class">
       <span class="fa fa-arrows"></span>
     </div>
     <div class="col-md-11">
-      <input type="text" name="field[name][]" class="form-control fieldNameRow" placeholder="Nombre del campo" required data-rule-required="true" title="Todos los nombres de campo son obligatorios" autocomplete="off" value="">
-      <div class="otherElements" style="display:none">
-        <input type="text" name="field[label][]" placeholder="field.label" />
+      <input type="text" name="field[label][]" class="form-control fieldNameRow" placeholder="Etiqueta" required data-rule-required="true" title="Todos los nombres de campo son obligatorios" autocomplete="off" value="">
+      <div class="otherElements" style="display:nones">
+        <input type="text" name="field[name][]" placeholder="field.name" />
         <input type="text" name="field[type][]" placeholder="field.type" />
         <input type="text" name="field[cols][]" placeholder="field.cols" value="col-md-6" />
         <input type="checkbox" name="field[projection][]" />
@@ -116,7 +116,7 @@ $("#btnAddField").on("click", function () {
   // $("#fieldsTable tbody").append(newFieldForm);
   $("#fieldsTable tbody tr")
     .last()
-    .find('input[name="field[name][]"]')
+    .find('input[name="field[label][]"]')
     .click()
     .focus();
   aplicarValidacionCamposDinamicos();
@@ -386,3 +386,47 @@ $(document).on(
 //   // }
 //   $("form").valid();
 // }
+
+$(document).on("change keyup", ".fieldNameRow", function () {
+  $(this).parents("tr").find("");
+
+  let fieldName = toLowerCamelCase($(this).val());
+
+  currentRow.row.find('input[name="field[name][]"]').val(fieldName);
+
+  currentRow.row
+    .find('input[name="field[projection][]"]')
+    .prop("value", fieldName);
+});
+
+function toLowerCamelCase(texto) {
+  const mapaReemplazo = {
+    á: "a",
+    é: "e",
+    í: "i",
+    ó: "o",
+    ú: "u",
+    Á: "a",
+    É: "e",
+    Í: "i",
+    Ó: "o",
+    Ú: "u",
+    ñ: "n",
+    Ñ: "n",
+  };
+
+  const normalizado = texto
+    .split("")
+    .map((c) => mapaReemplazo[c] || c)
+    .join("")
+    .replace(/[^a-zA-Z0-9\s]/g, "") // elimina caracteres especiales excepto letras y números
+    .toLowerCase()
+    .trim();
+
+  return normalizado
+    .split(/\s+/)
+    .map((palabra, index) =>
+      index === 0 ? palabra : palabra.charAt(0).toUpperCase() + palabra.slice(1)
+    )
+    .join("");
+}

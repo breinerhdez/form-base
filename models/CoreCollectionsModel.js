@@ -29,10 +29,10 @@ let modelSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "El Título es requerido."],
-      match: [
-        /^[a-zA-Z0-9]+$/,
-        "El Título solo puede contener letras y números.",
-      ],
+      // match: [
+      //   /^[a-zA-Z0-9]+$/,
+      //   "El Título solo puede contener letras y números.",
+      // ],
     },
     allow_services: {
       type: allowServiceSchema,
