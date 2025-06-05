@@ -14,7 +14,7 @@ const newFieldForm = `<tr class="row-move-class">
     </div>
     <div class="col-md-11">
       <input type="text" name="field[label][]" class="form-control fieldNameRow" placeholder="Etiqueta" required data-rule-required="true" title="Todos los nombres de campo son obligatorios" autocomplete="off" value="">
-      <div class="otherElements" style="display:nones">
+      <div class="otherElements" style="display:none">
         <input type="text" name="field[name][]" placeholder="field.name" />
         <input type="text" name="field[type][]" placeholder="field.type" />
         <input type="text" name="field[cols][]" placeholder="field.cols" value="col-md-6" />

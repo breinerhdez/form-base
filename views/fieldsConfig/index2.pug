@@ -12,6 +12,9 @@ block content
     button(class="btn btn-primary float-end-" id="btnAddField" title=lang.BTN_CREATE data-intro=lang.HELP_MSG_FIELDS_CREATE)
       span(class="fa fa-plus")
       //- span  #{lang.BTN_CREATE}
+
+    a(class="btn btn-primary" target="_blank" style="margin-left: 3px;" href=getRoute(basePathCrud, "create", collection._id) title=lang.HELP_MSG_CRUD_EDIT_FROM_FIELDS data-intro=lang.HELP_MSG_CRUD_EDIT_FROM_FIELDS)
+      span(class="fa fa-eye")
     
   #dataLang(data-btn-attr-name=lang.HELP_MSG_FIELDS_NAME, data-btn-attr-move=lang.HELP_MSG_FIELDS_MOVE, data-btn-attr-delete=lang.HELP_MSG_FIELDS_BTN_DELETE)
 
@@ -39,7 +42,7 @@ block content
                       span(class="fa fa-arrows btn-move" title=lang.HELP_MSG_FIELDS_MOVE)
                     .col-md-11
                       input(type="text" name="field[label][]" class="form-control fieldNameRow" value=field.label required data-rule-required="true" title=lang.HELP_MSG_FIELDS_LABEL autocomplete="off")
-                    div(class="otherElements" style="display:nones")
+                    div(class="otherElements" style="display:none")
                       input(type="text" name="field[name][]" value=field.name placeholder="field.name")
                       input(type="text" name="field[type][]" value=field.type placeholder="field.type")
                       input(type="text" name=`field[cols][]` value=`${value=field.cols}` placeholder="field.cols")
