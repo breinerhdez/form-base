@@ -6,6 +6,7 @@ const lang = require("../utils/lang");
 
 var fieldsMainPath = "/admin/fields/";
 const basePath = "/admin/collections";
+var basePathCrud = "/admin/crud/";
 const basePathCollection = "/admin/collections";
 const breadItems = [
   {
@@ -51,8 +52,14 @@ class FieldsConfigController {
         ],
       });
     }
-
-    let data = { ...viewData, fieldsPath, collection: objDb, collectionList };
+    basePathCrud += objDb.path_name;
+    let data = {
+      ...viewData,
+      fieldsPath,
+      collection: objDb,
+      collectionList,
+      basePathCrud,
+    };
     res.render(`fieldsConfig/index2`, data);
   }
 

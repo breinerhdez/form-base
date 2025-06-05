@@ -13,7 +13,7 @@ let modelSchema = new mongoose.Schema(
       unique: true,
       required: [true, "La Ruta/Recurso es requerido."],
       match: [
-        /^[a-z0-9\-]+$/,
+        /^[a-z0-9_\-]+$/,
         "La Ruta/Recurso solo puede contener letras minúsculas, números o guiones.",
       ],
     },
@@ -22,7 +22,7 @@ let modelSchema = new mongoose.Schema(
       unique: true,
       required: [true, "El Nombre de colección de datos es requerido."],
       match: [
-        /^[a-z0-9_]+$/,
+        /^[a-z0-9_\-]+$/,
         "El Nombre de colección de datos solo puede contener letras minúsculas, números o guiones bajos.",
       ],
     },

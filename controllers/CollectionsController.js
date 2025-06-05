@@ -54,6 +54,9 @@ class CollectionsController {
       // set session data
       req.session.reqData = bodyData;
       let newObj = new CoreCollectionsModel(bodyData);
+
+      newObj.showAdmin = req.body.showAdmin ? true : false;
+
       await newObj.save();
       req.flash("success", lang.CRUD_CREATED);
 
