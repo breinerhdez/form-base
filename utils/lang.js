@@ -166,4 +166,6 @@ module.exports = {
     "Seleccione la colección de datos de la cual obtendrá los datos.",
   HELP_MSG_FIELDS_OPTIONS_VALUES:
     "Tipo de dato con el cual se almacenará el dato en la base de datos.",
+
+  HELP_MSG_CRUD_EDIT_FROM_FIELDS: "Ver el formulario que se está configurando.",
 };
