@@ -121,6 +121,7 @@ const saveAuditLog = (req, collectionName, originalData, updated, action) => {
       documentId: updated._id,
       action,
       originAction: req.session.originAction,
+      sessionId: req.session.sessionId,
     };
     let log = new CoreAuditLogsModel(logData);
     log.save();
@@ -137,6 +138,7 @@ const saveAuditLog = (req, collectionName, originalData, updated, action) => {
       documentId: req.session.user._id,
       action,
       originAction: req.session.originAction,
+      sessionId: req.session.sessionId,
     };
     let log = new CoreAuditLogsModel(logData);
     log.save();

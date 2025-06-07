@@ -64,6 +64,10 @@ let coreSchema = new Schema(
       type: String,
       required: true,
     },
+    sessionId: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
