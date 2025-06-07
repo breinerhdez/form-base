@@ -291,9 +291,16 @@ function setValuesForModal() {
   $("#field-options_type").val(currentRow.options.type);
   // $("#field-options_type").change(); // trigger
   // options values
-  $("#field-options_values").val(currentRow.options.values);
+  // $("#field-options_values").val(currentRow.options.values);
   // options collection_name
   $("#field-options_collection_name").val(currentRow.options.collection_name);
+
+  if (currentRow.options.type == "COLLECTION") {
+    $("#field-options_collection_name").change();
+  } else {
+    $("#field-options_values_input").val(currentRow.options.values);
+  }
+  $("#field-options_type").change();
 }
 
 function changeDetails() {
@@ -337,9 +344,9 @@ function changeDetails() {
     .find(`input[name="others_options_type[]"]`)
     .val($("#field-options_type").val());
   // Options values
-  currentRow.row
-    .find(`input[name="others_options_values[]"]`)
-    .val($("#field-options_values").val());
+  // currentRow.row
+  //   .find(`input[name="others_options_values[]"]`)
+  //   .val($("#field-options_values").val());
   // Options collection_name
   currentRow.row
     .find(`input[name="others_options_collection_name[]"]`)
@@ -419,7 +426,7 @@ function toLowerCamelCase(texto) {
     .split("")
     .map((c) => mapaReemplazo[c] || c)
     .join("")
-    .replace(/[^a-zA-Z0-9\s]/g, "") // elimina caracteres especiales excepto letras y números
+    .replace(/[^a-zA-Z0-9\s]/g, "")
     .toLowerCase()
     .trim();
 
@@ -430,3 +437,67 @@ function toLowerCamelCase(texto) {
     )
     .join("");
 }
+
+$(document).on("change", "#field-options_collection_name", async function () {
+  let collectionName = $(this).val();
+  let url = `/admin/fields/getFields/${collectionName}`;
+  try {
+    let response = await fetch(url);
+    if (!response.ok)
+      throw new Error(
+        `Error en la petición: ${response.status} - ${response.statusText}`
+      );
+    let responseData = await response.json();
+    if (!responseData.status)
+      throw new Error(`Error en la petición: ${responseData.msg}`);
+
+    let dbOptions = responseData.data;
+    dbOptions = dbOptions.sort((a, b) => a["label"].localeCompare(b["label"]));
+
+    let options = [];
+    options.push(`<option value="">Seleccione una opción</option>`);
+
+    let value = currentRow.options.values;
+    for (const item of dbOptions) {
+      let option = `<option value="${item.name}"`;
+      option += value == item.name ? ` selected` : "";
+      option += `>${item.label}</option>`;
+      options.push(option);
+    }
+    $("select#field-options_values_select").html(options.join(""));
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+$(document).on("change", "select#field-options_values_select", function () {
+  console.log(
+    "select#field-options_values_select ha cambiado",
+    `[${$(this).val()}]`
+  );
+  currentRow.row
+    .find(`input[name="others_options_values[]"]`)
+    .val($(this).val());
+});
+
+$(document).on("change keyup", "input#field-options_values_input", function () {
+  console.log(
+    "input#field-options_values_input ha cambiado",
+    `[${$(this).val()}]`
+  );
+  currentRow.row
+    .find(`input[name="others_options_values[]"]`)
+    .val($(this).val());
+});
+
+$(document).on("change", "#field-options_type", function () {
+  let manual = $("#fromManualConfig");
+  let collec = $("#fromCollectionConfig");
+  collec.addClass("dsp-none");
+  manual.addClass("dsp-none");
+  if ($(this).val() == "COLLECTION") {
+    collec.removeClass("dsp-none");
+  } else {
+    manual.removeClass("dsp-none");
+  }
+});

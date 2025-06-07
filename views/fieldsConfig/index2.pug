@@ -143,41 +143,20 @@ block content
                     option(value="") Seleccione una opción
                     each item in collectionList
                       option(value=item.collection_name)= item.collection_name
-              tr
+              tr#fromManualConfig.dsp-none
                 th(class="col-md-5") Valores
                 td
-                  input(type="text" class="form-control" id="field-options_values" data-intro=lang.HELP_MSG_FIELDS_OPTIONS_VALUES title=lang.HELP_MSG_FIELDS_OPTIONS_VALUES)
-                  span(class="fa fa-info-circle ml-2 info-btn" title="Información de ayuda para configurar las opciones del campo"  data-bs-toggle="collapse" data-bs-target="#collapseValuesHelpping" aria-expanded="false" aria-controls="collapseValuesHelpping")
-                  div(class="collapse" id="collapseValuesHelpping")
-                    div(class="card card-body-helpping")
-
-            //- .row
-              //- div(class="mb-3 col-md-3")
-              //-   label(class="form-label" for='modalConf-options_type') Tipo de configuración
-              //-   select(class="form-select" id="modalConf-options_type")
-              //-     option(value="CUSTOM") Ingresar manualmente
-              //-     option(value="COLLECTION") Desde una colección
-              //- div(class="mb-3 col-md-3 collection_name_input_container")
-              //-   label(class="form-label" for='modalConf-options_collection_name') Nombre de colección
-              //-   select(class="form-select" id="modalConf-options_collection_name")
-              //-     option(value="") Seleccione una opción
-              //-     each item in collectionList
-              //-       option(value=item.collection_name)= item.collection_name
-
-              //- div(class="mb-3 col-md-3")
-              //-   label(class="form-label" for='modalConf-options_values') Valores
-              //-   input(type="text" class="form-control" id="modalConf-options_values")
-              //-   span(class="fa fa-info-circle ml-2 info-btn" title="Información de ayuda para configurar las opciones del campo"  data-bs-toggle="collapse" data-bs-target="#collapseValuesHelpping" aria-expanded="false" aria-controls="collapseValuesHelpping")
-              //-   div(class="collapse" id="collapseValuesHelpping")
-              //-     div(class="card card-body-helpping")
-
-
-
-    //- div(class="text-end")
-    //-   a(href=getRoute(basePath, "index") class="btn btn-danger me-2" title=lang.BTN_CANCEL) #{lang.BTN_CANCEL}
-    //-   button(type="submit" class="btn btn-primary" title=lang.BTN_SAVE) #{lang.BTN_SAVE}
-
-  include modal.pug
+                  input(type="text" class="form-control" id="field-options_values_input" data-intro=lang.HELP_MSG_FIELDS_OPTIONS_VALUES title=lang.HELP_MSG_FIELDS_OPTIONS_VALUES)
+              tr#fromCollectionConfig.dsp-none
+                th(class="col-md-5") Campo de la otra colección
+                td
+                  select(class="form-select" id="field-options_values_select" data-intro=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION title=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION_TITLE)
+                    option(value="") Seleccione una opción
+                    
+                  
+                  //- span(class="fa fa-info-circle ml-2 info-btn" title="Información de ayuda para configurar las opciones del campo"  data-bs-toggle="collapse" data-bs-target="#collapseValuesHelpping" aria-expanded="false" aria-controls="collapseValuesHelpping")
+                  //- div(class="collapse" id="collapseValuesHelpping")
+                  //-   div(class="card card-body-helpping")
 
 block scriptsJs
   script(src="/libs/jquery-ui-1.13.0.custom/jquery-ui.min.js") 

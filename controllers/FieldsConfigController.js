@@ -52,13 +52,13 @@ class FieldsConfigController {
         ],
       });
     }
-    basePathCrud += objDb.path_name;
+    let showCrud = basePathCrud + objDb.path_name;
     let data = {
       ...viewData,
       fieldsPath,
       collection: objDb,
       collectionList,
-      basePathCrud,
+      basePathCrud: showCrud,
     };
     res.render(`fieldsConfig/index2`, data);
   }
@@ -155,6 +155,28 @@ class FieldsConfigController {
         res.redirect(getRoute(basePath, "index"));
       }
     }
+  }
+
+  // /admin/fields/getFields/68368f8be1e732896d74358a
+  async getFields(req, res) {
+    // get params
+    let { id } = req.params;
+
+    // validate object existence
+    let objDb = await CoreCollectionsModel.findOne({ collection_name: id });
+    if (!objDb) {
+      console.log("Error on getFields:", lang.CRUD_NOT_EXIST);
+      return res.json({ status: false, msg: lang.CRUD_NOT_EXIST });
+    }
+
+    let fields = objDb.form.fields.map((item) => {
+      return {
+        name: item.name,
+        label: item.label,
+      };
+    });
+
+    res.json({ status: true, data: fields });
   }
 }
 module.exports = FieldsConfigController;
