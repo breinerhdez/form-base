@@ -426,7 +426,7 @@ function toLowerCamelCase(texto) {
     .split("")
     .map((c) => mapaReemplazo[c] || c)
     .join("")
-    .replace(/[^a-zA-Z0-9\s]/g, "") // elimina caracteres especiales excepto letras y números
+    .replace(/[^a-zA-Z0-9\s]/g, "")
     .toLowerCase()
     .trim();
 
