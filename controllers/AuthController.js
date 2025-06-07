@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { v4: uuid } = require("uuid");
 
 const lang = require("../utils/lang");
 const CoreUsersModel = require("../models/CoreUsersModel");
 const { saveAuditLog } = require("../utils/helpers");
-const e = require("express");
 
 class AuthController {
   login(req, res) {
@@ -47,6 +47,7 @@ class AuthController {
       req.session.user = sessionData;
       req.session.isLoggedIn = true;
       req.session.originAction = "GUI";
+      req.session.sessionId = uuid();
 
       saveAuditLog(req, CoreUsersModel.collection.name, {}, {}, "LOGIN");
 
@@ -88,6 +89,7 @@ class AuthController {
 
       req.session.user = user;
       req.session.originAction = "API";
+      req.session.sessionId = uuid();
 
       saveAuditLog(req, CoreUsersModel.collection.name, {}, {}, "LOGIN");
 
