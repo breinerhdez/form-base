@@ -127,6 +127,7 @@ class Router {
     let controller = new FieldsConfigController();
     router.get(crudAppPatterns.show, controller.index);
     router.post(crudAppPatterns.show, controller.update);
+    router.get("/getFields/:id", controller.getFields);
     return router;
   }
 
