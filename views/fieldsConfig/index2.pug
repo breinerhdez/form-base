@@ -77,18 +77,6 @@ block content
               td
                 input(type="string" class="form-control ignore" id="field-name" placeholder=lang.FIELDS_NAME required data-intro=lang.HELP_MSG_FIELDS_NAME title=lang.HELP_MSG_FIELDS_NAME)
             tr
-              th #{lang.FIELDS_TYPE}
-              td
-                select(class="form-select" id="field-type" required data-intro=lang.HELP_MSG_FIELDS_ENTRY_TYPE title=lang.HELP_MSG_FIELDS_ENTRY_TYPE)
-                  option(value="") Seleccione una opción
-                  option(value="Checkbox") Casillas de selección
-                  option(value="Password") Contraseña
-                  option(value="Email") Correo electrónico
-                  option(value="Select") Lista desplegable
-                  option(value="Number") Numérico
-                  option(value="Text") Texto
-                  option(value="Radio") Varias opciones
-            tr
               th #{lang.FIELDS_PROJECTION}
               td
                 div(class="form-check form-switch")
@@ -124,6 +112,18 @@ block content
                   option(value="Number") Numérico
                   //- option(value="Boolean") Boolean
                   //- option(value="[Boolean]") [Boolean]
+            tr
+              th #{lang.FIELDS_TYPE}
+              td
+                select(class="form-select" id="field-type" required data-intro=lang.HELP_MSG_FIELDS_ENTRY_TYPE title=lang.HELP_MSG_FIELDS_ENTRY_TYPE)
+                  option(value="") Seleccione una opción
+                  option(value="Checkbox") Casillas de selección
+                  option(value="Password") Contraseña
+                  option(value="Email") Correo electrónico
+                  option(value="Select") Lista desplegable
+                  option(value="Number") Numérico
+                  option(value="Text") Texto
+                  option(value="Radio") Varias opciones
             
             
           .options-section
