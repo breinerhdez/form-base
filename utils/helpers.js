@@ -125,7 +125,7 @@ const saveAuditLog = (req, collectionName, originalData, updated, action) => {
     };
     let log = new CoreAuditLogsModel(logData);
     log.save();
-  } else if (action == "LOGIN") {
+  } else if (action == "LOGIN" || action == "LOGOUT") {
     let logData = {
       collection_name: collectionName,
       user: {
