@@ -73,6 +73,7 @@ module.exports = {
   FIELDS_REQUIRED: "Campo requerido",
   FIELDS_COLUMNS: "Columnas",
   FIELDS_DATABASE_TYPE: "Tipo de dato en base de datos",
+  ENTITY_FIELDS_LIST: "Campos de la entidad",
 
   // Users
   USERS_CREATE: "Crear usuario",
@@ -144,28 +145,44 @@ module.exports = {
     "Editar configuración general de la colección",
   HELP_MSG_FIELDS_BTN_DELETE:
     "Botón para eliminar el campo de la configuración.",
-  HELP_MSG_FIELDS_MOVE: "Arrastrar arriba o abajo para ordenar los campos.",
+  HELP_MSG_FIELDS_MOVE:
+    "Arrastre hacia arriba o hacia abajo para cambiar el orden del campo.",
   HELP_MSG_FIELDS_NAME:
-    "Nombre con el cual se almacena el valor del campo en la base de datos.",
+    "Identificador del campo utilizado para almacenar su valor en la base de datos.",
   HELP_MSG_FIELDS_CREATE: "Botón para agregar un nuevo campo.",
   HELP_MSG_FIELDS_LABEL:
-    "Nombre con el cual se muestra la información del campo en las vistas.",
+    "Nombre visible que identifica al campo en formularios y listados.",
   HELP_MSG_FIELDS_ENTRY_TYPE:
-    "Es el tipo de campo HTML que se utiliza para mostrarlo en el formulario.",
+    "Seleccione cómo se visualizará el campo en el formulario a través de un elemento HTML.",
   HELP_MSG_FIELDS_SHOW_IN_LIST:
-    "Si se habilita el campo se mostrará en la vista index de la gestión de los registros del CRUD.",
+    "Indica si el campo debe mostrarse en la vista de listado del CRUD.",
   HELP_MSG_FIELDS_REQUIRED:
-    "Si se habilita el campo será requerido en el formulario.",
+    "Cuando está habilitado, el campo debe ser completado obligatoriamente en el formulario.",
   HELP_MSG_FIELDS_DATABASE_TYPE:
-    "Tipo de dato con el cual se almacenará el dato en la base de datos.",
-  HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE_TITLE: `Indica cómo desea configurar las opciones del campo.`,
-  HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE: `Indica cómo desea configurar las opciones del campo: <ul><li><b>Ingresar manualmente:</b> al seleccionar esta opción, se deben escribir todas las opciones de selección separadas por coma en el campo <i>Valores</i>.</li><li><b>Desde una colección:</b> al seleccionar esta opción, se habilita otro campo para seleccionar el nombre de la colección desde la cual se obtendrán los datos.</li></ul>`,
+    "Seleccione el tipo de dato con el que se almacenará el valor del campo en la base de datos.",
+  HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE_TITLE: `Seleccione cómo desea definir las opciones disponibles para el campo.`,
+  HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE: `Seleccione cómo desea definir las opciones disponibles para el campo:
+<ul>
+  <li><b>Ingresar manualmente:</b> escriba las opciones separadas por comas en el campo <i>Valores</i>.</li>
+  <li><b>Desde una colección:</b> seleccione la colección desde la cual se obtendrán los datos y el campo que se usará como valor.</li>
+</ul>`,
   HELP_MSG_FIELDS_OPTIONS_COLLECTION:
-    "Seleccione la colección de datos de la cual obtendrá los datos.",
+    "Seleccione la colección desde la cual se obtendrán los datos del campo.",
   HELP_MSG_FIELDS_OPTIONS_COLLECTION_TITLE:
-    "Seleccione la colección de datos de la cual obtendrá los datos.",
+    "Seleccione la colección desde la cual se obtendrán los datos del campo.",
   HELP_MSG_FIELDS_OPTIONS_VALUES:
-    "Tipo de dato con el cual se almacenará el dato en la base de datos.",
+    'Ingrese las opciones separadas por comas, sin espacios. Ejemplo: "Rojo,Amarillo,Verde".',
+  HELP_MSG_FIELDS_OPTIONS_COLLECTION_LABEL:
+    "Seleccione el campo de la colección origen.",
 
-  HELP_MSG_CRUD_EDIT_FROM_FIELDS: "Ver el formulario que se está configurando.",
+  HELP_MSG_CRUD_EDIT_FROM_FIELDS:
+    "Visualice el formulario que está siendo configurado",
+
+  HELP_MSG_AUTOCRUD_BTN_EDIT:
+    "Botón para visualizar el formulario de modificar la información de un registro.",
+  HELP_MSG_AUTOCRUD_BTN_DELETE: "Botón para eliminar un registro.",
+  HELP_MSG_AUTOCRUD_BTN_SHOW:
+    "Botón para visualizar la información de un registro.",
+  HELP_MSG_AUTOCRUD_BTN_CREATE:
+    "Botón para visualizar el formulario de crear un nuevo registro.",
 };

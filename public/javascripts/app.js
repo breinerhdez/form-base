@@ -91,6 +91,7 @@ $("#app-table, #fieldsTable").on("draw.dt", function () {
   let firstTrUsers = $(".table-users tbody tr").first();
   let firstTrCollections = $(".table-collections tbody tr").first();
   let firstTrFields = $(".table-fields tbody tr");
+  let firstTrAutoCrud = $(".table-autocrud tbody tr").first();
 
   if (firstTrUsers.find(".edit-button-user").length > 0) {
     firstTrUsers
@@ -128,6 +129,22 @@ $("#app-table, #fieldsTable").on("draw.dt", function () {
     firstTrFields
       .find(".fieldNameRow")
       .attr("data-intro", $("#dataLang").attr("data-btn-attr-name"));
+  }
+
+  if (firstTrAutoCrud.find(".show-button-autocrud").length > 0) {
+    firstTrAutoCrud
+      .find(".show-button-autocrud")
+      .attr("data-intro", $("#dataLang").attr("data-btn-show"));
+  }
+  if (firstTrAutoCrud.find(".edit-button-autocrud").length > 0) {
+    firstTrAutoCrud
+      .find(".edit-button-autocrud")
+      .attr("data-intro", $("#dataLang").attr("data-btn-edit"));
+  }
+  if (firstTrAutoCrud.find(".delete-button-autocrud").length > 0) {
+    firstTrAutoCrud
+      .find(".delete-button-autocrud")
+      .attr("data-intro", $("#dataLang").attr("data-btn-delete"));
   }
 });
 

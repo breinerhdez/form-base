@@ -22,7 +22,7 @@ const newFieldForm = `<tr class="row-move-class">
         
         <input type="text" name="others_rules_required[]" placeholder="others.rules.required" />
         <input type="text" name="others_config_database_type[]" placeholder="others.config.database_type" />
-        <input type="text" name="others_options_type[]" placeholder="others.options.type" />
+        <input type="text" name="others_options_type[]" placeholder="others.options.type" value="CUSTOM" />
         <input type="text" name="others_options_values[]" placeholder="others.options.values" />
         <input type="text" name="others_options_collection_name[]" placeholder="others.options.collection_name" />
              
@@ -194,35 +194,42 @@ function showOptionsSection() {
 
 $(document).on("change", "#field-type", showOptionsSection);
 
+$("#field-options_type, #field-type").change(setHelpMessageOptions);
 // display or hide collection_name in options section
 function setHelpMessageOptions() {
-  if ($("#field-options_type").val() == "COLLECTION") {
-    $(".collection_name_input_container").removeClass("d-none");
-    $(".card-body-helpping").text(
-      "Ingresar el nombre del atributo a guardar, luego una coma y finalmente el valor a mostrar. Ejemplo: si quiere guardar 'id' y mostrar 'username' se ingresa 'id,username'"
+  let htmlTypesToOptions = ["Checkbox", "Select", "Radio"];
+  let htmlTypeSelected = $("#field-type").val();
+  // $("#dataLang").attr("data-btn-attr-name");
+
+  $("#field-options_type").removeAttr("data-intro");
+  $("#field-options_collection_name").removeAttr("data-intro");
+  $("#field-options_values_input").removeAttr("data-intro");
+  $("#field-options_values_select").removeAttr("data-intro");
+
+  if (htmlTypesToOptions.includes(htmlTypeSelected)) {
+    // msg para $("#field-options_type")
+    $("#field-options_type").attr(
+      "data-intro",
+      $("#dataLang").attr("data-input-opt-config-type")
     );
-  } else {
-    $(".collection_name_input_container").addClass("d-none");
-    $(".card-body-helpping").text(
-      "Ingresar valores separados por coma. Ejemplo: 'Verde,Rojo,Naranja,Blanco,Negro'"
-    );
+
+    if ($("#field-options_type").val() == "COLLECTION") {
+      $("#field-options_collection_name").attr(
+        "data-intro",
+        $("#dataLang").attr("data-input-opt-collection")
+      );
+      $("#field-options_values_select").attr(
+        "data-intro",
+        $("#dataLang").attr("data-input-opt-label")
+      );
+    } else {
+      $("#field-options_values_input").attr(
+        "data-intro",
+        $("#dataLang").attr("data-input-opt-values")
+      );
+    }
   }
 }
-$("#field-options_type").change(setHelpMessageOptions);
-
-// $("#field-options_type").change(function () {
-//   if ($(this).val() == "COLLECTION") {
-//     $(".collection_name_input_container").css("display", "block");
-//     $(".card-body-helpping").text(
-//       "Ingresar el nombre del atributo a guardar, luego una coma y finalmente el valor a mostrar. Ejemplo: 'id,username'"
-//     );
-//   } else {
-//     $(".collection_name_input_container").css("display", "none");
-//     $(".card-body-helpping").text(
-//       "Ingresar valores separados por coma. Ejemplo: 'Verde,Rojo,Naranja,Blanco,Negro'"
-//     );
-//   }
-// });
 
 // get values from hide form
 function getValuesFromRow() {
@@ -270,7 +277,7 @@ function getValuesFromRow() {
 
 // set data to right form
 function setValuesForModal() {
-  console.log("Asignando valores a formulario visible");
+  // console.log("Asignando valores a formulario visible");
   // title
   // $("#advancedConfModalTitle").text(currentRow.title);
   // name
@@ -304,7 +311,7 @@ function setValuesForModal() {
 }
 
 function changeDetails() {
-  console.log("Asignando valores a campos ocultos");
+  // console.log("Asignando valores a campos ocultos");
 
   // close modal
   // $(".btn-close-modal").click();
@@ -352,7 +359,7 @@ function changeDetails() {
     .find(`input[name="others_options_collection_name[]"]`)
     .val($("#field-options_collection_name").val());
 
-  console.log(currentRow);
+  // console.log(currentRow);
 }
 
 $(document).on(
@@ -471,20 +478,12 @@ $(document).on("change", "#field-options_collection_name", async function () {
 });
 
 $(document).on("change", "select#field-options_values_select", function () {
-  console.log(
-    "select#field-options_values_select ha cambiado",
-    `[${$(this).val()}]`
-  );
   currentRow.row
     .find(`input[name="others_options_values[]"]`)
     .val($(this).val());
 });
 
 $(document).on("change keyup", "input#field-options_values_input", function () {
-  console.log(
-    "input#field-options_values_input ha cambiado",
-    `[${$(this).val()}]`
-  );
   currentRow.row
     .find(`input[name="others_options_values[]"]`)
     .val($(this).val());
@@ -493,9 +492,11 @@ $(document).on("change keyup", "input#field-options_values_input", function () {
 $(document).on("change", "#field-options_type", function () {
   let manual = $("#fromManualConfig");
   let collec = $("#fromCollectionConfig");
+  $(".collection_name_input_container").addClass("dsp-none");
   collec.addClass("dsp-none");
   manual.addClass("dsp-none");
   if ($(this).val() == "COLLECTION") {
+    $(".collection_name_input_container").removeClass("dsp-none");
     collec.removeClass("dsp-none");
   } else {
     manual.removeClass("dsp-none");
