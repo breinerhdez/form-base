@@ -60,6 +60,7 @@ class AuthController {
   }
 
   logout(req, res) {
+    saveAuditLog(req, CoreUsersModel.collection.name, {}, {}, "LOGOUT");
     req.session.destroy();
     res.redirect("/");
   }
