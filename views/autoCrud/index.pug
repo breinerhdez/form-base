@@ -2,12 +2,18 @@ extends ../layout
 
 block content
   div.btn-tops
-    a(href=getAutocrudRoute(basePath, "create", collection.path_name) class="btn btn-primary" title=lang.BTN_CREATE)
+    a(href=getAutocrudRoute(basePath, "create", collection.path_name) class="btn btn-primary" title=lang.BTN_CREATE data-intro=lang.HELP_MSG_AUTOCRUD_BTN_CREATE)
       span(class="fa fa-plus")
       //- span  #{lang.BTN_CREATE}
 
+  #dataLang(
+    data-btn-edit=lang.HELP_MSG_AUTOCRUD_BTN_EDIT, 
+    data-btn-delete=lang.HELP_MSG_AUTOCRUD_BTN_DELETE, 
+    data-btn-show=lang.HELP_MSG_AUTOCRUD_BTN_SHOW
+    )
+
   .table-responsive
-    table#app-table.table.table-striped
+    table#app-table.table.table-striped.table-autocrud
       thead
         tr
           each th in collection.collectionConfig.labels
@@ -19,12 +25,12 @@ block content
             each attr in collection.collectionConfig.projection.split(" ")
               td= item[attr]
             td.col-md-2
-              a(href=getAutocrudRoute(basePath, "show", collection.path_name, item._id) class="btn btn-primary me-3" title=lang.BTN_DETAILS)
+              a(href=getAutocrudRoute(basePath, "show", collection.path_name, item._id) class="btn btn-primary me-3 show-button-autocrud" title=lang.BTN_DETAILS)
                 span(class="fa fa-eye")
                 //- span  #{lang.BTN_DETAILS}
-              a(href=getAutocrudRoute(basePath, "edit", collection.path_name, item._id) class="btn btn-primary me-3" title=lang.BTN_UPDATE)
+              a(href=getAutocrudRoute(basePath, "edit", collection.path_name, item._id) class="btn btn-primary me-3 edit-button-autocrud" title=lang.BTN_UPDATE)
                 span(class="fa fa-pencil")
                 //- span  #{lang.BTN_UPDATE}
-              a(href=getAutocrudRoute(basePath, "destroy", collection.path_name, item._id) class="btn btn-danger me-3 delete-button" title=lang.BTN_DELETE)
+              a(href=getAutocrudRoute(basePath, "destroy", collection.path_name, item._id) class="btn btn-danger me-3 delete-button delete-button-autocrud" title=lang.BTN_DELETE)
                 span(class="fa fa-trash-o")
                 //- span  #{lang.BTN_DELETE}

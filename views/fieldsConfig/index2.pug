@@ -16,23 +16,26 @@ block content
     a(class="btn btn-primary" target="_blank" style="margin-left: 3px;" href=getRoute(basePathCrud, "create", collection._id) title=lang.HELP_MSG_CRUD_EDIT_FROM_FIELDS data-intro=lang.HELP_MSG_CRUD_EDIT_FROM_FIELDS)
       span(class="fa fa-eye")
     
-  #dataLang(data-btn-attr-name=lang.HELP_MSG_FIELDS_NAME, data-btn-attr-move=lang.HELP_MSG_FIELDS_MOVE, data-btn-attr-delete=lang.HELP_MSG_FIELDS_BTN_DELETE)
+  #dataLang(
+    data-btn-attr-name=lang.HELP_MSG_FIELDS_LABEL, 
+    data-btn-attr-move=lang.HELP_MSG_FIELDS_MOVE, 
+    data-btn-attr-delete=lang.HELP_MSG_FIELDS_BTN_DELETE,
+    data-input-opt-config-type=lang.HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE,
+    data-input-opt-collection=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION,
+    data-input-opt-values=lang.HELP_MSG_FIELDS_OPTIONS_VALUES,
+    data-input-opt-label=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION_LABEL
+    )
 
     div(class="row")
       div(class="col-md-6")
         form(method="post" action=fieldsPath)
           .msg-errors.text-left
             label(id="field[name][]-error" for="field[name][]" class="error")
+          h3 #{lang.ENTITY_FIELDS_LIST}
           table(class="table table-fields" id="fieldsTable")
-            thead
+            //- thead
               tr
-                th(class="text-left") #{lang.FIELDS_NAME}
-                //- th #{lang.FIELDS_LABEL}
-                //- th #{lang.FIELDS_TYPE}
-                //- th #{lang.FIELDS_DEFAULT_VALUE}
-                //- th #{lang.FIELDS_PROJECTION}
-                //- th #{lang.FIELDS_ADVANCED}
-                //- th #{lang.TEXT_ACTIONS}
+                th(class="text-left") #{lang.ENTITY_FIELDS_LIST}
                 th #{""}
             tbody(id="rowFieldsSortable")
               each field in collection.form.fields
@@ -134,8 +137,8 @@ block content
                 th(class="col-md-5") Tipo de configuración
                 td
                   select(class="form-select" id="field-options_type" data-intro=lang.HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE title=lang.HELP_MSG_FIELDS_OPTIONS_CONFIG_TYPE_TITLE)
-                    option(value="CUSTOM") Ingresar manualmente
                     option(value="COLLECTION") Desde una colección
+                    option(value="CUSTOM") Ingresar manualmente
               tr(class="collection_name_input_container")
                 th Nombre de colección
                 td
@@ -150,7 +153,7 @@ block content
               tr#fromCollectionConfig.dsp-none
                 th(class="col-md-5") Campo de la otra colección
                 td
-                  select(class="form-select" id="field-options_values_select" data-intro=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION title=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION_TITLE)
+                  select(class="form-select" id="field-options_values_select" data-intro=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION_LABEL title=lang.HELP_MSG_FIELDS_OPTIONS_COLLECTION_LABEL)
                     option(value="") Seleccione una opción
                     
                   
