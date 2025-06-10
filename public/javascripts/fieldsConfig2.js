@@ -406,8 +406,24 @@ $(document).on("change keyup", ".fieldNameRow", function () {
 
   let fieldName = toLowerCamelCase($(this).val());
 
+  if (
+    !fieldName.includes($("#field-name").val()) &&
+    $("#field-name").val() != "" &&
+    $("#field-name").val() != undefined
+  ) {
+    fieldName = $("#field-name").val();
+  }
+
   currentRow.row.find('input[name="field[name][]"]').val(fieldName);
 
+  currentRow.row
+    .find('input[name="field[projection][]"]')
+    .prop("value", fieldName);
+});
+
+$(document).on("keyup", "#field-name", function () {
+  let fieldName = $(this).val();
+  currentRow.row.find('input[name="field[name][]"]').val(fieldName);
   currentRow.row
     .find('input[name="field[projection][]"]')
     .prop("value", fieldName);
