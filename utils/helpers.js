@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const CoreAuditLogsModel = require("../models/CoreAuditLogsModel");
 
 // Patterns routes for web application
@@ -136,6 +137,25 @@ const saveAuditLog = (req, collectionName, originalData, updated, action) => {
       },
       detail: updatedFields,
       documentId: req.session.user._id,
+      action,
+      originAction: req.session.originAction,
+      sessionId: req.session.sessionId,
+    };
+    let log = new CoreAuditLogsModel(logData);
+    log.save();
+  } else if (action.includes("CHECKPOINT")) {
+    let logData = {
+      collection_name: collectionName,
+      user: {
+        _id: req.session.user._id,
+        email: req.session.user.email,
+        name: req.session.user.name,
+        rols: req.session.user.rols,
+      },
+      detail: updatedFields,
+      documentId: originalData?._id
+        ? originalData?._id
+        : new mongoose.Types.ObjectId("000000000000000000000000"),
       action,
       originAction: req.session.originAction,
       sessionId: req.session.sessionId,

@@ -60,6 +60,13 @@ class FieldsConfigController {
       collectionList,
       basePathCrud: showCrud,
     };
+    saveAuditLog(
+      req,
+      CoreCollectionsModel.collection.name,
+      objDb,
+      {},
+      "CHECKPOINT - Ingresa a configurar campos"
+    );
     res.render(`fieldsConfig/index2`, data);
   }
 

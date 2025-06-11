@@ -43,6 +43,13 @@ class CollectionsController {
   create(req, res) {
     let sessData = req.session.reqData;
     let data = { ...viewData, title: `Crear Entidad`, breadItems, sessData };
+    saveAuditLog(
+      req,
+      CoreCollectionsModel.collection.name,
+      {},
+      {},
+      "CHECKPOINT - Ingresa a la vista de crear"
+    );
     res.render(`collections/create`, data);
   }
 
@@ -115,6 +122,13 @@ class CollectionsController {
         breadItems,
         item: objDb,
       };
+      saveAuditLog(
+        req,
+        CoreCollectionsModel.collection.name,
+        objDb,
+        {},
+        "CHECKPOINT - Ingresa a la vista de modificar"
+      );
       res.render(`collections/edit`, data);
     } catch (error) {
       req.flash("warning", lang.ERROR_500);
