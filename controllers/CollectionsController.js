@@ -63,7 +63,7 @@ class CollectionsController {
       let newObj = new CoreCollectionsModel(bodyData);
 
       newObj.showAdmin = req.body.showAdmin ? true : false;
-
+      newObj.path_name += `-${req.session.user._id}`;
       await newObj.save();
       req.flash("success", lang.CRUD_CREATED);
 
