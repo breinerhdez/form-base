@@ -78,7 +78,8 @@ class CollectionsController {
 
       // clean session data
       req.session.reqData = {};
-      res.redirect(getRoute(basePath, "index"));
+      //res.redirect(getRoute(basePath, "index"));
+      res.redirect(`/admin/fields/${newObj._id}`);
     } catch (error) {
       console.log(error.message);
       if (error.name === "ValidationError") {
