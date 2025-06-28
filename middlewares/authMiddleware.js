@@ -25,7 +25,6 @@ class AuthMiddleware {
       let decoded = await jwt.verify(token, process.env.JWT_SIGN_SECRET);
       req.session.user = decoded.user;
       req.session.originAction = "API";
-      console.log("checkJWT");
       next();
     } catch (error) {
       return res.status(401).send(lang.ERROR_401);
@@ -34,13 +33,13 @@ class AuthMiddleware {
 
   static async validatePublicCrud(req) {
     let routeParts = req.originalUrl.split("/");
-    console.log("Parts:", routeParts);
 
     if (
       routeParts[1] != "admin" ||
       routeParts[2] != "crud" ||
       routeParts[4] != "create"
     ) {
+      console.log("Parts:", routeParts);
       console.log("Ruta diferente");
       return false;
     }
