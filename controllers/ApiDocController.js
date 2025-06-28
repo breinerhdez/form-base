@@ -464,7 +464,7 @@ const getSwaggerPathObject = (pathName) => {
     },
     {
       method: "delete",
-      path: replacePathName(autoCrudAppPatterns.show, pathName),
+      path: replacePathName(autoCrudAppPatterns.destroy, pathName),
       operation: {
         tags: [pathName],
         description: "Endpoint para eliminar un registro por id",
