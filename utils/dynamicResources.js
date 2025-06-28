@@ -11,7 +11,6 @@ const CoreCollectionModel = require("../models/CoreCollectionsModel");
 let getObjectsAndModel = async (pathName, req) => {
   // get collection object
   let objCrud = await CoreCollectionModel.findOne({ path_name: pathName });
-  console.log(objCrud);
   if (!objCrud) {
     req.flash("warning", `Path Name <b>/admin/crud/${pathName}</b> not found.`);
     return false;
