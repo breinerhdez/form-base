@@ -323,6 +323,7 @@ const getSwaggerPathObject = (pathName) => {
             schema: {
               type: "string",
             },
+            example: "Bearer <JWT>",
           },
           {
             name: "id",
@@ -408,6 +409,7 @@ const getSwaggerPathObject = (pathName) => {
             schema: {
               type: "string",
             },
+            example: "Bearer <JWT>",
           },
           {
             name: "id",
@@ -476,6 +478,7 @@ const getSwaggerPathObject = (pathName) => {
             schema: {
               type: "string",
             },
+            example: "Bearer <JWT>",
           },
           {
             name: "id",
