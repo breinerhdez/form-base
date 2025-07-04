@@ -29,10 +29,11 @@ class ApiDocController {
       });
 
       const doc = {
-        openapi: "3.1.0",
+        openapi: "3.0.0",
         info: {
           title: `API - ${collection.title}`,
           description: `Documentación generada automáticamente para la colección ${collection.title}`,
+          version: "1.0.0",
         },
         servers: [
           {
