@@ -29,7 +29,7 @@ class ApiDocController {
       });
 
       const doc = {
-        openapi: "3.0.0",
+        openapi: "3.1.0",
         info: {
           title: `API - ${collection.title}`,
           description: `Documentación generada automáticamente para la colección ${collection.title}`,
@@ -397,7 +397,7 @@ const getSwaggerPathObject = (pathName) => {
     },
     {
       method: "get",
-      path: replacePathName(autoCrudAppPatterns.show, pathName),
+      path: replacePathName(autoCrudAppPatterns.destroy, pathName),
       operation: {
         tags: [pathName],
         description: "Endpoint para obtener un registro por id",
