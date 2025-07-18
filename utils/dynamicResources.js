@@ -39,71 +39,15 @@ let getDynamicModel = async (objCrud, req) => {
   let modelList = mongoose.modelNames();
   // declare dynamic model variable
   let dynamicModel = null;
-  // get schema for collection
-  let collectionSchema = await getSchema(objCrud);
-
+  
   // check if dynamic model exists
   if (!modelList.includes(modelName)) {
+    // get schema for collection
+    let collectionSchema = await getSchema(objCrud);
     // generate mongoose schema
     let modelSchema = new Schema(collectionSchema, {
       timestamps: true,
     });
-
-    // // Pre middleware to capture the state before saving
-    // modelSchema.pre("save", async function (next) {
-    //   if (!this.isNew) {
-    //     // Only run if the document is not new (i.e., it's being updated)
-    //     this._original = await this.constructor.findById(this._id).exec();
-    //   }
-    //   next();
-    // });
-
-    // // Post middleware to determine what was updated
-    // modelSchema.post("save", function (doc) {
-    //   if (this._original) {
-    //     const originalData = this._original.toObject();
-    //     const updatedData = doc.toObject();
-
-    //     let updatedFields = [];
-
-    //     for (let key in updatedData) {
-    //       if (
-    //         updatedData[key] !== originalData[key] &&
-    //         !["_id", "createdAt", "updatedAt"].includes(key)
-    //       ) {
-    //         let field = {
-    //           field: key,
-    //           original: originalData[key],
-    //           updated: updatedData[key],
-    //         };
-    //         updatedFields.push(field);
-    //       }
-    //     }
-
-    //     // console.log("Request.user object:", req.user);
-    //     // console.log("Updated fields:", updatedFields);
-    //     // console.log("Collection Name:", collectionName);
-    //     // console.log("Document _id:", originalData._id);
-
-    //     if (updatedFields.length) {
-    //       let logData = {
-    //         collection_name: collectionName,
-    //         user: {
-    //           _id: req.session.user._id,
-    //           email: req.session.user.email,
-    //           name: req.session.user.name,
-    //         },
-    //         detail: updatedFields,
-    //         documentId: originalData._id,
-    //         action: "UPDATED",
-    //         originAction: req.session.originAction,
-    //       };
-    //       // console.log(logData);
-    //       let log = new CoreAuditLogsModel(logData);
-    //       log.save();
-    //     }
-    //   }
-    // });
 
     // generate mongoose model
     dynamicModel = mongoose.model(modelName, modelSchema, collectionName);
