@@ -2,7 +2,7 @@
  * Puerto
  * Configuración del puerto con el cual se despliega la aplicación
  */
-// process.env.PORT = process.env.PORT || 5000;
+process.env.PORT = process.env.PORT || 3000;
 
 /**
  * Entorno
@@ -41,5 +41,3 @@ process.env.SESSION_SECRET =
  * Session Time
  */
 process.env.SESSION_TIME = process.env.SESSION_TIME || 1000 * 60 * 60 * 3;
-
-process.env.PORT = process.env.PORT || 3000;
