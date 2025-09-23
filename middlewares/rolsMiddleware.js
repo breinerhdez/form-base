@@ -2,6 +2,7 @@ const lang = require("../utils/lang");
 
 class RolsMiddleware {
   static async checkIsAdmin(req, res, next) {
+    // return next();
     if (!req.session.user.rols.includes("ADMIN")) {
       return await RolsMiddleware.errorResponse(req, res);
     }
@@ -9,6 +10,7 @@ class RolsMiddleware {
   }
 
   static async checkIsCitdev(req, res, next) {
+    // return next();
     if (!req.session.user.rols.includes("CITDEV")) {
       return await RolsMiddleware.errorResponse(req, res);
     }
@@ -16,6 +18,7 @@ class RolsMiddleware {
   }
 
   static async checkIsApi(req, res, next) {
+    // return next();
     if (!req.session.user.rols.includes("API")) {
       return await RolsMiddleware.errorResponse(req, res);
     }
@@ -23,6 +26,7 @@ class RolsMiddleware {
   }
 
   static async checkIsApiOrCitdev(req, res, next) {
+    // return next();
     if (
       req.session.user.rols.includes("API") ||
       req.session.user.rols.includes("CITDEV")
@@ -34,6 +38,7 @@ class RolsMiddleware {
   }
 
   static async checkIsCrud(req, res, next) {
+    // return next();
     if (!req.session.user.rols.includes("CRUD")) {
       return await RolsMiddleware.errorResponse(req, res);
     }
