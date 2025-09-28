@@ -79,10 +79,10 @@ npm start
 ## 7. Probar la aplicación
 
 La aplicación se puede validar en [localhost:3000](http://localhost:3000) si no cambió el puerto por defecto, de lo contrario modificar al puerto configurado.
+En el formulario usar el correo electrónico `mytest@test.com`, la contraseña `123456*` y presionar el botón `Enviar`.
 
 ---
 
 ## Licencia GNU AGPL
-En el formulario usar el correo electrónico `mytest@test.com`, la contraseña `123456*` y presionar el botón `Enviar`.
 
 ---
